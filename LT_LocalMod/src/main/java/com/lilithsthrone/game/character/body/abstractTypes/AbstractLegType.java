@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.w3c.dom.Document;
 
 import com.lilithsthrone.controller.xmlParsing.Element;
@@ -56,6 +57,7 @@ public abstract class AbstractLegType implements BodyPartTypeInterface {
 	private boolean fromExternalFile;
 	
 	private AbstractBodyCoveringType coveringType;
+	@JsonManagedReference
 	private AbstractRace race;
 
 	private String transformationName;

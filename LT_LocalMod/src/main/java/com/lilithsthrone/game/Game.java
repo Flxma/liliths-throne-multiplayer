@@ -29,6 +29,8 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import de.flexusma.ltmp.client.Setup;
+import de.flexusma.ltmp.client.game.listener.PlayerDataChangeListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -491,6 +493,23 @@ public class Game implements XMLSaving {
 		
 		return null;
 	}
+
+
+
+
+
+	public static void getInfoXML(Document doc,Element e){
+		Element informationNode = doc.createElement("coreInfo");
+		e.appendChild(informationNode);
+		XMLUtil.addAttribute(doc, informationNode, "version", Main.VERSION_NUMBER);
+		XMLUtil.addAttribute(doc, informationNode, "lastAutoSaveTime", String.valueOf(Main.game.lastAutoSaveTime));
+		XMLUtil.addAttribute(doc, informationNode, "secondsPassed", String.valueOf(Main.game.secondsPassed));
+		XMLUtil.addAttribute(doc, informationNode, "weather", Main.game.currentWeather.toString());
+		XMLUtil.addAttribute(doc, informationNode, "nextStormTimeInSeconds", String.valueOf(Main.game.nextStormTimeInSeconds));
+		XMLUtil.addAttribute(doc, informationNode, "gatheringStormDurationInSeconds", String.valueOf(Main.game.gatheringStormDurationInSeconds));
+		XMLUtil.addAttribute(doc, informationNode, "weatherTimeRemainingInSeconds", String.valueOf(Main.game.weatherTimeRemainingInSeconds));
+	}
+
 	
 	public static void exportGame(String exportFileName, boolean allowOverwrite) {
 		
@@ -1583,6 +1602,23 @@ public class Game implements XMLSaving {
 				e.printStackTrace();
 			}
 		}
+
+
+		/*
+
+			If network is connected, initialize data and send playerdata to Server + register Eventlisteners
+
+		 */
+		if(Main.isConnected) {
+
+			//GameCharacter.addPlayerAttributeChangeEventListener(new PlayerDataChangeListener(Setup.socketClient));
+			Main.game.getPlayer().addPlayerInventoryChangeEventListener(new PlayerDataChangeListener(Setup.socketClient));
+			Main.game.getPlayer().addPlayerLocationChangeEventListener(new PlayerDataChangeListener(Setup.socketClient));
+
+		}
+		//Done network
+
+
 		
 		Main.game.setRenderMap(true);
 		Main.game.setRenderAttributesSection(true);

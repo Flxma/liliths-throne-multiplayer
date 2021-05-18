@@ -6,7 +6,7 @@ import com.lilithsthrone.game.character.PlayerCharacter;
 import com.lilithsthrone.game.sex.sexActions.SexActionInterface;
 import de.flexusma.ltmp.server.connection.SocketServer;
 
-public class GetSAListener extends Listener {
+public class GetSAListener implements Listener {
     SocketServer server;
     public GetSAListener(SocketServer server){
         this.server=server;

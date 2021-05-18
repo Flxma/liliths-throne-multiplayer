@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.w3c.dom.Document;
 
 import com.lilithsthrone.controller.xmlParsing.Element;
@@ -32,8 +33,9 @@ public class Colour {
 	
 	private String name;
 	private List<String> formattingNames;
-	
+	@JsonBackReference
 	private Colour colourLinkLighter = null;
+	@JsonBackReference
 	private Colour colourLinkDarker = null;
 	
 	private List<ColourTag> tags;

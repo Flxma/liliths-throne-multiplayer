@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Function;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lilithsthrone.main.Main;
 import org.w3c.dom.Document;
 
@@ -346,8 +347,9 @@ public abstract class AbstractBodyCoveringType {
 	}
 	
 	@Override
+	@JsonIgnore
 	public String toString() {
-		new AccessException("WARNING: AbstractBodyCoveringType is calling toString()!").printStackTrace(System.err);
+		//new AccessException("WARNING: AbstractBodyCoveringType is calling toString()!").printStackTrace(System.err);
 		return BodyCoveringType.getIdFromBodyCoveringType(this);
 	}
 	

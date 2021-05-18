@@ -92,7 +92,11 @@ public enum SVGImages {
 			slavePermissionsDisabled, slavePermissions, slaveTransfer, slaveTransferDisabled, slaveCosmetics, slaveCosmeticsDisabled,
 			
 			transactionBuy, transactionBuyDisabled, transactionBid, transactionBidDisabled, transactionSell, transactionSellDisabled,
-			
+
+
+			//Multiplayer Icons
+			multiplayerPlayer,
+
 			// Effects:
 			creampie, creampieMasochist,
 			fluidIngested, fluidIngestedMasochist,
@@ -795,8 +799,14 @@ public enum SVGImages {
 			combinationDepthMaximum = Util.inputStreamToString(is);
 			combinationDepthMaximum = SvgUtil.colourReplacement("", PresetColour.BASE_CRIMSON, combinationDepthMaximum);
 			
-			
-			
+			//Multiplayer ICon
+
+			is = this.getClass().getResourceAsStream("/com/lilithsthrone/res/map/mpPlayer.svg");
+			multiplayerPlayer = Util.inputStreamToString(is);
+			multiplayerPlayer = SvgUtil.colourReplacement("", PresetColour.BASE_BLUE_STEEL, multiplayerPlayer);
+
+			//lt icons again
+
 			is = this.getClass().getResourceAsStream("/com/lilithsthrone/res/statusEffects/sexEffects/stretching.svg");
 			stretching = Util.inputStreamToString(is);
 			is = this.getClass().getResourceAsStream("/com/lilithsthrone/res/statusEffects/sexEffects/holeTooBig.svg");
@@ -1641,6 +1651,11 @@ public enum SVGImages {
 
 	public String getFoxTailDemon(int i) {
 		return youkoTailsDemonMap.get(i);
+	}
+
+	//multiplayer ICONS
+	public String getMPPlayer(){
+		return multiplayerPlayer;
 	}
 	
 }

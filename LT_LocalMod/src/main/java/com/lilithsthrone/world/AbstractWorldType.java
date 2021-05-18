@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.world.places.AbstractPlaceType;
@@ -13,6 +16,7 @@ import com.lilithsthrone.world.places.AbstractPlaceType;
  * @version 0.4
  * @author Innoxia
  */
+
 public abstract class AbstractWorldType {
 
 	private WorldRegion worldRegion;
@@ -35,7 +39,9 @@ public abstract class AbstractWorldType {
 	private TeleportPermissions teleportPermissions;
 	
 	private boolean usesFile;
+	@JsonManagedReference
 	private AbstractPlaceType globalMapLocation;
+	@JsonManagedReference
 	private AbstractPlaceType entryFromGlobalMapLocation;
 	private Map<Color, AbstractPlaceType> placesMap;
 	
@@ -161,11 +167,11 @@ public abstract class AbstractWorldType {
 	public List<AbstractPlaceType> getDangerousPlaces() {
 		return dangerousPlaces;
 	}
-
+	@JsonManagedReference
 	public AbstractPlaceType getGlobalMapLocation() {
 		return globalMapLocation;
 	}
-
+	@JsonManagedReference
 	public AbstractPlaceType getEntryFromGlobalMapLocation() {
 		return entryFromGlobalMapLocation;
 	}

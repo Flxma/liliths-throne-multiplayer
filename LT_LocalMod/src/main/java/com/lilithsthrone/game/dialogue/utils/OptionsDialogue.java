@@ -54,6 +54,8 @@ import com.lilithsthrone.utils.Units.ValueType;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.utils.colours.PresetColour;
+import de.flexusma.ltmp.client.Setup;
+import de.flexusma.ltmp.client.display.CmdWindowController;
 
 /**
  * @since 0.1.0
@@ -95,6 +97,7 @@ public class OptionsDialogue {
 						+ "You can visit my blog (https://lilithsthrone.blogspot.co.uk) to check on development progress (use the 'Blog' button below to open the blog in your default browser)."
 					+ "</p>"
 					+ "<p style='text-align:center'>"
+						+"You can find updates and/or report issues for the multiplayer Part at: https://github.com/Flexusma/LT_MPMod"
 						+ "<b>Please use either my blog or github to get the latest official version of Lilith's Throne!</b>"
 					+ "</p>"
 					+ getJavaVersionInformation()
@@ -233,10 +236,10 @@ public class OptionsDialogue {
 				};
 			
 			} else if (index == 12) {
-				return new ResponseEffectsOnly("Github", "Opens the page:<br/><br/><i>https://github.com/Innoxia/liliths-throne-public</i><br/><br/><b>Externally in your default browser.</b>"){
+				return new ResponseEffectsOnly("Github", "Opens the page:<br/><br/><i>https://github.com/Flexusma/LT_MPMod</i><br/><br/><b>Externally in your default browser.</b>"){
 					@Override
 					public void effects() {
-						Util.openLinkInDefaultBrowser("https://github.com/Innoxia/liliths-throne-public");
+						Util.openLinkInDefaultBrowser("https://github.com/Flexusma/LT_MPMod");
 						confirmNewGame=false;
 					}
 				};
@@ -249,8 +252,18 @@ public class OptionsDialogue {
 						confirmNewGame=false;
 					}
 				};
-			
-			} else if (index == 0) {
+			// Adding multiplayer Connect button;
+			} else if (index == 14) {
+				 return new ResponseEffectsOnly("Connect MP","Connects you to the Server specified in mp_config.yml"){
+					 @Override
+					 public void effects() {
+						 Main.network_windowCnt = new CmdWindowController();
+						 Main.network_windowCnt.initialize();
+						 confirmNewGame=false;
+					 }
+				 };
+
+			 } else if (index == 0) {
 				if(Main.game.isStarted()) {
 					return new ResponseEffectsOnly("Resume", "Return to whatever you were doing before opening this menu."){
 						@Override

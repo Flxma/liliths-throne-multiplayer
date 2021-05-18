@@ -13,6 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.w3c.dom.Document;
 
 import com.lilithsthrone.controller.xmlParsing.Element;
@@ -716,8 +717,9 @@ public abstract class AbstractSubspecies {
 
 	
 	@Override
+	@JsonIgnore
 	public String toString() {
-		new AccessException("WARNING: AbstractSubspecies is calling toString()!").printStackTrace(System.err);
+		//new AccessException("WARNING: AbstractSubspecies is calling toString()!").printStackTrace(System.err);
 		return Subspecies.getIdFromSubspecies(this);
 	}
 	

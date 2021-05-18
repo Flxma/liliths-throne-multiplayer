@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.lilithsthrone.main.Main;
 import org.w3c.dom.Document;
 
@@ -87,15 +88,18 @@ public abstract class AbstractRacialBody {
 	private boolean fromExternalFile;
 	
 	// Antenna:
+	@JsonBackReference
 	private List<AbstractAntennaType> antennaTypes;
 	private int maleAntennaLength;
 	private int femaleAntennaLength;
 	
 	// Arms:
+	@JsonBackReference
 	private AbstractArmType armType;
 	private int armRows;
 
 	// Ass:
+	@JsonBackReference
 	private AbstractAssType assType;
 	private float anusCapacity;
 	private int anusDepth;
@@ -108,6 +112,7 @@ public abstract class AbstractRacialBody {
 	private int anusPlasticity;
 
 	// Breasts:
+	@JsonBackReference
 	private AbstractBreastType breastType;
 	private List<BreastShape> breastShapes;
 	private NippleShape maleNippleShape;
@@ -136,6 +141,7 @@ public abstract class AbstractRacialBody {
 	private int breastCountFemale;
 
 	// BreastCrotchs/Crotch-boobs:
+	@JsonBackReference
 	private AbstractBreastType breastCrotchType;
 	private List<BreastShape> breastCrotchShapes;
 	private int breastCrotchSize;
@@ -152,9 +158,11 @@ public abstract class AbstractRacialBody {
 	private AreolaeShape breastCrotchAreolaeShape;
 
 	// Core:
+	@JsonBackReference
 	private AbstractTorsoType torsoType;
 	private BodyMaterial bodyMaterial;
 	private String bodyHairId;
+	@JsonBackReference
 	private AbstractBodyCoveringType bodyHairType;
 	private GenitalArrangement genitalArrangement;
 	private int maleHeight;
@@ -167,27 +175,34 @@ public abstract class AbstractRacialBody {
 	private int femaleMuscle;
 	
 	// Hair:
+	@JsonBackReference
 	private AbstractHairType hairType;
 	private int maleHairLength;
 	private int femaleHairLength;
 
 	// Horns:
+	@JsonBackReference
 	private List<AbstractHornType> hornTypes;
 	private int maleHornLength;
 	private int femaleHornLength;
 
 	// Face:
+	@JsonBackReference
 	private AbstractFaceType faceType;
+	@JsonBackReference
 	private AbstractEyeType eyeType;
+	@JsonBackReference
 	private AbstractEarType earType;
 	private int maleLipSize;
 	private int femaleLipSize;
 
 	// Legs:
+	@JsonBackReference
 	private AbstractLegType legType;
 	private LegConfiguration legConfiguration;
 
 	// Penis:
+	@JsonBackReference
 	private AbstractPenisType penisType;
 	private int penisSize;
 	private int penisGirth;
@@ -196,12 +211,15 @@ public abstract class AbstractRacialBody {
 	private int cumProduction;
 
 	// Tail:
+	@JsonBackReference
 	private List<AbstractTailType> tailTypes;
 	
 	// Tentacle:
+	@JsonBackReference
 	private AbstractTentacleType tentacleType;
 	
 	// Vagina:
+	@JsonBackReference
 	private AbstractVaginaType vaginaType;
 	private float vaginaCapacity;
 	private int vaginaDepth;
@@ -212,6 +230,7 @@ public abstract class AbstractRacialBody {
 	private int vaginaPlasticity;
 
 	// Wings:
+	@JsonBackReference
 	private List<AbstractWingType> wingTypes;
 	private int maleWingSize;
 	private int femaleWingSize;

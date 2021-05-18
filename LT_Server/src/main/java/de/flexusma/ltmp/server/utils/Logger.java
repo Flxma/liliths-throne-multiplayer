@@ -23,7 +23,7 @@ public class Logger {
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
     public static LogType logLevel = LogType.WARN;
-    public static String loggerName = "LT-SERVER | Log: ";
+    public static String loggerName = "LT-SERVER";
     public static String folder = "logs/";
     private static Path file = Paths.get("logs/");
 
@@ -77,6 +77,10 @@ public class Logger {
         }
     }
 
+    public static void logCl(LogType toLog, int clientID,String info){
+        log(toLog,"["+clientID+"] "+info);
+    }
+
     public static void log(LogType toLog, String info) {
 
 
@@ -89,7 +93,7 @@ public class Logger {
         }
 
         if (toLog.level >= logLevel.getLevel()) {
-            String msg = getColor(toLog) + loggerName + toLog.getType() + " | " + info + ANSI_RESET;
+            String msg = getColor(toLog) + loggerName +" | "+ toLog.getType() + " | " + info + ANSI_RESET;
             System.out.println(msg);
             if (!forceDisableFileLog) {
                 checkFileCreate();

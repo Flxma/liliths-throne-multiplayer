@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.lilithsthrone.game.dialogue.DialogueNode;
 import com.lilithsthrone.game.dialogue.encounters.Encounter;
 import com.lilithsthrone.game.inventory.CharacterInventory;
@@ -30,6 +32,7 @@ import com.lilithsthrone.world.population.Population;
  * @version 0.4
  * @author Innoxia
  */
+
 public class AbstractPlaceType {
 
 	protected WorldRegion worldRegion;

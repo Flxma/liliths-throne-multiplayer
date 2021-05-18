@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<properties>
+  <previousSave>
+    <location value="AutoSave_User3"/>
+    <nameColour value="#ffbdff"/>
+    <name value="User3"/>
+    <race value="woman"/>
+    <quest value="Lilaya's tests"/>
+    <level value="1"/>
+    <money value="5000"/>
+    <arcaneEssences value="0"/>
+    <versionNumber value="0.3.19"/>
+    <lastQuickSaveName value="QuickSave_User3"/>
+  </previousSave>
+  <propertyValues>
+    <propertyValue value="enchantmentLimits"/>
+    <propertyValue value="levelDrain"/>
+    <propertyValue value="artwork"/>
+    <propertyValue value="thumbnail"/>
+    <propertyValue value="overwriteWarning"/>
+    <propertyValue value="calendarDisplay"/>
+    <propertyValue value="tattooRemovalConfirmations"/>
+    <propertyValue value="weatherInterruptions"/>
+    <propertyValue value="autoLocale"/>
+    <propertyValue value="metricSizes"/>
+    <propertyValue value="metricFluids"/>
+    <propertyValue value="metricWeights"/>
+    <propertyValue value="twentyFourHourTime"/>
+    <propertyValue value="internationalDate"/>
+    <propertyValue value="autoSexClothingManagement"/>
+    <propertyValue value="badEndContent"/>
+    <propertyValue value="ageContent"/>
+    <propertyValue value="inflationContent"/>
+    <propertyValue value="lipstickMarkingContent"/>
+    <propertyValue value="facialHairContent"/>
+    <propertyValue value="pubicHairContent"/>
+    <propertyValue value="furryHairContent"/>
+    <propertyValue value="lactationContent"/>
+    <propertyValue value="analContent"/>
+    <propertyValue value="footContent"/>
+    <propertyValue value="nipplePenContent"/>
+    <propertyValue value="gapeContent"/>
+    <propertyValue value="cumRegenerationContent"/>
+    <propertyValue value="penetrationLimitations"/>
+    <propertyValue value="futanariTesticles"/>
+    <propertyValue value="bipedalCloaca"/>
+    <propertyValue value="voluntaryNTR"/>
+    <propertyValue value="spittingEnabled"/>
+    <propertyValue value="newWeaponDiscovered"/>
+    <propertyValue value="newRaceDiscovered"/>
+  </propertyValues>
+  <settings>
+    <fontSize value="18"/>
+    <preferredArtist value="jam"/>
+    <androgynousIdentification value="CLOTHING_FEMININE"/>
+    <humanSpawnRate value="5"/>
+    <taurSpawnRate value="5"/>
+    <halfDemonSpawnRate value="5"/>
+    <taurFurryLevel value="2"/>
+    <multiBreasts value="1"/>
+    <udders value="1"/>
+    <autoSaveFrequency value="0"/>
+    <bypassSexActions value="2"/>
+    <forcedTFPercentage value="40"/>
+    <randomRacePercentage value="0.15"/>
+    <pregnancyBreastGrowthVariance value="2"/>
+    <pregnancyBreastGrowth value="1"/>
+    <pregnancyUdderGrowth value="1"/>
+    <pregnancyBreastGrowthLimit value="10"/>
+    <pregnancyUdderGrowthLimit value="10"/>
+    <pregnancyLactationIncreaseVariance value="100"/>
+    <pregnancyLactationIncrease value="250"/>
+    <pregnancyUdderLactationIncrease value="250"/>
+    <pregnancyLactationLimit value="1000"/>
+    <pregnancyUdderLactationLimit value="1000"/>
+    <breastSizePreference value="0"/>
+    <udderSizePreference value="0"/>
+    <penisSizePreference value="0"/>
+    <trapPenisSizePreference value="-70"/>
+    <forcedFetishPercentage value="0"/>
+    <difficultyLevel value="NORMAL"/>
+    <AIblunderRate value="0.0"/>
+    <forcedTFPreference value="NORMAL"/>
+    <forcedTFTendency value="NEUTRAL"/>
+    <forcedFetishTendency value="NEUTRAL"/>
+  </settings>
+  <keyBinds>
+    <binding bindName="MENU" primaryBind="ESCAPE" secondaryBind=""/>
+    <binding bindName="FULL_SCREEN" primaryBind="F11" secondaryBind=""/>
+    <binding bindName="MOVE_NORTH" primaryBind="W" secondaryBind="UP"/>
+    <binding bindName="MOVE_WEST" primaryBind="A" secondaryBind="LEFT"/>
+    <binding bindName="MOVE_SOUTH" primaryBind="S" secondaryBind="DOWN"/>
+    <binding bindName="MOVE_EAST" primaryBind="D" secondaryBind="RIGHT"/>
+    <binding bindName="MOVE_RESPONSE_CURSOR_NORTH" primaryBind="SHIFT+W" secondaryBind="SHIFT+UP"/>
+    <binding bindName="MOVE_RESPONSE_CURSOR_WEST" primaryBind="SHIFT+A" secondaryBind="SHIFT+LEFT"/>
+    <binding bindName="MOVE_RESPONSE_CURSOR_SOUTH" primaryBind="SHIFT+S" secondaryBind="SHIFT+DOWN"/>
+    <binding bindName="MOVE_RESPONSE_CURSOR_EAST" primaryBind="SHIFT+D" secondaryBind="SHIFT+RIGHT"/>
+    <binding bindName="QUICKSAVE" primaryBind="F5" secondaryBind=""/>
+    <binding bindName="QUICKLOAD" primaryBind="F9" secondaryBind=""/>
+    <binding bindName="MENU_SELECT" primaryBind="SPACE" secondaryBind="ENTER"/>
+    <binding bindName="INVENTORY" primaryBind="I" secondaryBind="TAB"/>
+    <binding bindName="JOURNAL" primaryBind="P" secondaryBind="J"/>
+    <binding bindName="MAP" primaryBind="M" secondaryBind=""/>
+    <binding bindName="CHARACTERS" primaryBind="C" secondaryBind=""/>
+    <binding bindName="ZOOM" primaryBind="Z" secondaryBind=""/>
+    <binding bindName="SCROLL_UP" primaryBind="PAGE_UP" secondaryBind=""/>
+    <binding bindName="SCROLL_DOWN" primaryBind="PAGE_DOWN" secondaryBind=""/>
+    <binding bindName="RESPOND_1" primaryBind="DIGIT1" secondaryBind=""/>
+    <binding bindName="RESPOND_2" primaryBind="DIGIT2" secondaryBind=""/>
+    <binding bindName="RESPOND_3" primaryBind="DIGIT3" secondaryBind=""/>
+    <binding bindName="RESPOND_4" primaryBind="DIGIT4" secondaryBind=""/>
+    <binding bindName="RESPOND_5" primaryBind="DIGIT5" secondaryBind=""/>
+    <binding bindName="RESPOND_6" primaryBind="SHIFT+DIGIT1" secondaryBind=""/>
+    <binding bindName="RESPOND_7" primaryBind="SHIFT+DIGIT2" secondaryBind=""/>
+    <binding bindName="RESPOND_8" primaryBind="SHIFT+DIGIT3" secondaryBind=""/>
+    <binding bindName="RESPOND_9" primaryBind="SHIFT+DIGIT4" secondaryBind=""/>
+    <binding bindName="RESPOND_10" primaryBind="SHIFT+DIGIT5" secondaryBind=""/>
+    <binding bindName="RESPOND_11" primaryBind="CTRL+DIGIT1" secondaryBind=""/>
+    <binding bindName="RESPOND_12" primaryBind="CTRL+DIGIT2" secondaryBind=""/>
+    <binding bindName="RESPOND_13" primaryBind="CTRL+DIGIT3" secondaryBind=""/>
+    <binding bindName="RESPOND_14" primaryBind="CTRL+DIGIT4" secondaryBind=""/>
+    <binding bindName="RESPOND_0" primaryBind="CTRL+DIGIT5" secondaryBind="BACK_SPACE"/>
+    <binding bindName="RESPOND_NEXT_TAB" primaryBind="SHIFT+E" secondaryBind=""/>
+    <binding bindName="RESPOND_PREVIOUS_TAB" primaryBind="SHIFT+Q" secondaryBind=""/>
+    <binding bindName="RESPOND_NEXT_PAGE" primaryBind="E" secondaryBind=""/>
+    <binding bindName="RESPOND_PREVIOUS_PAGE" primaryBind="Q" secondaryBind=""/>
+  </keyBinds>
+  <genderNames>
+    <genderName feminineValue="futanari" masculineValue="hermaphrodite" name="Y_PENIS_Y_VAGINA_Y_BREASTS" neutralValue="hermaphrodite"/>
+    <genderName feminineValue="futanari" masculineValue="hermaphrodite" name="Y_PENIS_Y_VAGINA_N_BREASTS" neutralValue="hermaphrodite"/>
+    <genderName feminineValue="shemale" masculineValue="busty-boy" name="Y_PENIS_N_VAGINA_Y_BREASTS" neutralValue="shemale"/>
+    <genderName feminineValue="trap" masculineValue="male" name="Y_PENIS_N_VAGINA_N_BREASTS" neutralValue="trap"/>
+    <genderName feminineValue="female" masculineValue="butch" name="N_PENIS_Y_VAGINA_Y_BREASTS" neutralValue="tomboy"/>
+    <genderName feminineValue="female" masculineValue="cuntboy" name="N_PENIS_Y_VAGINA_N_BREASTS" neutralValue="tomboy"/>
+    <genderName feminineValue="doll" masculineValue="mannequin" name="N_PENIS_N_VAGINA_Y_BREASTS" neutralValue="neuter"/>
+    <genderName feminineValue="doll" masculineValue="mannequin" name="N_PENIS_N_VAGINA_N_BREASTS" neutralValue="neuter"/>
+  </genderNames>
+  <genderPronouns>
+    <pronoun feminineValue="woman" masculineValue="man" pronounName="NOUN"/>
+    <pronoun feminineValue="girl" masculineValue="boy" pronounName="YOUNG_NOUN"/>
+    <pronoun feminineValue="she" masculineValue="he" pronounName="SECOND_PERSON"/>
+    <pronoun feminineValue="her" masculineValue="him" pronounName="THIRD_PERSON"/>
+    <pronoun feminineValue="her" masculineValue="his" pronounName="POSSESSIVE_BEFORE_NOUN"/>
+    <pronoun feminineValue="hers" masculineValue="his" pronounName="POSSESSIVE_ALONE"/>
+  </genderPronouns>
+  <genderPreferences>
+    <preference gender="M_P_V_B_HERMAPHRODITE" value="0"/>
+    <preference gender="M_P_V_HERMAPHRODITE" value="0"/>
+    <preference gender="M_P_B_BUSTYBOY" value="0"/>
+    <preference gender="M_P_MALE" value="10"/>
+    <preference gender="M_V_B_BUTCH" value="0"/>
+    <preference gender="M_V_CUNTBOY" value="0"/>
+    <preference gender="M_B_MANNEQUIN" value="0"/>
+    <preference gender="M_MANNEQUIN" value="0"/>
+    <preference gender="F_P_V_B_FUTANARI" value="1"/>
+    <preference gender="F_P_V_FUTANARI" value="0"/>
+    <preference gender="F_P_B_SHEMALE" value="0"/>
+    <preference gender="F_P_TRAP" value="1"/>
+    <preference gender="F_V_B_FEMALE" value="10"/>
+    <preference gender="F_V_FEMALE" value="0"/>
+    <preference gender="F_B_DOLL" value="0"/>
+    <preference gender="F_DOLL" value="0"/>
+    <preference gender="N_P_V_B_HERMAPHRODITE" value="0"/>
+    <preference gender="N_P_V_HERMAPHRODITE" value="0"/>
+    <preference gender="N_P_B_SHEMALE" value="0"/>
+    <preference gender="N_P_TRAP" value="0"/>
+    <preference gender="N_V_B_TOMBOY" value="0"/>
+    <preference gender="N_V_TOMBOY" value="0"/>
+    <preference gender="N_B_DOLL" value="0"/>
+    <preference gender="N_NEUTER" value="0"/>
+  </genderPreferences>
+  <orientationPreferences>
+    <preference orientation="ANDROPHILIC" value="10"/>
+    <preference orientation="AMBIPHILIC" value="10"/>
+    <preference orientation="GYNEPHILIC" value="10"/>
+  </orientationPreferences>
+  <agePreferences>
+    <preference FEMININE="20" MASCULINE="20" NEUTRAL="20" age="TEENS_LATE"/>
+    <preference FEMININE="40" MASCULINE="40" NEUTRAL="40" age="TWENTIES_EARLY"/>
+    <preference FEMININE="40" MASCULINE="40" NEUTRAL="40" age="TWENTIES_MIDDLE"/>
+    <preference FEMININE="20" MASCULINE="20" NEUTRAL="20" age="TWENTIES_LATE"/>
+    <preference FEMININE="10" MASCULINE="10" NEUTRAL="10" age="THIRTIES_EARLY"/>
+    <preference FEMININE="10" MASCULINE="10" NEUTRAL="10" age="THIRTIES_MIDDLE"/>
+    <preference FEMININE="5" MASCULINE="5" NEUTRAL="5" age="THIRTIES_LATE"/>
+    <preference FEMININE="5" MASCULINE="5" NEUTRAL="5" age="FORTIES_EARLY"/>
+    <preference FEMININE="1" MASCULINE="1" NEUTRAL="1" age="FORTIES_MIDDLE"/>
+    <preference FEMININE="1" MASCULINE="1" NEUTRAL="1" age="FORTIES_LATE"/>
+    <preference FEMININE="1" MASCULINE="1" NEUTRAL="1" age="FIFTIES_EARLY"/>
+    <preference FEMININE="0" MASCULINE="0" NEUTRAL="0" age="FIFTIES_MIDDLE"/>
+    <preference FEMININE="0" MASCULINE="0" NEUTRAL="0" age="FIFTIES_LATE"/>
+    <preference FEMININE="0" MASCULINE="0" NEUTRAL="0" age="SIXTIES_EARLY"/>
+    <preference FEMININE="0" MASCULINE="0" NEUTRAL="0" age="SIXTIES_MIDDLE"/>
+    <preference FEMININE="0" MASCULINE="0" NEUTRAL="0" age="SIXTIES_LATE"/>
+    <preference FEMININE="0" MASCULINE="0" NEUTRAL="0" age="SIXTIES_PLUS"/>
+  </agePreferences>
+  <subspeciesPreferences>
+    <preferenceFeminine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="ALLIGATOR_MORPH"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="ALLIGATOR_MORPH"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="ANGEL"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="ANGEL"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="BAT_MORPH"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="BAT_MORPH"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_bear_subspecies_bear"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_bear_subspecies_bear"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="NoStepOnSnek_capybara_subspecies_capybara"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="NoStepOnSnek_capybara_subspecies_capybara"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_cat_subspecies_cougar"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_cat_subspecies_cougar"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="CAT_MORPH"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="CAT_MORPH"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="CAT_MORPH_LYNX"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="CAT_MORPH_LYNX"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="CAT_MORPH_CHEETAH"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="CAT_MORPH_CHEETAH"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="CAT_MORPH_CARACAL"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="CAT_MORPH_CARACAL"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="COW_MORPH"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="COW_MORPH"/>
+    <preferenceFeminine furryPreference="MAXIMUM" preference="ONE_LOW" subspecies="ELDER_LILIN"/>
+    <preferenceMasculine furryPreference="MAXIMUM" preference="ONE_LOW" subspecies="ELDER_LILIN"/>
+    <preferenceFeminine furryPreference="MAXIMUM" preference="ONE_LOW" subspecies="LILIN"/>
+    <preferenceMasculine furryPreference="MAXIMUM" preference="ONE_LOW" subspecies="LILIN"/>
+    <preferenceFeminine furryPreference="MAXIMUM" preference="FOUR_ABUNDANT" subspecies="DEMON"/>
+    <preferenceMasculine furryPreference="MAXIMUM" preference="FOUR_ABUNDANT" subspecies="DEMON"/>
+    <preferenceFeminine furryPreference="MAXIMUM" preference="FOUR_ABUNDANT" subspecies="HALF_DEMON"/>
+    <preferenceMasculine furryPreference="MAXIMUM" preference="FOUR_ABUNDANT" subspecies="HALF_DEMON"/>
+    <preferenceFeminine furryPreference="MAXIMUM" preference="FOUR_ABUNDANT" subspecies="IMP"/>
+    <preferenceMasculine furryPreference="MAXIMUM" preference="FOUR_ABUNDANT" subspecies="IMP"/>
+    <preferenceFeminine furryPreference="MAXIMUM" preference="ONE_LOW" subspecies="IMP_ALPHA"/>
+    <preferenceMasculine furryPreference="MAXIMUM" preference="ONE_LOW" subspecies="IMP_ALPHA"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="DOG_MORPH"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="DOG_MORPH"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="DOG_MORPH_BORDER_COLLIE"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="DOG_MORPH_BORDER_COLLIE"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="DOG_MORPH_DOBERMANN"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="DOG_MORPH_DOBERMANN"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="DOG_MORPH_GERMAN_SHEPHERD"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="DOG_MORPH_GERMAN_SHEPHERD"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_dragon_subspecies_coatl"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_dragon_subspecies_coatl"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_dragon_subspecies_ryu"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_dragon_subspecies_ryu"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_dragon_subspecies_dragon"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_dragon_subspecies_dragon"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_dragon_subspecies_drake"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_dragon_subspecies_drake"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_dragon_subspecies_wyvern"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_dragon_subspecies_wyvern"/>
+    <preferenceFeminine furryPreference="MAXIMUM" preference="FOUR_ABUNDANT" subspecies="ELEMENTAL_FIRE"/>
+    <preferenceMasculine furryPreference="MAXIMUM" preference="FOUR_ABUNDANT" subspecies="ELEMENTAL_FIRE"/>
+    <preferenceFeminine furryPreference="MAXIMUM" preference="FOUR_ABUNDANT" subspecies="ELEMENTAL_EARTH"/>
+    <preferenceMasculine furryPreference="MAXIMUM" preference="FOUR_ABUNDANT" subspecies="ELEMENTAL_EARTH"/>
+    <preferenceFeminine furryPreference="MAXIMUM" preference="FOUR_ABUNDANT" subspecies="ELEMENTAL_WATER"/>
+    <preferenceMasculine furryPreference="MAXIMUM" preference="FOUR_ABUNDANT" subspecies="ELEMENTAL_WATER"/>
+    <preferenceFeminine furryPreference="MAXIMUM" preference="FOUR_ABUNDANT" subspecies="ELEMENTAL_AIR"/>
+    <preferenceMasculine furryPreference="MAXIMUM" preference="FOUR_ABUNDANT" subspecies="ELEMENTAL_AIR"/>
+    <preferenceFeminine furryPreference="MAXIMUM" preference="FOUR_ABUNDANT" subspecies="ELEMENTAL_ARCANE"/>
+    <preferenceMasculine furryPreference="MAXIMUM" preference="FOUR_ABUNDANT" subspecies="ELEMENTAL_ARCANE"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_ferret_subspecies_ferret"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_ferret_subspecies_ferret"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="FOX_MORPH"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="FOX_MORPH"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="ONE_LOW" subspecies="FOX_MORPH_ARCTIC"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="ONE_LOW" subspecies="FOX_MORPH_ARCTIC"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="FOX_MORPH_FENNEC"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="FOX_MORPH_FENNEC"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="FOX_ASCENDANT"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="FOX_ASCENDANT"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="FOX_ASCENDANT_ARCTIC"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="FOX_ASCENDANT_ARCTIC"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="FOX_ASCENDANT_FENNEC"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="FOX_ASCENDANT_FENNEC"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_gryphon_subspecies_gryphon"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_gryphon_subspecies_gryphon"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="HARPY"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="HARPY"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="ONE_LOW" subspecies="HARPY_RAVEN"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="ONE_LOW" subspecies="HARPY_RAVEN"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="ONE_LOW" subspecies="HARPY_BALD_EAGLE"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="ONE_LOW" subspecies="HARPY_BALD_EAGLE"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="ONE_LOW" subspecies="HARPY_PHOENIX"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="ONE_LOW" subspecies="HARPY_PHOENIX"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="HORSE_MORPH"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="HORSE_MORPH"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="ONE_LOW" subspecies="HORSE_MORPH_UNICORN"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="ONE_LOW" subspecies="HORSE_MORPH_UNICORN"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="ONE_LOW" subspecies="HORSE_MORPH_PEGASUS"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="ONE_LOW" subspecies="HORSE_MORPH_PEGASUS"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="ONE_LOW" subspecies="HORSE_MORPH_ALICORN"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="ONE_LOW" subspecies="HORSE_MORPH_ALICORN"/>
+    <preferenceFeminine furryPreference="MINIMUM" preference="FOUR_ABUNDANT" subspecies="CENTAUR"/>
+    <preferenceMasculine furryPreference="MINIMUM" preference="FOUR_ABUNDANT" subspecies="CENTAUR"/>
+    <preferenceFeminine furryPreference="MINIMUM" preference="ONE_LOW" subspecies="PEGATAUR"/>
+    <preferenceMasculine furryPreference="MINIMUM" preference="ONE_LOW" subspecies="PEGATAUR"/>
+    <preferenceFeminine furryPreference="MINIMUM" preference="ONE_LOW" subspecies="UNITAUR"/>
+    <preferenceMasculine furryPreference="MINIMUM" preference="ONE_LOW" subspecies="UNITAUR"/>
+    <preferenceFeminine furryPreference="MINIMUM" preference="ONE_LOW" subspecies="ALITAUR"/>
+    <preferenceMasculine furryPreference="MINIMUM" preference="ONE_LOW" subspecies="ALITAUR"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="ONE_LOW" subspecies="HORSE_MORPH_ZEBRA"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="ONE_LOW" subspecies="HORSE_MORPH_ZEBRA"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="HUMAN"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="HUMAN"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_hyena_subspecies_striped"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_hyena_subspecies_striped"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_hyena_subspecies_spotted"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_hyena_subspecies_spotted"/>
+    <preferenceFeminine furryPreference="MINIMUM" preference="TWO_AVERAGE" subspecies="NoStepOnSnek_octopus_subspecies_octopus"/>
+    <preferenceMasculine furryPreference="MINIMUM" preference="TWO_AVERAGE" subspecies="NoStepOnSnek_octopus_subspecies_octopus"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_otter_subspecies_otter"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_otter_subspecies_otter"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_panther_subspecies_lion"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_panther_subspecies_lion"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_panther_subspecies_snow_leopard"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_panther_subspecies_snow_leopard"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_panther_subspecies_leopard"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_panther_subspecies_leopard"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_panther_subspecies_tiger"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_panther_subspecies_tiger"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="RABBIT_MORPH"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="RABBIT_MORPH"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="RABBIT_MORPH_LOP"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="RABBIT_MORPH_LOP"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_raccoon_subspecies_raccoon"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_raccoon_subspecies_raccoon"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="RAT_MORPH"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="RAT_MORPH"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="REINDEER_MORPH"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="REINDEER_MORPH"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_shark_subspecies_shark"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_shark_subspecies_shark"/>
+    <preferenceFeminine furryPreference="MAXIMUM" preference="FOUR_ABUNDANT" subspecies="SLIME"/>
+    <preferenceMasculine furryPreference="MAXIMUM" preference="FOUR_ABUNDANT" subspecies="SLIME"/>
+    <preferenceFeminine furryPreference="MINIMUM" preference="TWO_AVERAGE" subspecies="NoStepOnSnek_snake_subspecies_melusine"/>
+    <preferenceMasculine furryPreference="MINIMUM" preference="TWO_AVERAGE" subspecies="NoStepOnSnek_snake_subspecies_melusine"/>
+    <preferenceFeminine furryPreference="MINIMUM" preference="TWO_AVERAGE" subspecies="NoStepOnSnek_snake_subspecies_lamia"/>
+    <preferenceMasculine furryPreference="MINIMUM" preference="TWO_AVERAGE" subspecies="NoStepOnSnek_snake_subspecies_lamia"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="NoStepOnSnek_snake_subspecies_snake"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="NoStepOnSnek_snake_subspecies_snake"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="charisma_spider_subspecies_tarantula"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="charisma_spider_subspecies_tarantula"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="charisma_spider_subspecies_spider"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="charisma_spider_subspecies_spider"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="SQUIRREL_MORPH"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="SQUIRREL_MORPH"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="WOLF_MORPH"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="WOLF_MORPH"/>
+  </subspeciesPreferences>
+  <itemsDiscovered/>
+  <weaponsDiscovered>
+    <type>innoxia_crystal_rare</type>
+  </weaponsDiscovered>
+  <clothingDiscovered/>
+  <racesDiscovered>
+    <race>HUMAN</race>
+    <race>HALF_DEMON</race>
+    <race>CAT_MORPH</race>
+  </racesDiscovered>
+  <racesDiscoveredAdvanced/>
+</properties>

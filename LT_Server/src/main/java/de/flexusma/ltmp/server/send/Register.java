@@ -7,5 +7,6 @@ public class Register {
     public Register(int id){
         this.id = id;
     }
+    public Register(){}
 
 }

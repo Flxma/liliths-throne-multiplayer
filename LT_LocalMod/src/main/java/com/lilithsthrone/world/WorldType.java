@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.utils.Util;
@@ -19,10 +22,11 @@ import com.lilithsthrone.world.places.PlaceType;
  * @version 0.3.7.2
  * @author Innoxia
  */
+
 public class WorldType {
 	
 	// Dominion:
-	
+	@JsonBackReference
 	public static AbstractWorldType WORLD_MAP = new AbstractWorldType(WorldRegion.MISC,
 			"Lilith's Realm",
 			PresetColour.BASE_TAN,
@@ -30,6 +34,7 @@ public class WorldType {
 			true,
 			true,
 			TeleportPermissions.BOTH, "/com/lilithsthrone/res/map/global/world_map.png", null, null, Util.newHashMapOfValues(
+
 					new Value<>(new Color(0x61997e), PlaceType.WORLD_MAP_THICK_JUNGLE), // thick jungle
 					new Value<>(new Color(0x81cca8), PlaceType.WORLD_MAP_JUNGLE), // jungle
 					new Value<>(new Color(0xb377b0), PlaceType.WORLD_MAP_JUNGLE_CITY), // jungle city
@@ -71,8 +76,8 @@ public class WorldType {
 			return true;
 		}
 	};
-	
-	
+
+	@JsonBackReference
 	public static AbstractWorldType DOMINION = new AbstractWorldType(WorldRegion.DOMINION,
 			"Dominion",
 			PresetColour.BASE_PURPLE,
@@ -119,7 +124,7 @@ public class WorldType {
 					new Value<>(new Color(0xffbf00), PlaceType.DOMINION_HOME_IMPROVEMENT),
 					new Value<>(new Color(0xff0080), PlaceType.DOMINION_WAREHOUSES))) {
 	};
-	
+	@JsonBackReference
 	public static AbstractWorldType EMPTY = new AbstractWorldType(WorldRegion.MISC,
 			"Empty (Holding world)",
 			PresetColour.BASE_BROWN,
@@ -132,7 +137,7 @@ public class WorldType {
 					new Value<>(new Color(0xffff00), PlaceType.GENERIC_HOLDING_CELL),
 					new Value<>(new Color(0x0080ff), PlaceType.GENERIC_MUSEUM))) {
 	};
-
+	@JsonBackReference
 	public static AbstractWorldType MUSEUM = new AbstractWorldType(WorldRegion.OLD_WORLD,
 			"Museum",
 			PresetColour.BASE_BROWN,
@@ -157,7 +162,7 @@ public class WorldType {
 			return true;
 		}
 	};
-
+	@JsonBackReference
 	public static AbstractWorldType MUSEUM_LOST = new AbstractWorldType(WorldRegion.OLD_WORLD,
 			"Museum",
 			PresetColour.BASE_BROWN,
@@ -178,7 +183,7 @@ public class WorldType {
 			return true;
 		}
 	};
-	
+	@JsonBackReference
 	public static AbstractWorldType LILAYAS_HOUSE_GROUND_FLOOR = new AbstractWorldType(WorldRegion.DOMINION,
 			"Lilaya's Home GF",
 			PresetColour.BASE_BLUE_LIGHT,
@@ -208,7 +213,7 @@ public class WorldType {
 			return true;
 		}
 	};
-	
+	@JsonBackReference
 	public static AbstractWorldType LILAYAS_HOUSE_FIRST_FLOOR = new AbstractWorldType(WorldRegion.DOMINION,
 			"Lilaya's Home 1F",
 			PresetColour.BASE_BLUE_LIGHT,
@@ -234,7 +239,7 @@ public class WorldType {
 			return true;
 		}
 	};
-	
+	@JsonBackReference
 	public static AbstractWorldType ZARANIX_HOUSE_FIRST_FLOOR = new AbstractWorldType(WorldRegion.DOMINION,
 			"Zaranix's Home 1F",
 			PresetColour.BASE_CRIMSON,
@@ -257,7 +262,7 @@ public class WorldType {
 			return true;
 		}
 	};
-	
+	@JsonBackReference
 	public static AbstractWorldType ZARANIX_HOUSE_GROUND_FLOOR = new AbstractWorldType(WorldRegion.DOMINION,
 			"Zaranix's Home GF",
 			PresetColour.BASE_CRIMSON,
@@ -284,7 +289,7 @@ public class WorldType {
 			return true;
 		}
 	};
-
+	@JsonBackReference
 	public static AbstractWorldType HARPY_NEST = new AbstractWorldType(WorldRegion.DOMINION,
 			"Harpy Nests",
 			PresetColour.BASE_CRIMSON,
@@ -303,7 +308,7 @@ public class WorldType {
 					new Value<>(new Color(0xffff00), PlaceType.HARPY_NESTS_HARPY_NEST_YELLOW),
 					new Value<>(new Color(0xff9100), PlaceType.HARPY_NESTS_HELENAS_NEST))) {
 	};
-	
+	@JsonBackReference
 	public static AbstractWorldType SLAVER_ALLEY = new AbstractWorldType(WorldRegion.DOMINION,
 			"Slaver Alley",
 			PresetColour.BASE_RED,
@@ -335,7 +340,7 @@ public class WorldType {
 					new Value<>(new Color(0xffff00), PlaceType.SLAVER_ALLEY_AUCTIONING_BLOCK),
 					new Value<>(new Color(0x00ff00), PlaceType.SLAVER_ALLEY_PUBLIC_STOCKS))) {
 	};
-	
+	@JsonBackReference
 	public static AbstractWorldType BOUNTY_HUNTER_LODGE = new AbstractWorldType(WorldRegion.DOMINION,
 			"The Rusty Collar",
 			PresetColour.BASE_COPPER,
@@ -353,7 +358,7 @@ public class WorldType {
 					new Value<>(new Color(0xffff00), PlaceType.BOUNTY_HUNTER_LODGE_SEATING),
 					new Value<>(new Color(0x00ffff), PlaceType.BOUNTY_HUNTER_LODGE_STAIRS))) {
 	};
-	
+	@JsonBackReference
 	public static AbstractWorldType BOUNTY_HUNTER_LODGE_UPSTAIRS = new AbstractWorldType(WorldRegion.DOMINION,
 			"The Rusty Collar (Upstairs)",
 			PresetColour.BASE_COPPER,
@@ -368,7 +373,7 @@ public class WorldType {
 					new Value<>(new Color(0xff80ff), PlaceType.BOUNTY_HUNTER_LODGE_UPSTAIRS_ROOM_SHADOW_SILENCE),
 					new Value<>(new Color(0x00ffff), PlaceType.BOUNTY_HUNTER_LODGE_UPSTAIRS_STAIRS))) {
 	};
-	
+	@JsonBackReference
 	public static AbstractWorldType SHOPPING_ARCADE = new AbstractWorldType(WorldRegion.DOMINION,
 			"Shopping Arcade",
 			PresetColour.BASE_YELLOW,
@@ -406,7 +411,7 @@ public class WorldType {
 			return true;
 		}
 	};
-	
+	@JsonBackReference
 	public static AbstractWorldType TEXTILES_WAREHOUSE = new AbstractWorldType(WorldRegion.DOMINION,
 			"Kay's Textiles",
 			PresetColour.GENERIC_ARCANE,
@@ -431,7 +436,7 @@ public class WorldType {
 			return true;
 		}
 	};
-	
+	@JsonBackReference
 	public static AbstractWorldType ENFORCER_HQ = new AbstractWorldType(WorldRegion.DOMINION,
 			"Enforcer HQ",
 			PresetColour.BASE_BLUE,
@@ -472,7 +477,7 @@ public class WorldType {
 			return true;
 		}
 	};
-
+	@JsonBackReference
 	public static AbstractWorldType ENFORCER_WAREHOUSE = new AbstractWorldType(WorldRegion.DOMINION,
 			"SWORD Warehouse",
 			PresetColour.BASE_BLUE,
@@ -505,7 +510,7 @@ public class WorldType {
 			return true;
 		}
 	};
-	
+	@JsonBackReference
 	public static AbstractWorldType CITY_HALL = new AbstractWorldType(WorldRegion.DOMINION,
 			"City Hall",
 			PresetColour.BASE_PURPLE,
@@ -532,8 +537,8 @@ public class WorldType {
 			return true;
 		}
 	};
-	
 
+	@JsonBackReference
 	public static AbstractWorldType HOME_IMPROVEMENTS = new AbstractWorldType(WorldRegion.DOMINION,
 			"Argus's DIY Depot",
 			PresetColour.BASE_ORANGE,
@@ -555,7 +560,7 @@ public class WorldType {
 		}
 	};
 
-	
+	@JsonBackReference
 	public static AbstractWorldType DOMINION_EXPRESS = new AbstractWorldType(WorldRegion.DOMINION,
 			"Dominion Express",
 			PresetColour.BASE_BROWN,
@@ -580,8 +585,8 @@ public class WorldType {
 			return true;
 		}
 	};
-	
-	
+
+	@JsonBackReference
 	public static AbstractWorldType ANGELS_KISS_GROUND_FLOOR = new AbstractWorldType(WorldRegion.DOMINION,
 			"Angel's Kiss GF",
 			PresetColour.BASE_MAGENTA,
@@ -600,7 +605,7 @@ public class WorldType {
 			return true;
 		}
 	};
-	
+	@JsonBackReference
 	public static AbstractWorldType ANGELS_KISS_FIRST_FLOOR = new AbstractWorldType(WorldRegion.DOMINION,
 			"Angel's Kiss 1F",
 			PresetColour.BASE_MAGENTA,
@@ -619,7 +624,7 @@ public class WorldType {
 			return true;
 		}
 	};
-	
+	@JsonBackReference
 	public static AbstractWorldType NIGHTLIFE_CLUB = new AbstractWorldType(WorldRegion.DOMINION,
 			"The Watering Hole",
 			PresetColour.BASE_BLUE,
@@ -644,7 +649,7 @@ public class WorldType {
 			return true;
 		}
 	};
-	
+	@JsonBackReference
 	public static AbstractWorldType DADDYS_APARTMENT = new AbstractWorldType(WorldRegion.DOMINION,
 			"Daddy's apartment",
 			PresetColour.RACE_DEMON,
@@ -676,7 +681,7 @@ public class WorldType {
 			return true;
 		}
 	};
-	
+	@JsonBackReference
 	public static AbstractWorldType HELENAS_APARTMENT = new AbstractWorldType(WorldRegion.DOMINION,
 			"Helena's apartment",
 			PresetColour.BASE_GOLD,
@@ -713,7 +718,7 @@ public class WorldType {
 			return true;
 		}
 	};
-	
+	@JsonBackReference
 	public static AbstractWorldType NYANS_APARTMENT = new AbstractWorldType(WorldRegion.DOMINION,
 			"Nyan's apartment",
 			PresetColour.BASE_PINK_LIGHT,
@@ -751,7 +756,7 @@ public class WorldType {
 	};
 	
 	// Other:
-
+	@JsonBackReference
 	public static AbstractWorldType SUBMISSION = new AbstractWorldType(WorldRegion.SUBMISSION,
 			"Submission",
 			PresetColour.BASE_GREEN,
@@ -787,7 +792,7 @@ public class WorldType {
 					new Value<>(new Color(0x65b0c9), PlaceType.SUBMISSION_IMP_TUNNELS_MALES))) {
 	};
 
-
+	@JsonBackReference
 	public static AbstractWorldType LYSSIETH_PALACE = new AbstractWorldType(WorldRegion.SUBMISSION,
 			"Lyssieth's Palace",
 			PresetColour.BASE_PURPLE,
@@ -816,7 +821,7 @@ public class WorldType {
 			return true;
 		}
 	};
-	
+	@JsonBackReference
 	public static AbstractWorldType IMP_FORTRESS_ALPHA = new AbstractWorldType(WorldRegion.SUBMISSION,
 			"Imp Fortress A",
 			PresetColour.BASE_CRIMSON,
@@ -837,7 +842,7 @@ public class WorldType {
 			return "This isn't a suitable place in which to be having sex!";
 		}
 	};
-
+	@JsonBackReference
 	public static AbstractWorldType IMP_FORTRESS_DEMON = new AbstractWorldType(WorldRegion.SUBMISSION,
 			"Imp Citadel",
 			PresetColour.BASE_PURPLE,
@@ -864,7 +869,7 @@ public class WorldType {
 			return "This isn't a suitable place in which to be having sex!";
 		}
 	};
-
+	@JsonBackReference
 	public static AbstractWorldType IMP_FORTRESS_FEMALES = new AbstractWorldType(WorldRegion.SUBMISSION,
 			"Imp Fortress F",
 			PresetColour.BASE_PINK,
@@ -885,7 +890,7 @@ public class WorldType {
 			return "This isn't a suitable place in which to be having sex!";
 		}
 	};
-
+	@JsonBackReference
 	public static AbstractWorldType IMP_FORTRESS_MALES = new AbstractWorldType(WorldRegion.SUBMISSION,
 			"Imp Fortress M",
 			PresetColour.BASE_BLUE,
@@ -906,7 +911,7 @@ public class WorldType {
 			return "This isn't a suitable place in which to be having sex!";
 		}
 	};
-
+	@JsonBackReference
 	public static AbstractWorldType BAT_CAVERNS = new AbstractWorldType(WorldRegion.SUBMISSION,
 			"Bat Caverns",
 			PresetColour.BASE_BLACK,
@@ -927,7 +932,7 @@ public class WorldType {
 					
 					new Value<>(new Color(0xff80ff), PlaceType.BAT_CAVERN_SLIME_QUEEN_LAIR))) {
 	};
-
+	@JsonBackReference
 	public static AbstractWorldType SLIME_QUEENS_LAIR_GROUND_FLOOR = new AbstractWorldType(WorldRegion.SUBMISSION,
 			"Slime Queen's Tower GF",
 			PresetColour.BASE_PINK,
@@ -953,7 +958,7 @@ public class WorldType {
 			return "This isn't a suitable place in which to be having sex!";
 		}
 	};
-
+	@JsonBackReference
 	public static AbstractWorldType SLIME_QUEENS_LAIR_FIRST_FLOOR = new AbstractWorldType(WorldRegion.SUBMISSION,
 			"Slime Queen's Tower 1F",
 			PresetColour.BASE_PINK,
@@ -976,7 +981,7 @@ public class WorldType {
 			return "This isn't a suitable place in which to be having sex!";
 		}
 	};
-
+	@JsonBackReference
 	public static AbstractWorldType GAMBLING_DEN = new AbstractWorldType(WorldRegion.SUBMISSION,
 			"Gambling Den",
 			PresetColour.BASE_GOLD,
@@ -1012,7 +1017,7 @@ public class WorldType {
 			return true;
 		}
 	};
-	
+	@JsonBackReference
 	public static AbstractWorldType RAT_WARRENS = new AbstractWorldType(WorldRegion.SUBMISSION,
 			"Rat Warrens",
 			PresetColour.BASE_BROWN,

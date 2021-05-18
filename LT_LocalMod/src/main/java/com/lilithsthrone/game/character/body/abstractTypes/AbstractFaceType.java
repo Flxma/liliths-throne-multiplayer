@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lilithsthrone.main.Main;
 import org.w3c.dom.Document;
 
@@ -35,6 +36,7 @@ public abstract class AbstractFaceType implements BodyPartTypeInterface {
 	private String transformationName;
 	
 	private AbstractBodyCoveringType coveringType;
+	@JsonManagedReference
 	private AbstractRace race;
 
 	private boolean facialHairAllowed;

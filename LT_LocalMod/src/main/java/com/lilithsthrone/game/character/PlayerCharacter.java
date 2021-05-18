@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -101,12 +102,15 @@ public class PlayerCharacter extends GameCharacter implements XMLSaving {
 	private String title;
 	
 	private int karma;
-
+	@JsonIgnore
 	private Map<QuestLine, List<Quest>> quests;
+	@JsonIgnore
 	private Map<QuestLine, Quest> questsFailed;
-
+	@JsonIgnore
 	private boolean mainQuestUpdated;
+	@JsonIgnore
 	private boolean sideQuestUpdated;
+	@JsonIgnore
 	private boolean relationshipQuestUpdated;
 
 	private boolean isActive;
@@ -114,18 +118,26 @@ public class PlayerCharacter extends GameCharacter implements XMLSaving {
 	protected List<String> friendlyOccupants;
 	
 	//Discoveries:
+	@JsonIgnore
 	private List<String> charactersEncountered;
+	@JsonIgnore
 	private Set<AbstractWorldType> worldsVisited;
-	
+	@JsonIgnore
 	private Set<AbstractSubspecies> racesDiscoveredFromBook;
-	
+	@JsonIgnore
 	private Set<AbstractItemType> itemsDiscovered;
+	@JsonIgnore
 	private Set<AbstractWeaponType> weaponsDiscovered;
+	@JsonIgnore
 	private Set<AbstractClothingType> clothingDiscovered;
+	@JsonIgnore
 	private Set<AbstractSubspecies> subspeciesDiscovered;
+	@JsonIgnore
 	private Set<AbstractSubspecies> subspeciesAdvancedKnowledge;
+
 	
 	// Trader buy-back:
+	@JsonIgnore
 	private SizedStack<ShopTransaction> buybackStack;
 
 	

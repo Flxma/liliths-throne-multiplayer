@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lilithsthrone.main.Main;
 import org.w3c.dom.Document;
 
@@ -32,6 +33,7 @@ public abstract class AbstractWingType implements BodyPartTypeInterface {
 	private boolean fromExternalFile;
 
 	private AbstractBodyCoveringType coveringType;
+	@JsonManagedReference
 	private AbstractRace race;
 
 	private String transformationName;

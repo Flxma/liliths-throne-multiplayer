@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lilithsthrone.main.Main;
 import org.w3c.dom.Document;
 
@@ -38,6 +39,7 @@ public abstract class AbstractPenisType implements BodyPartTypeInterface {
 	protected static final Map<String, Integer> BASE_NAMES_PLURAL = Util.newHashMapOfValues(new Value<>("cocks", 3), new Value<>("dicks", 2), new Value<>("shafts", 1));
 	
 	private AbstractBodyCoveringType coveringType;
+	@JsonManagedReference
 	private AbstractRace race;
 
 	private String transformationName;
