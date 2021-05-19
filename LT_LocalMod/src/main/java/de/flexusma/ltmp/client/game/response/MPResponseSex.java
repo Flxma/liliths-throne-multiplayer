@@ -1,11 +1,4 @@
-package com.lilithsthrone.game.dialogue.responses;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+package de.flexusma.ltmp.client.game.response;
 
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.attributes.CorruptionLevel;
@@ -15,41 +8,38 @@ import com.lilithsthrone.game.character.fetishes.Fetish;
 import com.lilithsthrone.game.character.race.AbstractSubspecies;
 import com.lilithsthrone.game.dialogue.DialogueManager;
 import com.lilithsthrone.game.dialogue.DialogueNode;
+import com.lilithsthrone.game.dialogue.responses.Response;
+import com.lilithsthrone.game.dialogue.responses.ResponseTag;
 import com.lilithsthrone.game.dialogue.utils.ParserTarget;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.game.sex.InitialSexActionInformation;
 import com.lilithsthrone.game.sex.SexPace;
 import com.lilithsthrone.game.sex.managers.SexManagerDefault;
 import com.lilithsthrone.game.sex.managers.SexManagerInterface;
-import com.lilithsthrone.game.sex.managers.universal.SMAllFours;
-import com.lilithsthrone.game.sex.managers.universal.SMGeneric;
-import com.lilithsthrone.game.sex.managers.universal.SMLyingDown;
-import com.lilithsthrone.game.sex.managers.universal.SMMasturbation;
-import com.lilithsthrone.game.sex.managers.universal.SMStanding;
+import com.lilithsthrone.game.sex.managers.universal.*;
 import com.lilithsthrone.game.sex.positions.SexPosition;
-import com.lilithsthrone.game.sex.positions.slots.SexSlot;
-import com.lilithsthrone.game.sex.positions.slots.SexSlotAllFours;
-import com.lilithsthrone.game.sex.positions.slots.SexSlotLyingDown;
-import com.lilithsthrone.game.sex.positions.slots.SexSlotMasturbation;
-import com.lilithsthrone.game.sex.positions.slots.SexSlotStanding;
+import com.lilithsthrone.game.sex.positions.slots.*;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.Util.Value;
 import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.utils.colours.PresetColour;
 import de.flexusma.ltmp.client.Setup;
+import de.flexusma.ltmp.client.connection.SocketClient;
+import de.flexusma.ltmp.client.game.manager.MPSexManagerDefault;
 import de.flexusma.ltmp.client.send.Start;
-import de.flexusma.ltmp.client.utils.AsyncSend;
 import de.flexusma.ltmp.client.utils.LogType;
 import de.flexusma.ltmp.client.utils.Logger;
+
+import java.util.*;
 
 /**
  * @since 0.1.69
  * @version 0.4
  * @author Innoxia
  */
-public class ResponseSex extends Response {
-	
+public class MPResponseSex extends Response {
+
 	private boolean consensual;
 	private boolean subHasEqualControl;
 	private SexManagerInterface sexManager;
@@ -58,36 +48,36 @@ public class ResponseSex extends Response {
 	private DialogueNode postSexDialogue;
 	private String sexStartDescription;
 	private ResponseTag[] tags;
-	
+
 	// For use in externally loaded responses:
-	
+
 	private boolean isFromExternalFile = false;
-	
+
 	private String consensualId;
 	private String subHasEqualControlId;
-	
+
 	private List<String> dominantIds;
 	private List<String> submissiveIds;
 	private List<String> dominantSpectatorIds;
 	private List<String> submissiveSpectatorIds;
 
 	private String postSexDialogueId;
-	
+
 	private String sexStartFolderPath;
 	private String sexStartDialogueTag;
-	
-	
-	public ResponseSex(String title,
-			String tooltipText,
-			boolean consensual,
-			boolean subHasEqualControl,
-			List<GameCharacter> dominants,
-			List<GameCharacter> submissives,
-			List<GameCharacter> dominantSpectators,
-			List<GameCharacter> submissiveSpectators,
-			DialogueNode postSexDialogue,
-			String sexStartDescription,
-			ResponseTag... tags) {
+
+
+	public MPResponseSex(String title,
+                         String tooltipText,
+                         boolean consensual,
+                         boolean subHasEqualControl,
+                         List<GameCharacter> dominants,
+                         List<GameCharacter> submissives,
+                         List<GameCharacter> dominantSpectators,
+                         List<GameCharacter> submissiveSpectators,
+                         DialogueNode postSexDialogue,
+                         String sexStartDescription,
+                         ResponseTag... tags) {
 		this(title,
 				tooltipText,
 				null,
@@ -106,10 +96,10 @@ public class ResponseSex extends Response {
 				sexStartDescription,
 				tags);
 	}
-	
+
 	/**
 	 * Automatically generates the SexManager (which assigns positions), based on the submissives and dominants passed in.
-	 * 
+	 *
 	 * @param title The action title.
 	 * @param tooltipText The text displayed in the action's tooltip.
 	 * @param fetishesForUnlock Fetishes that remove corruption increases from selecting this action.
@@ -126,23 +116,23 @@ public class ResponseSex extends Response {
 	 * @param submissiveSpectators The characters spectating this sex scene. (To be displayed in the submissive side of the UI.)
 	 * @param postSexDialogue The DialogueNode to be returned once the sex scene ends.
 	 */
-	public ResponseSex(String title,
-			String tooltipText,
-			List<Fetish> fetishesForUnlock,
-			List<Fetish> fetishesBlocking,
-			CorruptionLevel corruptionBypass,
-			List<AbstractPerk> perksRequired,
-			Femininity femininityRequired,
-			List<AbstractSubspecies> subspeciesRequired,
-			boolean consensual,
-			boolean subHasEqualControl,
-			List<GameCharacter> dominants,
-			List<GameCharacter> submissives,
-			List<GameCharacter> dominantSpectators,
-			List<GameCharacter> submissiveSpectators,
-			DialogueNode postSexDialogue,
-			String sexStartDescription,
-			ResponseTag... tags) {
+	public MPResponseSex(String title,
+                         String tooltipText,
+                         List<Fetish> fetishesForUnlock,
+                         List<Fetish> fetishesBlocking,
+                         CorruptionLevel corruptionBypass,
+                         List<AbstractPerk> perksRequired,
+                         Femininity femininityRequired,
+                         List<AbstractSubspecies> subspeciesRequired,
+                         boolean consensual,
+                         boolean subHasEqualControl,
+                         List<GameCharacter> dominants,
+                         List<GameCharacter> submissives,
+                         List<GameCharacter> dominantSpectators,
+                         List<GameCharacter> submissiveSpectators,
+                         DialogueNode postSexDialogue,
+                         String sexStartDescription,
+                         ResponseTag... tags) {
 		this(title,
 				tooltipText,
 				fetishesForUnlock,
@@ -166,43 +156,43 @@ public class ResponseSex extends Response {
 	/**
 	 * Only for use with externally defined sex responses.
 	 */
-	public ResponseSex(String title,
-			String tooltipText,
-			String secondsPassedString,
-			boolean asMinutes,
-			String colourId,
-			String effectsString,
-			List<String> fetishesForUnlock,
-			String corruptionBypass,
-			List<String> perksRequired,
-			String femininityRequired,
-			List<String> subspeciesRequired,
-			String consensual,
-			String subHasEqualControl,
-			List<String> dominantIds,
-			List<String> submissiveIds,
-			List<String> dominantSpectatorIds,
-			List<String> submissiveSpectatorIds,
-			String postSexDialogueId,
-			String sexStartFolderPath,
-			String sexStartDialogueTag,
-			List<ResponseTag> tags) {
+	public MPResponseSex(String title,
+                         String tooltipText,
+                         String secondsPassedString,
+                         boolean asMinutes,
+                         String colourId,
+                         String effectsString,
+                         List<String> fetishesForUnlock,
+                         String corruptionBypass,
+                         List<String> perksRequired,
+                         String femininityRequired,
+                         List<String> subspeciesRequired,
+                         String consensual,
+                         String subHasEqualControl,
+                         List<String> dominantIds,
+                         List<String> submissiveIds,
+                         List<String> dominantSpectatorIds,
+                         List<String> submissiveSpectatorIds,
+                         String postSexDialogueId,
+                         String sexStartFolderPath,
+                         String sexStartDialogueTag,
+                         List<ResponseTag> tags) {
 		super(title, tooltipText, null,
 				secondsPassedString, asMinutes,
 				colourId, effectsString,
 				fetishesForUnlock, corruptionBypass,
 				perksRequired, femininityRequired, subspeciesRequired);
-		
+
 		this.isFromExternalFile = true;
-		
+
 		this.consensualId = consensual;
 		this.subHasEqualControlId = subHasEqualControl;
-		
+
 		this.sexManager = null;
 
 		this.dominantIds = dominantIds;
 		this.submissiveIds = submissiveIds;
-		
+
 		if(dominantSpectatorIds==null) {
 			this.dominantSpectatorIds = new ArrayList<>();
 		} else {
@@ -214,16 +204,16 @@ public class ResponseSex extends Response {
 		} else {
 			this.submissiveSpectatorIds = submissiveSpectatorIds;
 		}
-		
+
 		this.postSexDialogueId = postSexDialogueId;
-		
+
 		this.sexStartFolderPath = sexStartFolderPath;
 		this.sexStartDialogueTag = sexStartDialogueTag;
-		
+
 		this.tags = new ResponseTag[tags.size()];
 		tags.toArray(this.tags);
 	}
-	
+
 	private void initTagsSetup(List<GameCharacter> dominants, List<GameCharacter> submissives) {
 		 // Masturbation check:
 		if(dominants==null || dominants.isEmpty() || submissives==null || submissives.isEmpty()) {
@@ -263,9 +253,9 @@ public class ResponseSex extends Response {
 					return super.isPositionChangingAllowed(character);
 				}
 			};
-		
-		
-		// If size difference with just two participants, return relevant standing position: 
+
+
+		// If size difference with just two participants, return relevant standing position:
 		} else if(submissives.size()==1 && dominants.size()==1) {
 			boolean sexManagerSet = false;
 			for(ResponseTag tag : tags) {
@@ -288,9 +278,10 @@ public class ResponseSex extends Response {
 					}
 				}
 			}
-			
+
 			if(!sexManagerSet) {
-				this.sexManager = new SMStanding(
+				this.sexManager = new MPSexManagerDefault(
+						SexPosition.STANDING,
 						Util.newHashMapOfValues(new Value<>(dominants.get(0), SexSlotStanding.STANDING_DOMINANT)),
 						Util.newHashMapOfValues(new Value<>(submissives.get(0), SexSlotStanding.STANDING_SUBMISSIVE))) {
 					@Override
@@ -328,7 +319,7 @@ public class ResponseSex extends Response {
 					}
 				};
 			}
-			
+
 		// If group sex:
 		} else {
 			// Sort so penis is used in humping/sex:
@@ -336,7 +327,7 @@ public class ResponseSex extends Response {
 			sortedDominants.sort((e1, e2) -> e1.hasPenis()?e2.hasPenis()?0:-1:1);
 
 			boolean sexManagerSet = false;
-			
+
 			for(ResponseTag tag : tags) {
 				if(tag!=null) {
 					switch(tag) {
@@ -357,7 +348,7 @@ public class ResponseSex extends Response {
 					}
 				}
 			}
-			
+
 			if(!sexManagerSet) {
 				int penisCount = 0;
 				for(GameCharacter dom : sortedDominants) {
@@ -365,14 +356,14 @@ public class ResponseSex extends Response {
 						penisCount++;
 					}
 				}
-				
+
 				if(sortedDominants.size()==1) {
 					if(Math.random()>0.5) {
 						generateMissionaryPosition(submissives, sortedDominants, dominantSpectators, submissiveSpectators, tags);
 					} else {
 						generateDoggyPosition(submissives, sortedDominants, dominantSpectators, submissiveSpectators, tags);
 					}
-					
+
 				} else {
 					switch(penisCount) {
 						case 0:
@@ -394,76 +385,76 @@ public class ResponseSex extends Response {
 			}
 		}
 	}
-	
-	public ResponseSex(String title,
-			String tooltipText,
-			boolean consensual,
-			boolean subHasEqualControl,
-			SMGeneric sexManager,
-			DialogueNode postSexDialogue,
-			String sexStartDescription) {
+
+	public MPResponseSex(String title,
+                         String tooltipText,
+                         boolean consensual,
+                         boolean subHasEqualControl,
+                         SMGeneric sexManager,
+                         DialogueNode postSexDialogue,
+                         String sexStartDescription) {
 		this(title, tooltipText, null, null, null, null, null, null, consensual, subHasEqualControl, sexManager, postSexDialogue, sexStartDescription);
 	}
-	
-	public ResponseSex(String title,
-			String tooltipText,
-			List<Fetish> fetishesForUnlock,
-			List<Fetish> fetishesBlocking,
-			CorruptionLevel corruptionBypass,
-			List<AbstractPerk> perksRequired,
-			Femininity femininityRequired,
-			List<AbstractSubspecies> subspeciesRequired,
-			boolean consensual,
-			boolean subHasEqualControl,
-			SMGeneric sexManager,
-			DialogueNode postSexDialogue,
-			String sexStartDescription) {
+
+	public MPResponseSex(String title,
+                         String tooltipText,
+                         List<Fetish> fetishesForUnlock,
+                         List<Fetish> fetishesBlocking,
+                         CorruptionLevel corruptionBypass,
+                         List<AbstractPerk> perksRequired,
+                         Femininity femininityRequired,
+                         List<AbstractSubspecies> subspeciesRequired,
+                         boolean consensual,
+                         boolean subHasEqualControl,
+                         SMGeneric sexManager,
+                         DialogueNode postSexDialogue,
+                         String sexStartDescription) {
 		this(title, tooltipText, fetishesForUnlock, fetishesBlocking, corruptionBypass, perksRequired, femininityRequired, subspeciesRequired, consensual, subHasEqualControl, sexManager, null, null, postSexDialogue, sexStartDescription);
 		this.dominantSpectators = sexManager.getDominantSpectators();
 		this.submissiveSpectators = sexManager.getSubmissiveSpectators();
 	}
-	
-	public ResponseSex(String title,
-			String tooltipText,
-			boolean consensual,
-			boolean subHasEqualControl,
-			SexManagerInterface sexManager,
-			List<GameCharacter> dominantSpectators,
-			List<GameCharacter> submissiveSpectators,
-			DialogueNode postSexDialogue) {
+
+	public MPResponseSex(String title,
+                         String tooltipText,
+                         boolean consensual,
+                         boolean subHasEqualControl,
+                         SexManagerInterface sexManager,
+                         List<GameCharacter> dominantSpectators,
+                         List<GameCharacter> submissiveSpectators,
+                         DialogueNode postSexDialogue) {
 		this(title, tooltipText, consensual, subHasEqualControl, sexManager, dominantSpectators, submissiveSpectators, postSexDialogue, "");
 	}
 
-	public ResponseSex(String title,
-			String tooltipText,
-			boolean consensual,
-			boolean subHasEqualControl,
-			SexManagerInterface sexManager,
-			List<GameCharacter> dominantSpectators,
-			List<GameCharacter> submissiveSpectators,
-			DialogueNode postSexDialogue,
-			String sexStartDescription) {
+	public MPResponseSex(String title,
+                         String tooltipText,
+                         boolean consensual,
+                         boolean subHasEqualControl,
+                         SexManagerInterface sexManager,
+                         List<GameCharacter> dominantSpectators,
+                         List<GameCharacter> submissiveSpectators,
+                         DialogueNode postSexDialogue,
+                         String sexStartDescription) {
 		this(title, tooltipText,
 				null, null, null, null,
 				null, null, consensual,
 				subHasEqualControl, sexManager, dominantSpectators, submissiveSpectators, postSexDialogue, sexStartDescription);
 	}
-	
-	public ResponseSex(String title,
-			String tooltipText,
-			List<Fetish> fetishesForUnlock,
-			List<Fetish> fetishesBlocking,
-			CorruptionLevel corruptionBypass,
-			List<AbstractPerk> perksRequired,
-			Femininity femininityRequired,
-			List<AbstractSubspecies> subspeciesRequired,
-			boolean consensual,
-			boolean subHasEqualControl,
-			SexManagerInterface sexManager,
-			List<GameCharacter> dominantSpectators,
-			List<GameCharacter> submissiveSpectators,
-			DialogueNode postSexDialogue,
-			String sexStartDescription) {
+
+	public MPResponseSex(String title,
+                         String tooltipText,
+                         List<Fetish> fetishesForUnlock,
+                         List<Fetish> fetishesBlocking,
+                         CorruptionLevel corruptionBypass,
+                         List<AbstractPerk> perksRequired,
+                         Femininity femininityRequired,
+                         List<AbstractSubspecies> subspeciesRequired,
+                         boolean consensual,
+                         boolean subHasEqualControl,
+                         SexManagerInterface sexManager,
+                         List<GameCharacter> dominantSpectators,
+                         List<GameCharacter> submissiveSpectators,
+                         DialogueNode postSexDialogue,
+                         String sexStartDescription) {
 		super(title, tooltipText, null,
 				fetishesForUnlock, corruptionBypass,
 				perksRequired, femininityRequired, subspeciesRequired);
@@ -566,6 +557,8 @@ public class ResponseSex extends Response {
 	}
 	
 	public DialogueNode initSex() {
+
+
 		if(isFromExternalFile) {
 			this.consensual = Boolean.valueOf(UtilText.parse(consensualId).trim());
 			this.subHasEqualControl = Boolean.valueOf(UtilText.parse(subHasEqualControlId).trim());
@@ -611,14 +604,6 @@ public class ResponseSex extends Response {
 	 * This method is applied after the initSex() method has been called. It will not affect the content of the scene, so should just be used for modifying sex or foreplay preferences, or other background data.
 	 */
 	public void postSexInitEffects() {
-
-		//multiplayer sync code
-		int stype = 0;
-		if(!subHasEqualControl&&isPlayerInDominantSlot()) stype=1;
-		if(!subHasEqualControl&&!isPlayerInDominantSlot())stype=2;
-		Logger.log(LogType.INFO,"Sending start command to other player...");
-		int finalStype = stype;
-		new AsyncSend(()->Setup.socketClient.getKclient().sendTCP(new Start(Setup.socketClient.getClientID(), finalStype))).exec();
 
 
 	}

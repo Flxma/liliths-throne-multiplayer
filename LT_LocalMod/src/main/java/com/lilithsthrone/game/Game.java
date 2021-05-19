@@ -1604,6 +1604,19 @@ public class Game implements XMLSaving {
 				e.printStackTrace();
 			}
 		}
+
+		/*
+		If network is connected, initialize data and send playerdata to Server + register Eventlisteners
+				*/
+		if(Main.isConnected) {
+
+			//GameCharacter.addPlayerAttributeChangeEventListener(new PlayerDataChangeListener(Setup.socketClient));
+			Main.game.getPlayer().addPlayerInventoryChangeEventListener(new PlayerDataChangeListener(Setup.socketClient));
+			Main.game.getPlayer().addPlayerLocationChangeEventListener(new PlayerDataChangeListener(Setup.socketClient));
+
+		}
+		//Done network
+
 		
 		Main.game.setRenderMap(true);
 		Main.game.setRenderAttributesSection(true);
@@ -1691,15 +1704,7 @@ public class Game implements XMLSaving {
 		NPCMap.clear();
 		initUniqueNPCs();
 
-		//If network is connected, initialize data and send playerdata to Server + register Eventlisten
 
-		if(Main.isConnected) {
-
-			//GameCharacter.addPlayerAttributeChangeEventListener(new PlayerDataChangeListener(Setup.socketClient));
-			Main.game.getPlayer().addPlayerInventoryChangeEventListener(new PlayerDataChangeListener(Setup.socketClient));
-			Main.game.getPlayer().addPlayerLocationChangeEventListener(new PlayerDataChangeListener(Setup.socketClient));
-
-		}
 
 		// This is due to the fact that on new world creation, the player is placed at coordinates (0, 0), which reveals the three squares at the bottom left corner of the map:
 		Main.game.getActiveWorld().getCell(0, 0).setDiscovered(false);

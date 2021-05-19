@@ -2,12 +2,10 @@ package de.flexusma.ltmp.client.connection;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
-import de.flexusma.ltmp.client.connection.listeners.GetDataListener;
-import de.flexusma.ltmp.client.connection.listeners.GetPlayerListener;
-import de.flexusma.ltmp.client.connection.listeners.GetSAListener;
-import de.flexusma.ltmp.client.connection.listeners.RcvRegisterListener;
+import de.flexusma.ltmp.client.connection.listeners.*;
 import de.flexusma.ltmp.client.send.Register;
 import de.flexusma.ltmp.client.send.SendContainer;
+import de.flexusma.ltmp.client.send.Start;
 import de.flexusma.ltmp.client.utils.Config;
 import de.flexusma.ltmp.client.utils.KryoRegDepend;
 import de.flexusma.ltmp.client.utils.LogType;
@@ -78,6 +76,7 @@ public class SocketClient {
 
         kryo.register(Register.class);
         kryo.register(SendContainer.class);
+        kryo.register(Start.class);
 
 
 
@@ -89,6 +88,10 @@ public class SocketClient {
         kclient.start();
         kclient.addListener(new RcvRegisterListener(this));
         kclient.addListener(new GetDataListener(this));
+
+        kclient.addListener(new GetSexStartListener(this));
+
+        manager.addListener(new GetSAListener());
         manager.addListener(new GetPlayerListener(this));
         //manager.addListener(new GetSAListener());
 

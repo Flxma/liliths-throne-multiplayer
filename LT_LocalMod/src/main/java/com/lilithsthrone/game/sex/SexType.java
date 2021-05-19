@@ -3,6 +3,9 @@ package com.lilithsthrone.game.sex;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.lilithsthrone.game.sex.sexActions.SexActionType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -172,7 +175,8 @@ public class SexType implements XMLSaving {
 	public boolean isBeingPenetrated() {
 		return getPerformingSexArea().isOrifice() && getTargetedSexArea().isPenetration();
 	}
-	
+	@JsonIgnore
+	@JsonBackReference
 	public SexType getReversedSexType() {
 		return new SexType(getAsParticipant(), getTargetedSexArea(), getPerformingSexArea());
 	}

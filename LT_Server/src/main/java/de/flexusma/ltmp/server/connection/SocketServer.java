@@ -8,7 +8,9 @@ import com.lilithsthrone.game.sex.sexActions.SexActionInterface;
 import de.flexusma.ltmp.server.connection.listener.*;
 import de.flexusma.ltmp.server.send.SendContainer;
 import de.flexusma.ltmp.server.send.Register;
+import de.flexusma.ltmp.server.send.Start;
 import de.flexusma.ltmp.server.utils.Config;
+import de.flexusma.ltmp.server.utils.KryoRegDepend;
 import de.flexusma.ltmp.server.utils.LogType;
 import de.flexusma.ltmp.server.utils.Logger;
 
@@ -21,7 +23,8 @@ import java.util.List;
 public class SocketServer {
 
     HashMap<Integer, SendContainer> playerList;
-    HashMap<Integer, SexActionInterface> saiList;
+    HashMap<Integer, SendContainer> saiList;
+    HashMap<Integer, Start> startList;
     List<Integer> currentTurnDone;
 
     public List<Integer> registeredClients;
@@ -40,10 +43,12 @@ public class SocketServer {
         ksPort=c.getServerport();
         registeredClients = new ArrayList<>();
         manager = new SendManager();
+        startList=new HashMap<>();
 
         Kryo kryo = kserver.getKryo();
         kryo.register(Register.class);
         kryo.register(SendContainer.class);
+        kryo.register(Start.class);
 
 
 
@@ -59,10 +64,13 @@ public class SocketServer {
         kserver.addListener(new GetDataListener(this));
         kserver.addListener(new GetPlayerRegisterListener(this));
 
-        kserver.addListener(new ServerListener(this));
+        kserver.addListener(new GetSexStartListener(this));
 
+        kserver.addListener(new ServerListener(this));
+        manager.addListener(new GetSAListener(this));
         manager.addListener(new GetPlayerListener(this));
         //manager.addListener(new GetSAListener(this));
+        KryoRegDepend.register(kserver.getKryo());
 
         Logger.log(LogType.INFO,"[OK] Listeners registered successfully.");
 
@@ -134,9 +142,16 @@ public class SocketServer {
     Turn Choice synchronization
      */
 
-    public void addTurnChoice(int uid, SexActionInterface pAction){
+    public void addTurnChoice(int uid, SendContainer pAction){
         saiList.put(uid,pAction);
-        playerDoneTurn(uid);
+        InvokePlayerNextTurn(uid);
+        //playerDoneTurn(uid);
+    }
+
+    public void addStartCmd(int uid, Start start){
+        startList.put(uid,start);
+        InvokePlayerStart();
+        //playerDoneTurn(uid);
     }
 
     public List<Integer> getPlayerIDs(){
@@ -161,8 +176,20 @@ public class SocketServer {
         currentTurnDone.add(uid);
     }
 
-    public void InvokePlayerNextTurn(){
-        int nextplayerTurn = playerTurn();
+    public void InvokePlayerNextTurn(int uid){
+        for(int id : registeredClients){
+            if(id!=uid)
+            for(int sid : saiList.keySet())
+                getConByID(id).sendTCP(saiList.get(sid));
+        }
+        //TODO: CALL rmi Method of selected player
+    }
+
+    public void InvokePlayerStart(){
+        for(int id : registeredClients){
+            for(int sid : startList.keySet())
+            getConByID(id).sendTCP(startList.get(sid));
+        }
         //TODO: CALL rmi Method of selected player
     }
 }

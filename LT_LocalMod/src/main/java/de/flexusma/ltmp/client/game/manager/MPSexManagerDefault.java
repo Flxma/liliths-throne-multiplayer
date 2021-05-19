@@ -1,14 +1,7 @@
-package com.lilithsthrone.game.sex.managers;
-
-import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+package de.flexusma.ltmp.client.game.manager;
 
 import com.lilithsthrone.game.character.GameCharacter;
+import com.lilithsthrone.game.character.PlayerCharacter;
 import com.lilithsthrone.game.character.attributes.LustLevel;
 import com.lilithsthrone.game.character.body.CoverableArea;
 import com.lilithsthrone.game.character.effects.StatusEffect;
@@ -18,24 +11,13 @@ import com.lilithsthrone.game.inventory.InventorySlot;
 import com.lilithsthrone.game.inventory.clothing.AbstractClothing;
 import com.lilithsthrone.game.inventory.clothing.DisplacementType;
 import com.lilithsthrone.game.inventory.item.AbstractItem;
-import com.lilithsthrone.game.sex.ImmobilisationType;
-import com.lilithsthrone.game.sex.OrgasmCumTarget;
-import com.lilithsthrone.game.sex.SexAreaInterface;
-import com.lilithsthrone.game.sex.SexAreaOrifice;
-import com.lilithsthrone.game.sex.SexAreaPenetration;
-import com.lilithsthrone.game.sex.SexFlags;
-import com.lilithsthrone.game.sex.SexPace;
-import com.lilithsthrone.game.sex.SexParticipantType;
-import com.lilithsthrone.game.sex.SexType;
+import com.lilithsthrone.game.sex.*;
+import com.lilithsthrone.game.sex.managers.SexManagerInterface;
 import com.lilithsthrone.game.sex.positions.AbstractSexPosition;
 import com.lilithsthrone.game.sex.positions.SexPosition;
 import com.lilithsthrone.game.sex.positions.slots.SexSlot;
 import com.lilithsthrone.game.sex.positions.slots.SexSlotGeneric;
-import com.lilithsthrone.game.sex.sexActions.SexAction;
-import com.lilithsthrone.game.sex.sexActions.SexActionInterface;
-import com.lilithsthrone.game.sex.sexActions.SexActionPriority;
-import com.lilithsthrone.game.sex.sexActions.SexActionType;
-import com.lilithsthrone.game.sex.sexActions.SexActionUtility;
+import com.lilithsthrone.game.sex.sexActions.*;
 import com.lilithsthrone.game.sex.sexActions.baseActions.PenisFeet;
 import com.lilithsthrone.game.sex.sexActions.baseActions.PenisFoot;
 import com.lilithsthrone.game.sex.sexActions.baseActions.TongueNipple;
@@ -47,13 +29,20 @@ import com.lilithsthrone.game.sex.sexActions.baseActionsSelfPartner.PartnerSelfT
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.Util.Value;
+import de.flexusma.ltmp.client.Setup;
+import de.flexusma.ltmp.client.connection.SocketClient;
+import de.flexusma.ltmp.client.game.PlayerNPC;
+import de.flexusma.ltmp.client.game.listener.PlayerSAListener;
+import de.flexusma.ltmp.client.utils.LogType;
+import de.flexusma.ltmp.client.utils.Logger;
+
+import java.util.AbstractMap.SimpleEntry;
+import java.util.*;
 
 /**
- * @since 0.1.0
- * @version 0.3.5.5
- * @author Innoxia
+ * @author Flexusma
  */
-public class SexManagerDefault implements SexManagerInterface {
+public class MPSexManagerDefault implements SexManagerInterface {
 
 	protected AbstractSexPosition position;
 	protected Map<GameCharacter, SexSlot> dominants;
@@ -61,11 +50,20 @@ public class SexManagerDefault implements SexManagerInterface {
 	protected Map<GameCharacter, List<SexAreaInterface>> areasBannedMap;
 	protected boolean ableToSkipSexScene;
 
-	public SexManagerDefault(AbstractSexPosition position, Map<GameCharacter, SexSlot> dominants, Map<GameCharacter, SexSlot> submissives) {
-		this(true, position, dominants, submissives);
+	protected PlayerSAListener saListener;
+
+	private static HashMap<Integer,SexActionInterface> returnInterfaces = new HashMap<>();
+
+
+	public static void invokeInterfaceRecieved(int uid, SexActionInterface saInterface){
+		if(returnInterfaces.containsKey(uid)) returnInterfaces.remove(uid);
+		returnInterfaces.put(uid,saInterface);
 	}
 
-	public SexManagerDefault(boolean ableToSkipSexScene, AbstractSexPosition position, Map<GameCharacter, SexSlot> dominants, Map<GameCharacter, SexSlot> submissives) {
+
+
+	public MPSexManagerDefault(AbstractSexPosition position, Map<GameCharacter, SexSlot> dominants, Map<GameCharacter, SexSlot> submissives) {
+		this.saListener=new PlayerSAListener(Setup.socketClient);
 		this.ableToSkipSexScene = ableToSkipSexScene;
 		this.position = position;
 		this.dominants = dominants==null?new HashMap<>():dominants;
@@ -145,8 +143,36 @@ public class SexManagerDefault implements SexManagerInterface {
 	 * - main (self-actions take minimum priority)<br/>
 	 * - orgasm
 	 */
+
+	public void manageMPSexActionPlayer(SexActionInterface sexActionPlayer){
+
+		saListener.sendChange(sexActionPlayer);
+
+	}
+
+
 	@Override
 	public SexActionInterface getPartnerSexAction(NPC partner, SexActionInterface sexActionPlayer) {
+
+
+		if(partner instanceof PlayerNPC){
+
+			PlayerNPC p = (PlayerNPC) partner;
+			while (!MPSexManagerDefault.returnInterfaces.containsKey(p.uid)){
+				Logger.log(LogType.INFO,"Waiting for player ["+p.getName()+"] to make their choice... please be patient");
+				try {
+					Thread.sleep(300);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+
+			SexActionInterface remPlayerAction = MPSexManagerDefault.returnInterfaces.get(p.uid);
+			Logger.log(LogType.INFO,"Recieved action ["+remPlayerAction.getActionTitle()+"] from remote player ["+p.getName()+"] with ID ["+p.getId()+"]");
+			return remPlayerAction;
+		}
+
+
 		
 		possibleActions.clear();
 		bannedActions.clear();
@@ -627,6 +653,9 @@ public class SexManagerDefault implements SexManagerInterface {
 	 * Finger and tongue actions are considered foreplay.
 	 */
 	private SexAction performForeplayAction(SexActionInterface sexActionPlayer) {
+
+
+
 		boolean debug = false;
 
 		NPC performingCharacter = (NPC)Main.sex.getCharacterPerformingAction();
@@ -722,9 +751,12 @@ public class SexManagerDefault implements SexManagerInterface {
 //	private boolean removedAllPenetrationAfterForeplay = false;
 	
 	private SexAction performSexAction(SexActionInterface sexActionPlayer) {
+
 		
 		NPC performingCharacter = (NPC)Main.sex.getCharacterPerformingAction();
 		GameCharacter targetedCharacter = Main.sex.getTargetedPartner(Main.sex.getCharacterPerformingAction());
+
+
 
 		boolean debug = false;
 		boolean debugFullActionList = false;

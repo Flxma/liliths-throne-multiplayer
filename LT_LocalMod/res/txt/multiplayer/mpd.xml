@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dialogue>
+
+	<!-- PLAYER_ENCOUNTER -->
+
+	<htmlContent tag="PLAYER_ENCOUNTER"><![CDATA[
+	<p>
+		As you wonder around, a known face comes across your field of vision. Since you don't remember exactly who you might have just seen, you walk towards that person.
+	</p>
+    <p>
+        After an awkward first moment, you two start to develop a fluent conversation...
+    </p>
+	]]>
+	</htmlContent>
+	
+	
+</dialogue>
