@@ -3,12 +3,8 @@ package com.lilithsthrone.world.places;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.lilithsthrone.game.dialogue.DialogueNode;
-import com.lilithsthrone.game.dialogue.encounters.Encounter;
+import com.lilithsthrone.game.dialogue.encounters.AbstractEncounter;
 import com.lilithsthrone.utils.SvgUtil;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.colours.Colour;
@@ -21,7 +17,6 @@ import com.lilithsthrone.world.WorldRegion;
  * @version 0.4
  * @author Innoxia
  */
-
 public abstract class AbstractGlobalPlaceType extends AbstractPlaceType {
 
 	public AbstractGlobalPlaceType(WorldRegion worldRegion,
@@ -30,7 +25,8 @@ public abstract class AbstractGlobalPlaceType extends AbstractPlaceType {
 			String tooltipDescription,
 			Colour colour,
 			DialogueNode dialogue,
-			Encounter encounterType, String virginityLossDescription) {
+			AbstractEncounter encounterType,
+			String virginityLossDescription) {
 		this(worldRegion, name, tooltipDescription, SVGPath, colour, colour, dialogue, encounterType, virginityLossDescription);
 	}
 	
@@ -41,7 +37,8 @@ public abstract class AbstractGlobalPlaceType extends AbstractPlaceType {
 			Colour colour,
 			Colour backgroundColour,
 			DialogueNode dialogue,
-			Encounter encounterType, String virginityLossDescription) {
+			AbstractEncounter encounterType,
+			String virginityLossDescription) {
 		super(worldRegion, name, tooltipDescription, null, null, dialogue, Darkness.DAYLIGHT, encounterType, virginityLossDescription);
 		
 		this.name = name;
@@ -104,6 +101,6 @@ public abstract class AbstractGlobalPlaceType extends AbstractPlaceType {
 		this.itemsDisappear = false;
 		return this;
 	}
-	@JsonBackReference
+	
 	public abstract AbstractWorldType getGlobalLinkedWorldType();
 }

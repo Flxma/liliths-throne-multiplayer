@@ -474,6 +474,7 @@ public class Lyssieth extends NPC {
 					if(applyExtraEffects) {
 						Main.game.getPlayer().setArousal(50);
 					}
+					Main.game.getTextEndStringBuilder().append(Main.game.getPlayer().incrementEssenceCount(250, false));
 				}
 			};
 			
@@ -1106,7 +1107,7 @@ public class Lyssieth extends NPC {
 						availableLines.add(UtilText.returnStringAtRandom(
 								"Yes! Keep sucking mommy's cock, like a good [npc2.girl]! Just like that!",
 								"Oh yes! Wrap those lips of yours around mommy's cock! Keep going!",
-								"Keep sucking mommy's cock! Yes! Good [npc2girl]!"));
+								"Keep sucking mommy's cock! Yes! Good [npc2.girl]!"));
 						break;
 					case NIPPLE:
 						availableLines.add(UtilText.returnStringAtRandom(

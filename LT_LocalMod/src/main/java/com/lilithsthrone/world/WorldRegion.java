@@ -1,8 +1,5 @@
 package com.lilithsthrone.world;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 /**
  * Regions of the world map, used to help the game decide what races to spawn where.
  * 
@@ -10,7 +7,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
  * @version 0.4
  * @author Innoxia
  */
-
 public enum WorldRegion {
 	
 	// Misc:
@@ -19,6 +15,7 @@ public enum WorldRegion {
 	
 	// Cities
 	DOMINION,
+	HARPY_NESTS,
 	SUBMISSION,
 	FIELD_CITY,
 	DESERT_CITY,

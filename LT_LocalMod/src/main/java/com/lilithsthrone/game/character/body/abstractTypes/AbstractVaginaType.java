@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lilithsthrone.main.Main;
 import org.w3c.dom.Document;
 
@@ -54,7 +53,6 @@ public abstract class AbstractVaginaType implements BodyPartTypeInterface {
 	
 	private AbstractBodyCoveringType coveringType;
 	private AbstractFluidType fluidType;
-	@JsonManagedReference
 	private AbstractRace race;
 
 	private String transformationName;

@@ -292,6 +292,9 @@ public class MainController implements Initializable {
 	}
 
 	public boolean isInventoryDisabled() {
+		if(!Main.game.isInNewWorld() && !Main.game.isInSex()) {
+			return true;
+		}
 		if (Main.game.getCurrentDialogueNode().getDialogueNodeType() == DialogueNodeType.INVENTORY
 				|| Main.game.isInCombat()
 				/*|| Main.game.isInSex()*/) {
@@ -310,7 +313,7 @@ public class MainController implements Initializable {
 
 	public void openInventory() {
 		if(!Main.game.isInNewWorld() && !Main.game.isInSex()) {
-			openInventory(null, InventoryInteraction.CHARACTER_CREATION);
+			//openInventory(null, InventoryInteraction.CHARACTER_CREATION);
 			
 		} else if(Main.game.isInCombat()) {
 			if(Main.combat.getTargetedCombatant().isPlayer()) {
@@ -2656,7 +2659,6 @@ public class MainController implements Initializable {
 		}
 	}
 
-
 	private void moveTile(int xOffset, int yOffset) {
 		Vector2i location = Main.game.getPlayer().getLocation();
 		if (location.getY() + yOffset < Main.game.getActiveWorld().WORLD_HEIGHT
@@ -2677,7 +2679,7 @@ public class MainController implements Initializable {
 					Main.game.getPlayer().setLocation(new Vector2i(location.getX() + xOffset, location.getY() + yOffset));
 					
 					DialogueNode dn = Main.game.getPlayerCell().getDialogue(true);
-
+					
 					Main.game.setContent(new Response("", "", dn) {
 						@Override
 						public int getSecondsPassed() {
@@ -2691,7 +2693,6 @@ public class MainController implements Initializable {
 	
 	public void moveNorth() {
 		moveTile(0, 1);
-
 	}
 
 	public void moveSouth() {
@@ -2809,17 +2810,5 @@ public class MainController implements Initializable {
 	public void setFlashMessageText(String flashMessageText) {
 		MainController.flashMessageText = flashMessageText;
 	}
-
-
-	//multiplayer functions
-
-	public void updateDialogue(){
-		DialogueNode dn = Main.game.getPlayerCell().getDialogue(false);
-
-		Main.game.setContent(new Response("", "", dn) {
-		});
-	}
-
-
 
 }
