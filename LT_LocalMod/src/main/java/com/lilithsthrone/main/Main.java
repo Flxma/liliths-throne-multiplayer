@@ -315,7 +315,7 @@ public class Main extends Application {
 		CheckForDataDirectory();
 		CheckForResFolder();
 		DisplayMultiplayerWarning();
-		
+
 		credits.add(new CreditsSlot("Anonymous", "", 99, 99, 99, 99));
 		
 		

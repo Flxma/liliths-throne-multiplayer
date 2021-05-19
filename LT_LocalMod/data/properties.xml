@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <properties>
   <previousSave>
-    <location value="AutoSave_User3"/>
-    <nameColour value="#ffbdff"/>
-    <name value="User3"/>
+    <location value="AutoSave_Tesuser1"/>
+    <nameColour value="#b39eff"/>
+    <name value="Tesuser1"/>
     <race value="woman"/>
     <quest value="Lilaya's tests"/>
     <level value="1"/>
     <money value="5000"/>
     <arcaneEssences value="0"/>
     <versionNumber value="0.3.19"/>
-    <lastQuickSaveName value="QuickSave_User3"/>
+    <lastQuickSaveName value="QuickSave_Tesuser1"/>
   </previousSave>
   <propertyValues>
     <propertyValue value="enchantmentLimits"/>
@@ -20,6 +20,7 @@
     <propertyValue value="overwriteWarning"/>
     <propertyValue value="calendarDisplay"/>
     <propertyValue value="tattooRemovalConfirmations"/>
+    <propertyValue value="sillyMode"/>
     <propertyValue value="weatherInterruptions"/>
     <propertyValue value="autoLocale"/>
     <propertyValue value="metricSizes"/>
@@ -51,7 +52,7 @@
   </propertyValues>
   <settings>
     <fontSize value="18"/>
-    <preferredArtist value="jam"/>
+    <preferredArtist value="chattyNeko"/>
     <androgynousIdentification value="CLOTHING_FEMININE"/>
     <humanSpawnRate value="5"/>
     <taurSpawnRate value="5"/>

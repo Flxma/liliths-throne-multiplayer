@@ -23,7 +23,7 @@ public class GetPlayerRegisterListener implements Listener {
             if(r.id==-1) {
                 Logger.logCl(LogType.INFO, uid, "Received register object, sending response...");
             }else {
-                uid=r.id;
+                //not working currently - needs fixing
                 Logger.logCl(LogType.INFO, uid, "Received RE-register object, sending response...");
             }
             server.registeredClients.add(uid);

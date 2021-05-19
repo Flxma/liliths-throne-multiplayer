@@ -4791,6 +4791,9 @@ public class Game implements XMLSaving {
 	}
 
 	public boolean isRequestAutosave() {
+
+		if(debug) return false;
+
 		if(Main.game.getDialogueFlags().hasFlag(DialogueFlagValue.badEnd)) { // Do not autosave during a bad end (as otherwise it could overwrite an important autosave before the bad end was encountered)
 			return false;
 		}

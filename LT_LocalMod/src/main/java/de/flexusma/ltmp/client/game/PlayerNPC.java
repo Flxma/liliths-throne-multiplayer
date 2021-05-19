@@ -252,7 +252,7 @@ public class PlayerNPC extends NPC {
 
     @Override
     public boolean isUnique() {
-        return true;
+        return false;
     }
 
     @Override
@@ -287,6 +287,8 @@ public class PlayerNPC extends NPC {
     }
 
 
+
+
     /*
     Override save function so no multiplayer data is saved
     -> save files stay compatible with the base Game.
@@ -296,6 +298,17 @@ public class PlayerNPC extends NPC {
     public Element saveAsXML(Element parentElement, Document doc) {
         Element e = doc.createElement("mutliplayerdata_placeholder");
         //parentElement.appendChild(e);
-        return e;
+        return null;
+    }
+
+
+    @Override
+    public int getLootMoney() {
+        return this.getMoney();
+    }
+
+    @Override
+    public boolean isSlave() {
+        return false;
     }
 }

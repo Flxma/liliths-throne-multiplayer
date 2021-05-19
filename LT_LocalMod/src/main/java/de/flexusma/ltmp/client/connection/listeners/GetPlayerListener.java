@@ -37,10 +37,9 @@ public class GetPlayerListener implements SendContainerListener {
             Document document = null;
             try {
                 document = Main.getDocBuilder().parse(new InputSource(new StringReader(obj.getData())));
-            } catch (SAXException e) {
+            } catch (SAXException | IOException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+                return;
             }
             if(document==null) return;
             Logger.log(LogType.DEBUG,"Parsed document not null, trying to parse PlayerCharacter");
@@ -52,6 +51,7 @@ public class GetPlayerListener implements SendContainerListener {
                  character = PlayerCharacter.loadFromXML(null, characterNode, document);
             }catch (Exception e){
                 Logger.log(LogType.ERROR,"Error creating player instance from data");
+                return;
             }
             if(character!=null) {
                 Logger.log(LogType.INFO, "Parsed PlayerCharacter with name: " + character.getName());
@@ -76,6 +76,7 @@ public class GetPlayerListener implements SendContainerListener {
                     PlayerNPC playerNPC = new PlayerNPC(character, client.getClientID());
                     try {
                         Main.game.addNPC(playerNPC, false);
+                        playerNPC.updateRender();
                     } catch (Exception e) {
                         Logger.log(LogType.ERROR, "Error adding PlayerNPC instance to Game: "+e.getLocalizedMessage());
                     }
