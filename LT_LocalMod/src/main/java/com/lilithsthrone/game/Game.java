@@ -29,6 +29,8 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import de.flexusma.ltmp.client.Setup;
+import de.flexusma.ltmp.client.game.listener.PlayerDataChangeListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -1688,6 +1690,16 @@ public class Game implements XMLSaving {
 	public void initNewGame(DialogueNode startingDialogueNode) {
 		NPCMap.clear();
 		initUniqueNPCs();
+
+		//If network is connected, initialize data and send playerdata to Server + register Eventlisten
+
+		if(Main.isConnected) {
+
+			//GameCharacter.addPlayerAttributeChangeEventListener(new PlayerDataChangeListener(Setup.socketClient));
+			Main.game.getPlayer().addPlayerInventoryChangeEventListener(new PlayerDataChangeListener(Setup.socketClient));
+			Main.game.getPlayer().addPlayerLocationChangeEventListener(new PlayerDataChangeListener(Setup.socketClient));
+
+		}
 
 		// This is due to the fact that on new world creation, the player is placed at coordinates (0, 0), which reveals the three squares at the bottom left corner of the map:
 		Main.game.getActiveWorld().getCell(0, 0).setDiscovered(false);

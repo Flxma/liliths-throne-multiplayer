@@ -2811,4 +2811,14 @@ public class MainController implements Initializable {
 		MainController.flashMessageText = flashMessageText;
 	}
 
+
+	//multiplayer functions
+
+	public void updateDialogue(){
+		DialogueNode dn = Main.game.getPlayerCell().getDialogue(false);
+
+		Main.game.setContent(new Response("", "", dn) {
+		});
+	}
+
 }

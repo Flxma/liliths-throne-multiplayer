@@ -1,15 +1,13 @@
 package com.lilithsthrone.main;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
+import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+import de.flexusma.ltmp.client.display.CmdWindowController;
 import org.w3c.dom.Document;
 
 import com.lilithsthrone.controller.MainController;
@@ -68,6 +66,12 @@ import javax.xml.transform.TransformerFactory;
  */
 public class Main extends Application {
 
+
+	//TODO: SET FALSE BEFORE RELEASE!!
+
+	private final static boolean flex_dev = true;
+
+
 	public static Game game;
 	public static Sex sex;
 	public static Combat combat;
@@ -81,18 +85,21 @@ public class Main extends Application {
 	public static Scene mainScene;
 
 	public static Stage primaryStage;
-	
-	public static final String AUTHOR = "Innoxia";
-	public static final String GAME_NAME = "Lilith's Throne";
+
+	public static final String AUTHOR = "Innoxia | MP: Flexusma";
+	public static final String GAME_NAME = "Lilith's Throne MPv0.0.1";
 	public static final String VERSION_NUMBER = "0.4";
-	public static final String VERSION_DESCRIPTION = "Alpha";
+	public static final String VERSION_DESCRIPTION = "Alpha-Alpha!";
+
+	public static CmdWindowController network_windowCnt;
+	public static boolean isConnected = false;
 	
 	/**
 	 * To turn it on, just add -Ddebug=true to java's VM options. (You should be able to do this in Eclipse through Run::Run Configurations...::Arguments tab::VM Arguments).
 	 * Help page: https://help.eclipse.org/mars/index.jsp?topic=%2Forg.eclipse.pde.doc.user%2Fguide%2Ftools%2Flaunchers%2Farguments.htm
 	 *  Or, from the command line java -Ddebug=true -jar LilithsThrone.jar
 	 */
-	public final static boolean DEBUG = Boolean.valueOf(System.getProperty("debug", "false"));
+	public final static boolean DEBUG = true;// Boolean.valueOf(System.getProperty("debug", "false"));
 
 	public static final Image WINDOW_IMAGE = new Image("/com/lilithsthrone/res/images/windowIcon32.png");
 	
@@ -134,6 +141,7 @@ public class Main extends Application {
 
 		CheckForDataDirectory();
 		CheckForResFolder();
+		DisplayMultiplayerWarning();
 		
 		credits.add(new CreditsSlot("Anonymous", "", 99, 99, 99, 99));
 		
@@ -436,8 +444,8 @@ public class Main extends Application {
 		credits.add(new CreditsSlot("Zakarin", "", 0, 0, 0, 14, Subspecies.DEMON));
 		credits.add(new CreditsSlot("Zaya", "", 0, 0, 5, 0));
 		credits.add(new CreditsSlot("Zero_One", "", 0, 0, 4, 0));
-		
-		
+
+		System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
 		
 		credits.sort(Comparator.comparing((CreditsSlot a) -> a.getName().toLowerCase()));
 		
@@ -536,6 +544,22 @@ public class Main extends Application {
 				}
 			});
 		}
+	}
+
+	protected static void DisplayMultiplayerWarning() {
+
+		Alert a = new Alert(AlertType.WARNING,
+				"This version of the game features several differences to the base version!" +
+						"\nThis version is still in a VERY EARLY stage of development and is therefore unstable." +
+						"\nIt is very likely for your game to crash, halt or show some other forms weirs behaviour." +
+						"\n\nTHE SAFETY OF YOUR SAVEGAMES IS NOT SECURED WHILST PLAYING THIS VERSION. -> Please create a backup of your savegame before starting to play mutliplayer!"
+						+ "\nContinue?",
+				ButtonType.YES, ButtonType.NO);
+		a.showAndWait().ifPresent(response -> {
+			if(response == ButtonType.NO) {
+				System.exit(1);
+			}
+		});
 	}
 
 	/**
