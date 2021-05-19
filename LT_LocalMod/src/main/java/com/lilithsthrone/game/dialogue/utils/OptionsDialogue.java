@@ -54,7 +54,6 @@ import com.lilithsthrone.utils.Units.ValueType;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.utils.colours.PresetColour;
-import de.flexusma.ltmp.client.Setup;
 import de.flexusma.ltmp.client.display.CmdWindowController;
 
 /**
@@ -77,6 +76,8 @@ public class OptionsDialogue {
 
 	private static boolean confirmNewGame = false;
 	public static boolean startingNewGame = false;
+	
+	private static boolean alphabeticalFileSort = false;
 	
 	public static final DialogueNode MENU = new DialogueNode("Menu", "Menu", true) {
 		
@@ -236,8 +237,8 @@ public class OptionsDialogue {
 				};
 			
 			} else if (index == 12) {
-				return new ResponseEffectsOnly("Github", "Opens the page:<br/><br/><i>https://github.com/Flexusma/LT_MPMod</i><br/><br/><b>Externally in your default browser.</b>"){
-					@Override
+				 return new ResponseEffectsOnly("Github", "Opens the page:<br/><br/><i>https://github.com/Flexusma/LT_MPMod</i><br/><br/><b>Externally in your default browser.</b>"){
+					 @Override
 					public void effects() {
 						Util.openLinkInDefaultBrowser("https://github.com/Flexusma/LT_MPMod");
 						confirmNewGame=false;
@@ -252,8 +253,9 @@ public class OptionsDialogue {
 						confirmNewGame=false;
 					}
 				};
-			// Adding multiplayer Connect button;
-			} else if (index == 14) {
+
+				 // Adding multiplayer Connect button;
+			 } else if (index == 14) {
 				 return new ResponseEffectsOnly("Connect MP","Connects you to the Server specified in mp_config.yml"){
 					 @Override
 					 public void effects() {
@@ -387,9 +389,9 @@ public class OptionsDialogue {
 				i++;
 			}
 			
-			Main.getSavedGames().sort(Comparator.comparingLong(File::lastModified).reversed());
+//			Main.getSavedGames(alphabeticalFileSort).sort(Comparator.comparingLong(File::lastModified).reversed());
 			
-			for(File f : Main.getSavedGames()){
+			for(File f : Main.getSavedGames(alphabeticalFileSort)) {
 				saveLoadSB.append(getSaveLoadRow("<span style='color:"+PresetColour.TEXT_GREY.toWebHexString()+";'>"+Util.getFileTime(f)+"</span>", f.getName(), i%2==0));
 				i++;
 			}
@@ -421,6 +423,22 @@ public class OptionsDialogue {
 						deleteConfirmationName = "";
 						Main.getProperties().setValue(PropertyValue.overwriteWarning, !Main.getProperties().hasValue(PropertyValue.overwriteWarning));
 						Main.getProperties().savePropertiesAsXML();
+					}
+				};
+
+			} else if (index == 2) {
+				return new Response("Sort: Date", "Sort all of your saved games by their date.", SAVE_LOAD) {
+					@Override
+					public void effects() {
+						alphabeticalFileSort = false;
+					}
+				};
+
+			} else if (index == 3) {
+				return new Response("Sort: Name", "Sort all of your saved games by their name.", SAVE_LOAD) {
+					@Override
+					public void effects() {
+						alphabeticalFileSort = true;
 					}
 				};
 
@@ -2159,6 +2177,14 @@ public class OptionsDialogue {
 							"Penetrative size-difference",
 							"When enabled, orifices will have a limited depth to them, meaning that penetrative objects (penises and tails) can be too long to fit all the way inside.",
 							Main.getProperties().hasValue(PropertyValue.penetrationLimitations)));
+			
+			UtilText.nodeContentSB.append(getContentPreferenceDiv(ContentOptionsPage.SEX,
+							"PENETRATION_LIMITATION_DYNAMIC",
+							PresetColour.BASE_PINK_DEEP,
+							"Elasticity depth effects",
+							"When enabled, if an orifice has an elasticity of at least 'limber', the maximum 'uncomfortable depth' value will be increased, with greater elasticity values increasing it further."
+									+ " (Note: Only applies when 'Penetrative size-difference' is also turned on.)",
+							Main.getProperties().hasValue(PropertyValue.elasticityAffectDepth)));
 			
 			UtilText.nodeContentSB.append(getContentPreferenceDiv(ContentOptionsPage.SEX,
 							"FOOT",

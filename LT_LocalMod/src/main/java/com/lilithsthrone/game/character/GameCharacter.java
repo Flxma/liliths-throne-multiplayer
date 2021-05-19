@@ -31,7 +31,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -349,6 +348,7 @@ public abstract class GameCharacter implements XMLSaving {
 	protected Vector2i location;
 	protected Vector2i homeLocation;
 	protected Vector2i globalLocation;
+	protected Cell lastCell;
 	
 	
 	// Body:
@@ -362,11 +362,8 @@ public abstract class GameCharacter implements XMLSaving {
 	// Inventory:
 	protected CharacterInventory inventory;
 	private List<Outfit> savedOutfits;
-    @JsonIgnore
 	private Map<InventorySlot, Scar> scars;
-    @JsonIgnore
 	private Map<InventorySlot, Tattoo> tattoos;
-    @JsonIgnore
 	private Map<InventorySlot, SizedStack<Covering>> lipstickMarks;
 	/** Clothing which has been temporarily unequipped as part of a scene which requires this character to be naked. */
 	private Map<InventorySlot, AbstractClothing> holdingClothing;
@@ -421,15 +418,12 @@ public abstract class GameCharacter implements XMLSaving {
 	protected boolean ableToBeEnslaved;
 	protected List<String> slavesOwned;
 	protected String owner;
-    @JsonIgnore
 	protected DialogueNode enslavementDialogue;
-    @JsonIgnore
 	protected AbstractClothing enslavementClothing;
-    @JsonIgnore
+	
 	protected Map<SlavePermission, Set<SlavePermissionSetting>> slavePermissionSettings;
-    @JsonIgnore
+	
 	protected SlaveJob[] workHours;
-    @JsonIgnore
 	protected Map<SlaveJob, Set<SlaveJobSetting>> slaveJobSettings;
 	
 	
@@ -443,31 +437,18 @@ public abstract class GameCharacter implements XMLSaving {
 	
 	
 	// Combat:
-    @JsonIgnore
 	protected CombatBehaviour combatBehaviour;
-    @JsonIgnore
 	protected List<AbstractCombatMove> equippedMoves;
-    @JsonIgnore
 	protected List<AbstractCombatMove> knownMoves;
-    @JsonIgnore
 	protected List<Value<GameCharacter, AbstractCombatMove>> selectedMoves;
-    @JsonIgnore
 	protected List<Boolean> selectedMovesDisruption;
-    @JsonIgnore
 	protected List<String> movesToDisrupt;
-    @JsonIgnore
 	protected Map<CombatMoveType, Integer> moveTypeDisruptionMap;
-    @JsonIgnore
 	protected Map<DamageType, Integer> shields;
-    @JsonIgnore
 	protected Map<String, Integer> moveCooldowns;
-
 	protected int remainingAP;
-    @JsonIgnore
 	protected List<Spell> spells;
-    @JsonIgnore
 	protected Set<SpellUpgrade> spellUpgrades;
-    @JsonIgnore
 	protected Map<SpellSchool, Integer> spellUpgradePoints;
 	
 	protected float health;
@@ -480,9 +461,7 @@ public abstract class GameCharacter implements XMLSaving {
 	private int daysOrgasmCountRecord = 0;
 	protected long lastTimeHadSex = DEFAULT_TIME_START_VALUE;
 	protected long lastTimeOrgasmed = DEFAULT_TIME_START_VALUE;
-    @JsonIgnore
 	protected Map<GameCharacter, SexType> foreplayPreference = new HashMap<>();
-    @JsonIgnore
 	protected Map<GameCharacter, SexType> mainSexPreference = new HashMap<>();
 	
 	
@@ -510,18 +489,15 @@ public abstract class GameCharacter implements XMLSaving {
 	
 	// Misc.:
 	private List<Dice> dice; // For gambling
-    @JsonIgnore
-	public static List<CharacterChangeEventListener> playerAttributeChangeEventListeners = new ArrayList<>();
-    @JsonIgnore
-    public static List<CharacterChangeEventListener> NPCAttributeChangeEventListeners = new ArrayList<>();
-    @JsonIgnore
-    public static List<CharacterChangeEventListener> NPCLocationChangeEventListeners = new ArrayList<>();
-    @JsonIgnore
-    public static List<CharacterChangeEventListener> playerLocationChangeEventListeners = new ArrayList<>();
-    @JsonIgnore
-    public static List<CharacterChangeEventListener> NPCInventoryChangeEventListeners = new ArrayList<>();
-    @JsonIgnore
-    public static List<CharacterChangeEventListener> playerInventoryChangeEventListeners = new ArrayList<>();
+	
+	protected static List<CharacterChangeEventListener> playerAttributeChangeEventListeners = new ArrayList<>();
+	protected static List<CharacterChangeEventListener> NPCAttributeChangeEventListeners = new ArrayList<>();
+
+	protected static List<CharacterChangeEventListener> NPCLocationChangeEventListeners = new ArrayList<>();
+	protected static List<CharacterChangeEventListener> playerLocationChangeEventListeners = new ArrayList<>();
+
+	protected static List<CharacterChangeEventListener> NPCInventoryChangeEventListeners = new ArrayList<>();
+	protected static List<CharacterChangeEventListener> playerInventoryChangeEventListeners = new ArrayList<>();
 
 	protected GameCharacter(
 			NameTriplet nameTriplet,
@@ -2832,151 +2808,147 @@ public abstract class GameCharacter implements XMLSaving {
 				}
 				// Cum counts:
 				element = (Element) (sexStatsElement).getElementsByTagName("cumCounts").item(0);
-				if(element!=null) {
-                    if ((Main.isVersionOlderThan(version, "0.3.5.2"))) { // Old version support:
-                        NodeList cumCountElements = element.getElementsByTagName("cumCountGiving");
-                        for (int i = 0; i < cumCountElements.getLength(); i++) {
-                            Element e = (Element) cumCountElements.item(i);
-                            try {
-                                SexType sexType;
-                                try {
-                                    sexType = new SexType(
-                                            SexParticipantType.valueOf(e.getAttribute("participantType")),
-                                            SexAreaPenetration.valueOf(e.getAttribute("penetrationType")),
-                                            SexAreaOrifice.valueOf(e.getAttribute("orificeType")));
-                                } catch (Exception innerEx) {
-                                    sexType = new SexType(
-                                            SexParticipantType.valueOf(e.getAttribute("participantType")),
-                                            SexAreaPenetration.valueOf(e.getAttribute("penetrationType")),
-                                            SexAreaPenetration.valueOf(e.getAttribute("orificeType")));
-                                }
-
-                                int count = Integer.parseInt(e.getAttribute("count"));
-                                character.setCumCount(null, sexType, character.getCumCount(null, sexType) + count);
-                                Main.game.getCharacterUtils().appendToImportLog(log, "<br/>Added cum count:" + e.getAttribute("penetrationType") + " " + e.getAttribute("orificeType") + " x " + Integer.valueOf(e.getAttribute("count")));
-                            } catch (Exception ex) {
-                            }
-                        }
-                        cumCountElements = element.getElementsByTagName("cumCountReceiving");
-                        for (int i = 0; i < cumCountElements.getLength(); i++) {
-                            Element e = (Element) cumCountElements.item(i);
-                            try {
-                                SexType sexType;
-                                try {
-                                    sexType = new SexType(
-                                            SexParticipantType.valueOf(e.getAttribute("participantType")),
-                                            SexAreaOrifice.valueOf(e.getAttribute("orificeType")),
-                                            SexAreaPenetration.valueOf(e.getAttribute("penetrationType")));
-                                } catch (Exception innerEx) {
-                                    sexType = new SexType(
-                                            SexParticipantType.valueOf(e.getAttribute("participantType")),
-                                            SexAreaOrifice.valueOf(e.getAttribute("orificeType")),
-                                            SexAreaPenetration.valueOf(e.getAttribute("penetrationType")));
-                                }
-
-                                int count = Integer.parseInt(e.getAttribute("count"));
-                                character.setCumCount(null, sexType, character.getCumCount(null, sexType) + count);
-                                Main.game.getCharacterUtils().appendToImportLog(log, "<br/>Added cum count:" + e.getAttribute("orificeType") + " " + e.getAttribute("penetrationType") + " x " + Integer.valueOf(e.getAttribute("count")));
-                            } catch (Exception ex) {
-                            }
-                        }
-
-                    } else {
-                        NodeList sexCountElements = element.getElementsByTagName("cumCount");
-                        for (int i = 0; i < sexCountElements.getLength(); i++) {
-                            Element e = (Element) sexCountElements.item(i);
-
-                            SexAreaInterface performing = null;
-                            try {
-                                performing = SexAreaPenetration.valueOf(e.getAttribute("p"));
-                            } catch (Exception ex) {
-                                performing = SexAreaOrifice.valueOf(e.getAttribute("p"));
-                            }
-                            SexAreaInterface targeting = null;
-                            try {
-                                targeting = SexAreaPenetration.valueOf(e.getAttribute("t"));
-                            } catch (Exception ex) {
-                                targeting = SexAreaOrifice.valueOf(e.getAttribute("t"));
-                            }
-                            SexParticipantType pt = SexParticipantType.NORMAL;
-                            try {
-                                pt = SexParticipantType.valueOf(e.getAttribute("pt"));
-                            } catch (Exception ex) {
-                            }
-
-                            try {
-                                SexType sexType = new SexType(pt, performing, targeting);
-                                int count = Integer.parseInt(e.getAttribute("c"));
-                                character.setCumCount(null, sexType, character.getCumCount(null, sexType) + count);
+				if(Main.isVersionOlderThan(version, "0.3.5.2")) { // Old version support:
+					NodeList cumCountElements = element.getElementsByTagName("cumCountGiving");
+					for(int i = 0; i < cumCountElements.getLength(); i++){
+						Element e = (Element) cumCountElements.item(i);
+						try {
+							SexType sexType;
+							try {
+								sexType = new SexType(
+										SexParticipantType.valueOf(e.getAttribute("participantType")),
+										SexAreaPenetration.valueOf(e.getAttribute("penetrationType")),
+										SexAreaOrifice.valueOf(e.getAttribute("orificeType")));
+							} catch(Exception innerEx) {
+								sexType = new SexType(
+										SexParticipantType.valueOf(e.getAttribute("participantType")),
+										SexAreaPenetration.valueOf(e.getAttribute("penetrationType")),
+										SexAreaPenetration.valueOf(e.getAttribute("orificeType")));
+							}
+							
+							int count = Integer.parseInt(e.getAttribute("count"));
+							character.setCumCount(null, sexType, character.getCumCount(null, sexType) + count);
+							Main.game.getCharacterUtils().appendToImportLog(log, "<br/>Added cum count:"+e.getAttribute("penetrationType")+" "+e.getAttribute("orificeType")+" x "+Integer.valueOf(e.getAttribute("count")));
+						}catch(Exception ex){
+						}
+					}
+					cumCountElements = element.getElementsByTagName("cumCountReceiving");
+					for(int i = 0; i < cumCountElements.getLength(); i++){
+						Element e = (Element) cumCountElements.item(i);
+						try {
+							SexType sexType;
+							try {
+								sexType = new SexType(
+										SexParticipantType.valueOf(e.getAttribute("participantType")),
+										SexAreaOrifice.valueOf(e.getAttribute("orificeType")),
+										SexAreaPenetration.valueOf(e.getAttribute("penetrationType")));
+							} catch(Exception innerEx) {
+								sexType = new SexType(
+										SexParticipantType.valueOf(e.getAttribute("participantType")),
+										SexAreaOrifice.valueOf(e.getAttribute("orificeType")),
+										SexAreaPenetration.valueOf(e.getAttribute("penetrationType")));
+							}
+							
+							int count = Integer.parseInt(e.getAttribute("count"));
+							character.setCumCount(null, sexType, character.getCumCount(null, sexType) + count);
+							Main.game.getCharacterUtils().appendToImportLog(log, "<br/>Added cum count:"+e.getAttribute("orificeType")+" "+e.getAttribute("penetrationType")+" x "+Integer.valueOf(e.getAttribute("count")));
+						}catch(Exception ex){
+						}
+					}
+					
+				} else {
+					NodeList sexCountElements = element.getElementsByTagName("cumCount");
+					for(int i = 0; i < sexCountElements.getLength(); i++){
+						Element e = (Element) sexCountElements.item(i);
+						
+						SexAreaInterface performing = null;
+						try {
+							performing = SexAreaPenetration.valueOf(e.getAttribute("p"));
+						} catch(Exception ex) {
+							performing = SexAreaOrifice.valueOf(e.getAttribute("p"));
+						}
+						SexAreaInterface targeting = null;
+						try {
+							targeting = SexAreaPenetration.valueOf(e.getAttribute("t"));
+						} catch(Exception ex) {
+							targeting = SexAreaOrifice.valueOf(e.getAttribute("t"));
+						}
+						SexParticipantType pt = SexParticipantType.NORMAL;
+						try {
+							pt = SexParticipantType.valueOf(e.getAttribute("pt"));
+						} catch(Exception ex) {
+						}
+						
+						try {
+							SexType sexType = new SexType(pt, performing, targeting);
+							int count = Integer.parseInt(e.getAttribute("c"));
+							character.setCumCount(null, sexType, character.getCumCount(null, sexType) + count);
 //							Main.game.getCharacterUtils().appendToImportLog(log, "<br/>Added cum count:"+e.getAttribute("penetrationType")+" "+e.getAttribute("orificeType")+" x "+Integer.valueOf(e.getAttribute("count")));
-                            } catch (Exception ex) {
-                            }
-                        }
-                    }
-                }
+						}catch(Exception ex){
+						}
+					}
+				}
 				
 				// Sex counts:
 				element = (Element) (sexStatsElement).getElementsByTagName("sexCounts").item(0);
-                if(element!=null) {
-                    if (Main.isVersionOlderThan(version, "0.3.5.2")) { // Old version support:
-                        NodeList sexCountElements = element.getElementsByTagName("sexCountGiving");
-                        for (int i = 0; i < sexCountElements.getLength(); i++) {
-                            Element e = (Element) sexCountElements.item(i);
+				if(Main.isVersionOlderThan(version, "0.3.5.2")) { // Old version support:
+					NodeList sexCountElements = element.getElementsByTagName("sexCountGiving");
+					for(int i = 0; i < sexCountElements.getLength(); i++){
+						Element e = (Element) sexCountElements.item(i);
+						
+						try {
+							SexType sexType = new SexType(SexParticipantType.valueOf(e.getAttribute("participantType")), SexAreaPenetration.valueOf(e.getAttribute("penetrationType")), SexAreaOrifice.valueOf(e.getAttribute("orificeType")));
+							int count = Integer.parseInt(e.getAttribute("count"));
+							character.setSexCount(null, sexType, character.getSexCount(null, sexType) + count);
+							Main.game.getCharacterUtils().appendToImportLog(log, "<br/>Added sex count:"+e.getAttribute("penetrationType")+" "+e.getAttribute("orificeType")+" x "+Integer.valueOf(e.getAttribute("count")));
+						}catch(Exception ex){
+						}
+					}
+					sexCountElements = element.getElementsByTagName("sexCountReceiving");
+					for(int i = 0; i < sexCountElements.getLength(); i++){
+						Element e = (Element) sexCountElements.item(i);
+						
+						try {
+							SexType sexType = new SexType(SexParticipantType.valueOf(e.getAttribute("participantType")), SexAreaOrifice.valueOf(e.getAttribute("orificeType")), SexAreaPenetration.valueOf(e.getAttribute("penetrationType")));
+							int count = Integer.parseInt(e.getAttribute("count"));
+							character.setSexCount(null, sexType, character.getSexCount(null, sexType) + count);
+							Main.game.getCharacterUtils().appendToImportLog(log, "<br/>Added sex count:"+e.getAttribute("orificeType")+" "+e.getAttribute("penetrationType")+" x "+Integer.valueOf(e.getAttribute("count")));
+						}catch(Exception ex){
+						}
+					}
+					
+				} else {
+					NodeList sexCountElements = element.getElementsByTagName("sexCount");
+					for(int i = 0; i < sexCountElements.getLength(); i++){
+						Element e = (Element) sexCountElements.item(i);
+						
+						SexAreaInterface performing = null;
+						try {
+							performing = SexAreaPenetration.valueOf(e.getAttribute("p"));
+						} catch(Exception ex) {
+							performing = SexAreaOrifice.valueOf(e.getAttribute("p"));
+						}
+						SexAreaInterface targeting = null;
+						try {
+							targeting = SexAreaPenetration.valueOf(e.getAttribute("t"));
+						} catch(Exception ex) {
+							targeting = SexAreaOrifice.valueOf(e.getAttribute("t"));
+						}
+						SexParticipantType pt = SexParticipantType.NORMAL;
+						try {
+							pt = SexParticipantType.valueOf(e.getAttribute("pt"));
+						} catch(Exception ex) {
+						}
 
-                            try {
-                                SexType sexType = new SexType(SexParticipantType.valueOf(e.getAttribute("participantType")), SexAreaPenetration.valueOf(e.getAttribute("penetrationType")), SexAreaOrifice.valueOf(e.getAttribute("orificeType")));
-                                int count = Integer.parseInt(e.getAttribute("count"));
-                                character.setSexCount(null, sexType, character.getSexCount(null, sexType) + count);
-                                Main.game.getCharacterUtils().appendToImportLog(log, "<br/>Added sex count:" + e.getAttribute("penetrationType") + " " + e.getAttribute("orificeType") + " x " + Integer.valueOf(e.getAttribute("count")));
-                            } catch (Exception ex) {
-                            }
-                        }
-                        sexCountElements = element.getElementsByTagName("sexCountReceiving");
-                        for (int i = 0; i < sexCountElements.getLength(); i++) {
-                            Element e = (Element) sexCountElements.item(i);
-
-                            try {
-                                SexType sexType = new SexType(SexParticipantType.valueOf(e.getAttribute("participantType")), SexAreaOrifice.valueOf(e.getAttribute("orificeType")), SexAreaPenetration.valueOf(e.getAttribute("penetrationType")));
-                                int count = Integer.parseInt(e.getAttribute("count"));
-                                character.setSexCount(null, sexType, character.getSexCount(null, sexType) + count);
-                                Main.game.getCharacterUtils().appendToImportLog(log, "<br/>Added sex count:" + e.getAttribute("orificeType") + " " + e.getAttribute("penetrationType") + " x " + Integer.valueOf(e.getAttribute("count")));
-                            } catch (Exception ex) {
-                            }
-                        }
-
-                    } else {
-                        NodeList sexCountElements = element.getElementsByTagName("sexCount");
-                        for (int i = 0; i < sexCountElements.getLength(); i++) {
-                            Element e = (Element) sexCountElements.item(i);
-
-                            SexAreaInterface performing = null;
-                            try {
-                                performing = SexAreaPenetration.valueOf(e.getAttribute("p"));
-                            } catch (Exception ex) {
-                                performing = SexAreaOrifice.valueOf(e.getAttribute("p"));
-                            }
-                            SexAreaInterface targeting = null;
-                            try {
-                                targeting = SexAreaPenetration.valueOf(e.getAttribute("t"));
-                            } catch (Exception ex) {
-                                targeting = SexAreaOrifice.valueOf(e.getAttribute("t"));
-                            }
-                            SexParticipantType pt = SexParticipantType.NORMAL;
-                            try {
-                                pt = SexParticipantType.valueOf(e.getAttribute("pt"));
-                            } catch (Exception ex) {
-                            }
-
-                            try {
-                                SexType sexType = new SexType(pt, performing, targeting);
-                                int count = Integer.parseInt(e.getAttribute("c"));
-                                character.setSexCount(null, sexType, character.getSexCount(null, sexType) + count);
+						try {
+							SexType sexType = new SexType(pt, performing, targeting);
+							int count = Integer.parseInt(e.getAttribute("c"));
+							character.setSexCount(null, sexType, character.getSexCount(null, sexType) + count);
 //							Main.game.getCharacterUtils().appendToImportLog(log, "<br/>Added sex count:"+e.getAttribute("penetrationType")+" "+e.getAttribute("orificeType")+" x "+Integer.valueOf(e.getAttribute("count")));
-                            } catch (Exception ex) {
-                            }
-                        }
-                    }
-                }
+						}catch(Exception ex){
+						}
+					}
+				}
 			}
 			
 			
@@ -4070,7 +4042,7 @@ public abstract class GameCharacter implements XMLSaving {
 	}
 	
 	public int getAgeValue() {
-		int age = (int) ChronoUnit.YEARS.between(birthday, Main.game.getDateNow());
+		int age = Math.max(0, (int) ChronoUnit.YEARS.between(birthday, Main.game.getDateNow()));
 		if(this.isPlayer()) {
 			return Math.max(MINIMUM_AGE, age);
 		} else { // All non-player characters start as 18.
@@ -5265,22 +5237,19 @@ public abstract class GameCharacter implements XMLSaving {
 	}
 	
 	public final Value<Boolean, String> getSexAvailabilityBasedOnLocation() {
+		if(this.getLocationPlace().getPlaceType().isSexBlockedOverride(this)) {
+			if(this.getLocationPlace().getPlaceType().isSexBlocked(this)) {
+				return new Value<>(false, this.getLocationPlace().getPlaceType().getSexBlockedReason(this));
+			} else {
+				return new Value<>(true, "");
+			}
+		}
+		
 		if(this.getWorldLocation().isSexBlocked(this)) {
 			return new Value<>(false, this.getWorldLocation().getSexBlockedReason(this));
 		}
-
-		//TODO move to PlaceType
-		AbstractPlaceType placeType = this.getLocationPlace().getPlaceType();
-		boolean charactersImmediatelyPresent = 
-				!placeType.equals(PlaceType.DOMINION_BACK_ALLEYS)
-					&& !placeType.equals(PlaceType.DOMINION_DARK_ALLEYS)
-					&& !placeType.equals(PlaceType.SUBMISSION_TUNNELS)
-					&& !placeType.equals(PlaceType.SUBMISSION_IMP_TUNNELS_ALPHA)
-					&& !placeType.equals(PlaceType.SUBMISSION_IMP_TUNNELS_DEMON)
-					&& !placeType.equals(PlaceType.SUBMISSION_IMP_TUNNELS_FEMALES)
-					&& !placeType.equals(PlaceType.SUBMISSION_IMP_TUNNELS_MALES);
 		
-		if(charactersImmediatelyPresent) {
+		if(this.getLocationPlace().getPlaceType().isSexBlockedFromCharacterPresent()) {
 			for(GameCharacter character : Main.game.getCharactersPresent()) {
 				if(!character.isSlave() && !(character.isElemental()) && (this.getPartyLeader()==null || !this.getPartyLeader().getCompanions().contains(character))) {
 					return new Value<>(false, UtilText.parse(character, "You can't have sex in front of [npc.name]!"));
@@ -16969,7 +16938,7 @@ public abstract class GameCharacter implements XMLSaving {
 			if(sb.length()>0) {
 				sb.append("</br>");
 			}
-			sb.append("[style.italicsPinkDeep(The size of [npc.namePos] cock is causing [npc2.namePos] stomach to bulge!)]");
+			sb.append("[style.italicsPinkDeep(The size of [npc.namePos] "+(penetrationType.getName(characterPenetrating))+" is causing [npc2.namePos] stomach to bulge!)]");
 		}
 		
 		return UtilText.parse(characterPenetrating, characterPenetrated, sb.toString());
@@ -17050,7 +17019,7 @@ public abstract class GameCharacter implements XMLSaving {
 			if(sb.length()>0) {
 				sb.append("</br>");
 			}
-			sb.append("[style.italicsPinkDeep(The size of [npc.namePos] cock is causing [npc2.namePos] stomach to bulge!)]");
+			sb.append("[style.italicsPinkDeep(The size of [npc.namePos] "+(penetrationType.getName(characterPenetrating))+" is causing [npc2.namePos] stomach to bulge!)]");
 		}
 		
 		if(sb.length()!=0) {
@@ -17065,7 +17034,8 @@ public abstract class GameCharacter implements XMLSaving {
 	public String getStopPenetrationDescription(GameCharacter characterPerformer, SexAreaInterface performerArea, GameCharacter characterTarget, SexAreaInterface targetArea) {
 		if(characterPerformer.equals(characterTarget)) {
 			if(performerArea.isPenetration()) {
-				if(targetArea.isPenetration()) {
+				if(targetArea.isPenetration()
+                        || (!Main.game.isNipplePenEnabled() && (targetArea==SexAreaOrifice.NIPPLE || targetArea==SexAreaOrifice.NIPPLE_CROTCH))) {
 					return UtilText.parse(characterPerformer,
 							"[npc.Name] [npc.verb(take)] [npc.her] "+performerArea.getName(characterPerformer)+" away from [npc.her] "+targetArea.getName(characterPerformer)+".");
 				} else {
@@ -17084,7 +17054,8 @@ public abstract class GameCharacter implements XMLSaving {
 			
 		} else {
 			if(performerArea.isPenetration()) {
-				if(targetArea.isPenetration()) {
+				if(targetArea.isPenetration()
+				    || (!Main.game.isNipplePenEnabled() && (targetArea==SexAreaOrifice.NIPPLE || targetArea==SexAreaOrifice.NIPPLE_CROTCH))){
 					return UtilText.parse(characterPerformer, characterTarget,
 							"[npc.Name] [npc.verb(take)] [npc.her] "+performerArea.getName(characterPerformer)+" away from [npc2.namePos] "+targetArea.getName(characterTarget)+".");
 				} else {
@@ -18185,6 +18156,9 @@ public abstract class GameCharacter implements XMLSaving {
 		return equippedMoves;
 	}
 	
+	/**
+	 * You shouldn't override this to define combat moves available to an NPC. Instead, override resetDefaultMoves(), as that gets called at the start of combat for each NPC.
+	 */
 	public void equipBasicCombatMoves() {
 		equipMove("strike");
 		equipMove("twin-strike");
@@ -18349,6 +18323,17 @@ public abstract class GameCharacter implements XMLSaving {
 				break;
 			}
 			if(move.getAssociatedSpell()!=null && this.getAllSpells().contains(move.getAssociatedSpell())) {
+				equippedMoves.add(move);
+			}
+		}
+	}
+	
+	public void equipAllSpecialMoves() {
+		for(AbstractCombatMove move : knownMoves) {
+			if(this.getEquippedMoves().size() >= GameCharacter.MAX_COMBAT_MOVES) {
+				break;
+			}
+			if(move.getCategory()==CombatMoveCategory.SPECIAL) {
 				equippedMoves.add(move);
 			}
 		}
@@ -19867,6 +19852,12 @@ public abstract class GameCharacter implements XMLSaving {
 		}
 	}
 	
+	public boolean hasAnyWellRestedStatusEffect() {
+		return this.hasStatusEffect(StatusEffect.WELL_RESTED)
+				|| this.hasStatusEffect(StatusEffect.WELL_RESTED_BOOSTED)
+				|| this.hasStatusEffect(StatusEffect.WELL_RESTED_BOOSTED_EXTRA);
+	}
+	
 	/**
 	 * Restores all health and mana, sets lust to the resting value, applies well rested effect.
 	 * @param additionalMinutes Additional time to add to the usual 10 or 12 hour status effect application time.
@@ -19893,6 +19884,16 @@ public abstract class GameCharacter implements XMLSaving {
 			restedEffect = StatusEffect.WELL_RESTED_BOOSTED;
 		}
 		this.addStatusEffect(restedEffect, ((neet?12:10)*60*60) + (additionalMinutes*60));
+	}
+	
+	public void applyLimitedWash(InventorySlot... slotsToWash) {
+		for(InventorySlot slot : slotsToWash) {
+			this.removeDirtySlot(slot, true);
+			AbstractClothing c = this.getClothingInSlot(slot);
+			if(c!=null) {
+				c.setDirty(this, false);
+			}
+		}
 	}
 	
 	/**
@@ -19995,11 +19996,26 @@ public abstract class GameCharacter implements XMLSaving {
 
 	// Other:
 	
+	public boolean isAtMapEdge() {
+		return getLocation().getX()==0
+				|| getLocation().getX()==Main.game.getWorlds().get(this.getWorldLocation()).WORLD_WIDTH-1
+				|| getLocation().getY()==0
+				|| getLocation().getY()==Main.game.getWorlds().get(this.getWorldLocation()).WORLD_HEIGHT-1;
+	}
+	
+	/**
+	 * @return The distance to the nearest cell which has the 'placeType' argument as its place type. Returns 10000 if no place found.
+	 */
+	public float getNearestCellDistance(AbstractPlaceType placeType) {
+		return Main.game.getWorlds().get(this.getWorldLocation()).getClosestCellDistance(this.getLocation(), placeType);
+	}
+	
 	public Vector2i getLocation() {
 		return location;
 	}
 
 	public void setLocation(Vector2i location) {
+		setLastCell(this.getCell());
 		setLocation(getWorldLocation(), location, false);
 	}
 	
@@ -20027,6 +20043,27 @@ public abstract class GameCharacter implements XMLSaving {
 		return homeWorldLocation;
 	}
 
+	/**
+	 * @return The Cell this character was in prior to their last move.
+	 */
+	public Cell getLastCell() {
+		if(lastCell==null) {
+			return this.getCell();
+		}
+		return lastCell;
+	}
+	
+	private void setLastCell(Cell lastCell) {
+		this.lastCell = lastCell;
+	}
+	
+	/**
+	 * @return The place type this character was in prior to their last move.
+	 */
+	public AbstractPlaceType getLastPlaceType() {
+		return getLastCell().getPlace().getPlaceType();
+	}
+	
 	public Cell getCell() {
 		return Main.game.getWorlds().get(getWorldLocation()).getCell(getLocation());
 	}
@@ -20118,12 +20155,20 @@ public abstract class GameCharacter implements XMLSaving {
 		setLocation(worldType, Main.game.getWorlds().get(worldType).getRandomCell(placeType).getLocation(), setAsHomeLocation);
 	}
 
+	public void setNearestLocation(AbstractPlaceType placeType) {
+		setNearestLocation(this.getWorldLocation(), placeType, false);
+	}
+	
 	public void setNearestLocation(AbstractWorldType worldType, AbstractPlaceType placeType) {
 		setNearestLocation(worldType, placeType, false);
 	}
 	
 	public void setNearestLocation(AbstractWorldType worldType, AbstractPlaceType placeType, boolean setAsHomeLocation) {
-		setLocation(worldType, Main.game.getWorlds().get(worldType).getNearestCell(placeType, this.getLocation()).getLocation(), setAsHomeLocation);
+		setLocation(worldType, Main.game.getWorlds().get(worldType).getClosestCell(this.getLocation(), placeType).getLocation(), setAsHomeLocation);
+	}
+	
+	public void setLocation(Cell cell) {
+		setLocation(cell.getType(), cell.getLocation(), false);
 	}
 	
 	public void setLocation(AbstractWorldType worldType, AbstractPlaceType placeType) {
@@ -21130,6 +21175,37 @@ public abstract class GameCharacter implements XMLSaving {
 			}
 			for(AbstractWeapon weapon : inventory.getOffhandWeaponArray()) {
 				if(weapon!=null && weapon.getWeaponType().equals(weaponType)) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * @param tag The ItemTag which must be present on a weapon.
+	 * @param includeEquipped true if you want to check equipped weapons.
+	 * @param includeInInventory true if you want to check weapons in the character's inventory.
+	 * @return true if this character has a weapon with the tag specified.
+	 */
+	public boolean hasWeaponWithTag(ItemTag tag, boolean includeEquipped, boolean includeInInventory) {
+		if(includeInInventory) {
+			for(AbstractWeapon weapon : inventory.getAllWeaponsInInventory().keySet()) {
+				if(weapon.getItemTags().contains(tag)) {
+					return true;
+				}
+			}
+		}
+		
+		if(includeEquipped) {
+			for(AbstractWeapon weapon : inventory.getMainWeaponArray()) {
+				if(weapon!=null && weapon.getItemTags().contains(tag)) {
+					return true;
+				}
+			}
+			for(AbstractWeapon weapon : inventory.getOffhandWeaponArray()) {
+				if(weapon!=null && weapon.getItemTags().contains(tag)) {
 					return true;
 				}
 			}
@@ -26763,6 +26839,9 @@ public abstract class GameCharacter implements XMLSaving {
 	// ------------------------------ Genital arrangement: ------------------------------ //
 	
 	// Type:
+	public boolean isNormalGenitals() {
+		return getGenitalArrangement()==GenitalArrangement.NORMAL;
+	}
 	public GenitalArrangement getGenitalArrangement() {
 		if(!Main.getProperties().hasValue(PropertyValue.bipedalCloaca) && this.getLegConfiguration()==LegConfiguration.BIPEDAL) {
 			return GenitalArrangement.NORMAL;
@@ -26814,7 +26893,6 @@ public abstract class GameCharacter implements XMLSaving {
 		
 		return sb.toString();
 	}
-	
 	
 	
 	// ------------------------------ Hair: ------------------------------ //
@@ -26927,6 +27005,13 @@ public abstract class GameCharacter implements XMLSaving {
 	// Misc.:
 	public boolean hasHorns() {
 		return body.getHorn().getType() != HornType.NONE;
+	}
+	/**
+	 * Checks, if the character has generic horns aka horns that aren't linked to a specific race.
+	 * @return true, if the character has generic horns
+	 */
+	public boolean hasGenericHorns() {
+		return body.getHorn().getType().isGeneric();
 	}
 	public boolean isHornsAbleToBeUsedAsHandlesInSex() {
 		return this.hasHorns() && HornLength.getLengthFromInt(this.getHornLength()).isSuitableAsHandles();
@@ -27337,9 +27422,12 @@ public abstract class GameCharacter implements XMLSaving {
 	public boolean hasPenisIgnoreDildo() {
 		return getCurrentPenis().getType()!=PenisType.NONE && getCurrentPenis().getType()!=PenisType.DILDO;
 	}
-	public boolean hasPenis() {
-		return getCurrentPenis()!=null && getCurrentPenis().getType() != PenisType.NONE;
-	}
+    public boolean hasPenis() {
+        return getCurrentPenis()!=null && getCurrentPenis().getType() != PenisType.NONE;
+    }
+    public boolean hasDildo() {
+        return getCurrentPenis()!=null && getCurrentPenis().getType() == PenisType.DILDO;
+    }
 	public boolean isPenisVirgin() {
 		return getCurrentPenis().isVirgin();
 	}
@@ -27930,9 +28018,14 @@ public abstract class GameCharacter implements XMLSaving {
 		
 		if(bodyCoveringType==BodyCoveringType.DILDO) {
 			try {
-				return new Covering(bodyCoveringType, this.getClothingInSlot(InventorySlot.PENIS).getColour(0));
+                for(AbstractClothing c : this.getClothingCurrentlyEquipped()) {
+                    if(c.getItemTags().contains(ItemTag.DILDO_OTHER))
+                    {
+                        return new Covering(bodyCoveringType, this.getClothingInSlot(c.getSlotEquippedTo()).getColour(0));
+                    }
+                }
 			}catch(Exception ex) {
-				System.err.println("Warning! GameCharacter.getCovering(BodyCoveringType bodyCoveringType) is not finding equipped penis clothing for bodyCoveringType 'DILDO'!");
+				System.err.println("Warning! GameCharacter.getCovering(BodyCoveringType bodyCoveringType) is not finding equipped dildo_other item for bodyCoveringType 'DILDO'!");
 				return body.getCoverings().get(bodyCoveringType);
 			}
 		}
@@ -28230,13 +28323,31 @@ public abstract class GameCharacter implements XMLSaving {
 	public int getTailCount() {
 		return body.getTail().getTailCount();
 	}
+	public int getMaxTailCount() {
+        return body.getTail().getMaxTailCount(this);
+    }
 	public String setTailCount(int tailCount, boolean overrideYoukoLimitations) {
 		return body.getTail().setTailCount(this, tailCount, overrideYoukoLimitations);
 	}
 	public String incrementTailCount(int increment, boolean overrideYoukoLimitations) {
 		return body.getTail().setTailCount(this, getTailCount() + increment, overrideYoukoLimitations);
 	}
-	
+	public boolean isYouko() {
+        for(AbstractPerk perk : this.getSpecialPerks()) {
+            if (perk.equals(Perk.SINGLE_TAILED_YOUKO)
+            		|| perk.equals(Perk.TWO_TAILED_YOUKO)
+            		|| perk.equals(Perk.THREE_TAILED_YOUKO)
+            		|| perk.equals(Perk.FOUR_TAILED_YOUKO)
+            		|| perk.equals(Perk.FIVE_TAILED_YOUKO)
+            		|| perk.equals(Perk.SIX_TAILED_YOUKO)
+            		|| perk.equals(Perk.SEVEN_TAILED_YOUKO)
+            		|| perk.equals(Perk.EIGHT_TAILED_YOUKO)
+            		|| perk.equals(Perk.NINE_TAILED_YOUKO)) {
+                return true;
+            }
+        }
+        return false;
+    };
 	
 	
 	// ------------------------------ Tentacle: ------------------------------ //
@@ -28721,6 +28832,13 @@ public abstract class GameCharacter implements XMLSaving {
 
 	public boolean hasWings() {
 		return body.hasWings();
+	}
+	/**
+	 * Checks, if the NPC has generic wings aka wings that allow flight, but aren't linked to a specific race.
+	 * @return true, if the NPC has generic wings
+	 */
+	public boolean hasGenericWings() {
+		return getWingType().isGeneric();
 	}
 	// Type:
 	public AbstractWingType getWingType() {

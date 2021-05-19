@@ -18,7 +18,7 @@ public class GetDataListener implements Listener {
         //super.received(connection, object);
         int uid = connection.getID();
         if(object instanceof SendContainer){
-            Logger.logCl(LogType.INFO,uid,"Recieved json data...");
+            Logger.logCl(LogType.INFO,uid,"Recieved json data: "+((SendContainer) object).getData()+"\nClass:"+((SendContainer) object).getClassname());
             server.getManager().invoke((SendContainer) object,connection);
         }
 

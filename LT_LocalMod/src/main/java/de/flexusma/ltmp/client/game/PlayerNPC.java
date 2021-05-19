@@ -6,31 +6,50 @@ import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.PlayerCharacter;
 import com.lilithsthrone.game.character.attributes.AbstractAttribute;
 import com.lilithsthrone.game.character.attributes.Attribute;
+import com.lilithsthrone.game.character.attributes.CorruptionLevel;
 import com.lilithsthrone.game.character.body.abstractTypes.AbstractFluidType;
+import com.lilithsthrone.game.character.body.valueEnums.Femininity;
+import com.lilithsthrone.game.character.effects.AbstractPerk;
 import com.lilithsthrone.game.character.effects.Addiction;
 import com.lilithsthrone.game.character.effects.PerkCategory;
 import com.lilithsthrone.game.character.fetishes.Fetish;
 import com.lilithsthrone.game.character.gender.Gender;
 import com.lilithsthrone.game.character.npc.NPC;
 import com.lilithsthrone.game.character.npc.NPCGenerationFlag;
+import com.lilithsthrone.game.character.npc.dominion.Brax;
 import com.lilithsthrone.game.character.persona.NameTriplet;
 import com.lilithsthrone.game.character.persona.PersonalityTrait;
+import com.lilithsthrone.game.character.quests.Quest;
+import com.lilithsthrone.game.character.quests.QuestLine;
 import com.lilithsthrone.game.character.race.AbstractSubspecies;
 import com.lilithsthrone.game.character.race.RaceStage;
 import com.lilithsthrone.game.combat.DamageType;
 import com.lilithsthrone.game.dialogue.DialogueNode;
+import com.lilithsthrone.game.dialogue.responses.Response;
+import com.lilithsthrone.game.dialogue.responses.ResponseCombat;
+import com.lilithsthrone.game.dialogue.responses.ResponseSex;
+import com.lilithsthrone.game.dialogue.responses.ResponseTrade;
+import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.game.inventory.CharacterInventory;
 import com.lilithsthrone.game.occupantManagement.slave.SlaveJob;
 import com.lilithsthrone.game.occupantManagement.slave.SlaveJobSetting;
 import com.lilithsthrone.game.sex.SexAreaOrifice;
 import com.lilithsthrone.game.sex.SexType;
+import com.lilithsthrone.game.sex.positions.SexPosition;
+import com.lilithsthrone.game.sex.positions.slots.SexSlotAllFours;
+import com.lilithsthrone.game.sex.positions.slots.SexSlotStanding;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.rendering.SVGImages;
+import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.world.AbstractWorldType;
 import com.lilithsthrone.world.places.AbstractPlaceType;
+import de.flexusma.ltmp.client.game.manager.MPSexManagerDefault;
+import de.flexusma.ltmp.client.game.response.MPResponseSex;
+import de.flexusma.ltmp.client.utils.AsyncSend;
 import javafx.application.Platform;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import sun.awt.windows.ThemeReader;
 
 import java.time.Month;
 import java.util.*;
@@ -38,6 +57,7 @@ import java.util.*;
 public class PlayerNPC extends NPC {
     public int uid;
     public PlayerCharacter player;
+    private boolean wasupdate = false;
 
     protected PlayerNPC(boolean isImported, NameTriplet nameTriplet, String surname, String description, int age, Month birthMonth, int birthDay,
                         int level, Gender startingGender, AbstractSubspecies startingSubspecies, RaceStage stage, CharacterInventory inventory,
@@ -271,16 +291,38 @@ public class PlayerNPC extends NPC {
     }
 
     @Override
-    public DialogueNode getEncounterDialogue() {
-        return null;
+    public void turnUpdate() {
+        boolean hasPlayer = false;
+        for(NPC npc : Main.game.getCharactersPresent()){
+            if(npc instanceof PlayerNPC){
+                hasPlayer=true;
+            }
+        }
+        if(hasPlayer&&!wasupdate) {
+            wasupdate=true;
+            new AsyncSend(()-> {
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Platform.runLater(()->Main.game.setContent(new Response("", "", getEncounterDialogue()) {
+                }));
+            }
+            ).exec();
+
+        }
     }
 
     public void updateRender(){
+        wasupdate=false;
         Platform.runLater(()->{
+            if(!Main.game.isInSex())
             Main.game.updateResponses();
 
             Main.mainController.updateUILeftPanel();
             Main.mainController.updateUIRightPanel();
+            if(!Main.game.isInSex())
             Main.mainController.updateDialogue();
             }
         );
@@ -311,4 +353,145 @@ public class PlayerNPC extends NPC {
     public boolean isSlave() {
         return false;
     }
+
+
+    public static ResponseSex normSRE(GameCharacter npc){
+        return new ResponseSex(
+                "Normal",
+                "Start sex in an equal way",
+                true,
+                true,
+                new MPSexManagerDefault(SexPosition.STANDING,
+                        Util.newHashMapOfValues(new Util.Value<>(Main.game.getPlayer(), SexSlotStanding.STANDING_SUBMISSIVE)),
+                        Util.newHashMapOfValues(new Util.Value<>(npc, SexSlotStanding.STANDING_DOMINANT))
+                ),
+                null,
+                null,
+                Main.game.getDefaultDialogue()
+        );
+    }
+
+    public static ResponseSex domSRE(GameCharacter npc){
+        return new ResponseSex(
+                "As dom",
+                "Start sex in a dominant way",
+                true,
+                false,
+                new MPSexManagerDefault(SexPosition.STANDING,
+                        Util.newHashMapOfValues(new Util.Value<>(Main.game.getPlayer(), SexSlotStanding.STANDING_SUBMISSIVE)),
+                        Util.newHashMapOfValues(new Util.Value<>(npc, SexSlotStanding.STANDING_DOMINANT))
+                ),
+                null,
+                null,
+                Main.game.getDefaultDialogue()
+        );
+    }
+    public static ResponseSex subSRE(GameCharacter npc){
+        return new ResponseSex(
+                "As sub",
+                "Start sex in a submissive way",
+                true,
+                false,
+                new MPSexManagerDefault(SexPosition.STANDING,
+                        Util.newHashMapOfValues(new Util.Value<>(npc, SexSlotStanding.STANDING_DOMINANT)),
+                        Util.newHashMapOfValues(new Util.Value<>(Main.game.getPlayer(), SexSlotStanding.STANDING_SUBMISSIVE))
+                ),
+                null,
+                null,
+                Main.game.getDefaultDialogue(),
+                //for testing purposes
+                UtilText.parseFromXMLFile("places/dominion/enforcerHQ/brax", "INTERIOR_BRAX_GETTING_TEASED_UH_OH_GET_FUCKED")
+        );
+    }
+
+    public static ResponseSex normSREInv(GameCharacter npc){
+        return new ResponseSex(
+                "Normal",
+                "Start sex in an equal way",
+                true,
+                true,
+                new MPSexManagerDefault(SexPosition.STANDING,
+                        Util.newHashMapOfValues(new Util.Value<>(npc, SexSlotStanding.STANDING_DOMINANT)),
+                        Util.newHashMapOfValues(new Util.Value<>(Main.game.getPlayer(), SexSlotStanding.STANDING_SUBMISSIVE))
+                ),
+                null,
+                null,
+                Main.game.getDefaultDialogue(),
+                //for testing purposes
+                UtilText.parseFromXMLFile("places/dominion/enforcerHQ/brax", "INTERIOR_BRAX_GETTING_TEASED_UH_OH_GET_FUCKED")
+        );
+    }
+
+    public static ResponseSex domSREInv(GameCharacter npc){
+        return new ResponseSex(
+                "As dom",
+                "Start sex in a dominant way",
+                true,
+                false,
+                new MPSexManagerDefault(SexPosition.STANDING,
+                        Util.newHashMapOfValues(new Util.Value<>(npc, SexSlotStanding.STANDING_DOMINANT)),
+                        Util.newHashMapOfValues(new Util.Value<>(Main.game.getPlayer(), SexSlotStanding.STANDING_SUBMISSIVE))
+                ),
+                null,
+                null,
+                Main.game.getDefaultDialogue(),
+                //for testing purposes
+                UtilText.parseFromXMLFile("places/dominion/enforcerHQ/brax", "INTERIOR_BRAX_GETTING_TEASED_UH_OH_GET_FUCKED")
+        );
+    }
+    public static ResponseSex subSREInv(GameCharacter npc){
+        return new ResponseSex(
+                "As sub",
+                "Start sex in a submissive way",
+                true,
+                false,
+                new MPSexManagerDefault(SexPosition.STANDING,
+                        Util.newHashMapOfValues(new Util.Value<>(Main.game.getPlayer(), SexSlotStanding.STANDING_SUBMISSIVE)),
+                        Util.newHashMapOfValues(new Util.Value<>(npc, SexSlotStanding.STANDING_DOMINANT))
+                ),
+                null,
+                null,
+                Main.game.getDefaultDialogue()
+        );
+    }
+
+
+
+
+
+    /*
+    Dialogue to user action
+     */
+    @Override
+    public DialogueNode getEncounterDialogue() {
+        String name = this.getName();
+        PlayerNPC pn = this;
+
+        return new DialogueNode("You encouter "+name, "-", false) {
+            @Override
+            public boolean isTravelDisabled() {
+                return false;
+            }
+            @Override
+            public String getContent() {
+                return UtilText.parseFromXMLFile("multiplayer/mpd", "PLAYER_ENCOUNTER");
+            }
+            @Override
+            public Response getResponse(int responseTab, int index) {
+                if (index == 1) {
+                    return new ResponseCombat("Fight", "Fight "+name, pn);
+                }else if(index == 2){
+                    return normSRE(pn);
+                }else if(index == 3){
+                    return domSRE(pn);
+                }else if(index == 4){
+                    return subSRE(pn);
+                }
+                return null;
+            }
+        };
+    }
+
+
+
 }

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <properties>
   <previousSave>
-    <location value="AutoSave_Tesuser1"/>
-    <nameColour value="#b39eff"/>
-    <name value="Tesuser1"/>
+    <location value="AutoSave_User3"/>
+    <nameColour value="#ffbdff"/>
+    <name value="User3"/>
     <race value="woman"/>
     <quest value="Lilaya's tests"/>
     <level value="1"/>
     <money value="5000"/>
     <arcaneEssences value="0"/>
-    <versionNumber value="0.3.19"/>
+    <versionNumber value="0.4"/>
     <lastQuickSaveName value="QuickSave_Tesuser1"/>
   </previousSave>
   <propertyValues>
@@ -48,6 +48,7 @@
     <propertyValue value="voluntaryNTR"/>
     <propertyValue value="spittingEnabled"/>
     <propertyValue value="newWeaponDiscovered"/>
+    <propertyValue value="newClothingDiscovered"/>
     <propertyValue value="newRaceDiscovered"/>
   </propertyValues>
   <settings>
@@ -199,6 +200,8 @@
     <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="ALLIGATOR_MORPH"/>
     <preferenceFeminine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="ANGEL"/>
     <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="ANGEL"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_badger_subspecies_badger"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_badger_subspecies_badger"/>
     <preferenceFeminine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="BAT_MORPH"/>
     <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="BAT_MORPH"/>
     <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_bear_subspecies_bear"/>
@@ -271,12 +274,16 @@
     <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="FOX_ASCENDANT_ARCTIC"/>
     <preferenceFeminine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="FOX_ASCENDANT_FENNEC"/>
     <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="FOX_ASCENDANT_FENNEC"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_goat_subspecies_goat"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_goat_subspecies_goat"/>
     <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_gryphon_subspecies_gryphon"/>
     <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_gryphon_subspecies_gryphon"/>
     <preferenceFeminine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="HARPY"/>
     <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="HARPY"/>
     <preferenceFeminine furryPreference="NORMAL" preference="ONE_LOW" subspecies="HARPY_RAVEN"/>
     <preferenceMasculine furryPreference="NORMAL" preference="ONE_LOW" subspecies="HARPY_RAVEN"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="ONE_LOW" subspecies="HARPY_SWAN"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="ONE_LOW" subspecies="HARPY_SWAN"/>
     <preferenceFeminine furryPreference="NORMAL" preference="ONE_LOW" subspecies="HARPY_BALD_EAGLE"/>
     <preferenceMasculine furryPreference="NORMAL" preference="ONE_LOW" subspecies="HARPY_BALD_EAGLE"/>
     <preferenceFeminine furryPreference="NORMAL" preference="ONE_LOW" subspecies="HARPY_PHOENIX"/>
@@ -309,14 +316,16 @@
     <preferenceMasculine furryPreference="MINIMUM" preference="TWO_AVERAGE" subspecies="NoStepOnSnek_octopus_subspecies_octopus"/>
     <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_otter_subspecies_otter"/>
     <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_otter_subspecies_otter"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_panther_subspecies_leopard"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_panther_subspecies_leopard"/>
     <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_panther_subspecies_lion"/>
     <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_panther_subspecies_lion"/>
     <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_panther_subspecies_snow_leopard"/>
     <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_panther_subspecies_snow_leopard"/>
-    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_panther_subspecies_leopard"/>
-    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_panther_subspecies_leopard"/>
     <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_panther_subspecies_tiger"/>
     <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_panther_subspecies_tiger"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_pig_subspecies_pig"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_pig_subspecies_pig"/>
     <preferenceFeminine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="RABBIT_MORPH"/>
     <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="RABBIT_MORPH"/>
     <preferenceFeminine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="RABBIT_MORPH_LOP"/>
@@ -329,6 +338,8 @@
     <preferenceMasculine furryPreference="NORMAL" preference="FOUR_ABUNDANT" subspecies="REINDEER_MORPH"/>
     <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_shark_subspecies_shark"/>
     <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="dsg_shark_subspecies_shark"/>
+    <preferenceFeminine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_sheep_subspecies_sheep"/>
+    <preferenceMasculine furryPreference="NORMAL" preference="TWO_AVERAGE" subspecies="innoxia_sheep_subspecies_sheep"/>
     <preferenceFeminine furryPreference="MAXIMUM" preference="FOUR_ABUNDANT" subspecies="SLIME"/>
     <preferenceMasculine furryPreference="MAXIMUM" preference="FOUR_ABUNDANT" subspecies="SLIME"/>
     <preferenceFeminine furryPreference="MINIMUM" preference="TWO_AVERAGE" subspecies="NoStepOnSnek_snake_subspecies_melusine"/>
@@ -350,11 +361,14 @@
   <weaponsDiscovered>
     <type>innoxia_crystal_rare</type>
   </weaponsDiscovered>
-  <clothingDiscovered/>
+  <clothingDiscovered>
+    <type>innoxia_torso_short_sleeved_shirt</type>
+    <type>TORSO_OVER_HOODIE</type>
+  </clothingDiscovered>
   <racesDiscovered>
-    <race>HUMAN</race>
     <race>HALF_DEMON</race>
     <race>CAT_MORPH</race>
+    <race>HUMAN</race>
   </racesDiscovered>
   <racesDiscoveredAdvanced/>
 </properties>

@@ -84,6 +84,8 @@ import com.lilithsthrone.utils.colours.BaseColour;
 import com.lilithsthrone.utils.colours.PresetColour;
 import com.lilithsthrone.utils.comparators.ClothingZLayerComparator;
 import com.lilithsthrone.world.Cell;
+import de.flexusma.ltmp.client.game.PlayerNPC;
+import de.flexusma.ltmp.client.game.manager.MPSexManagerDefault;
 
 /**
  * Singleton enforced by Enum Call initialiseCombat() before using.
@@ -1760,6 +1762,7 @@ public class Sex {
 			return false;
 		}
 	};
+
 	
 	/**
 	 * Don't call this out of sex.
@@ -1791,6 +1794,12 @@ public class Sex {
 		endString += sexActionPlayer.applyEndEffects();
 		
 		sexSB.append(endString);
+
+		if(sexManager instanceof MPSexManagerDefault){
+			MPSexManagerDefault mpSexManagerDefault = (MPSexManagerDefault) sexManager;
+			mpSexManagerDefault.manageMPSexActionPlayer(sexActionPlayer);
+		}
+
 		
 		String s;
 		if(sexActionPlayer.getLimitation()==null
@@ -1837,67 +1846,73 @@ public class Sex {
 						}
 					}
 				}
-				
+				//part where npc action takes place
 				for(GameCharacter character : Main.sex.getAllParticipants()) {
 					if(!character.isPlayer()) {
-						Main.sex.setCharacterPerformingAction(character);
-						
-						if(sexActionPlayer.getActionType()!=SexActionType.ORGASM && sexActionPlayer.getActionType()!=SexActionType.ORGASM_DENIAL) {
-							Main.sex.getSexManager().assignNPCTarget(character);
-							
-							calculateAvailableSexActionsPartner();
-							
-							SexActionInterface sexActionPartner = sexManager.getPartnerSexAction((NPC) character, sexActionPlayer);
-							
-							if(itemUseInformation!=null) {
-								sexActionPartner = SexActionUtility.PARTNER_USE_ITEM;
-							}
-							
-							if(itemUseInformation==null || itemUseInformation.getKey().equals(character)) {
-								sexSB.append("<br/>"
-										+ "<p>"
-											+ "<span style='color:"+PresetColour.TEXT_GREY.toWebHexString()+";'>&gt; "+UtilText.parse(character, "[npc.Name]")+": "+(Util.capitaliseSentence(sexActionPartner.getActionTitle()))+"</span>"
+						if(character instanceof PlayerNPC){
+
+							Main.game.setContent(new Response("", "", SEX_DIALOGUE_REFRESH) {
+							});
+						}else {
+							Main.sex.setCharacterPerformingAction(character);
+
+							if (sexActionPlayer.getActionType() != SexActionType.ORGASM && sexActionPlayer.getActionType() != SexActionType.ORGASM_DENIAL) {
+								Main.sex.getSexManager().assignNPCTarget(character);
+
+								calculateAvailableSexActionsPartner();
+
+								SexActionInterface sexActionPartner = sexManager.getPartnerSexAction((NPC) character, sexActionPlayer);
+
+								if (itemUseInformation != null) {
+									sexActionPartner = SexActionUtility.PARTNER_USE_ITEM;
+								}
+
+								if (itemUseInformation == null || itemUseInformation.getKey().equals(character)) {
+									sexSB.append("<br/>"
+											+ "<p>"
+											+ "<span style='color:" + PresetColour.TEXT_GREY.toWebHexString() + ";'>&gt; " + UtilText.parse(character, "[npc.Name]") + ": " + (Util.capitaliseSentence(sexActionPartner.getActionTitle())) + "</span>"
 											+ "</br>"
 											+ sexActionPartner.preDescriptionBaseEffects()
 											+ sexActionPartner.getDescription()
 											+ sexActionPartner.getFluidFlavourDescription(character, Main.sex.getTargetedPartner(character))
-										+ "</p>");
-					
-								endString = sexActionPartner.baseEffects();
-								lastUsedSexAction.put(character, sexActionPartner);
+											+ "</p>");
 
-								sexSB.append(applyGenericDescriptionsAndEffects(character, Main.sex.getTargetedPartner(character), sexActionPartner));
-								
-								endsSex = sexActionPartner.endsSex();
-								
-								endString += sexActionPartner.applyEndEffects();
-								
-								sexSB.append(endString);
-								
-								if(sexActionPartner.getLimitation()==null
-										&& sexActionPartner!=SexActionUtility.CLOTHING_REMOVAL
-										&& sexActionPartner!=SexActionUtility.CLOTHING_DYE) {
-									s = UtilText.parse(character, Main.sex.getCharacterTargetedForSexAction(sexActionPartner), sexSB.toString(), ParserTag.SEX_DESCRIPTION);
-									
-								} else {
-									s = UtilText.parse(character, sexSB.toString(), ParserTag.SEX_DESCRIPTION);
+									endString = sexActionPartner.baseEffects();
+									lastUsedSexAction.put(character, sexActionPartner);
+
+									sexSB.append(applyGenericDescriptionsAndEffects(character, Main.sex.getTargetedPartner(character), sexActionPartner));
+
+									endsSex = sexActionPartner.endsSex();
+
+									endString += sexActionPartner.applyEndEffects();
+
+									sexSB.append(endString);
+
+									if (sexActionPartner.getLimitation() == null
+											&& sexActionPartner != SexActionUtility.CLOTHING_REMOVAL
+											&& sexActionPartner != SexActionUtility.CLOTHING_DYE) {
+										s = UtilText.parse(character, Main.sex.getCharacterTargetedForSexAction(sexActionPartner), sexSB.toString(), ParserTag.SEX_DESCRIPTION);
+
+									} else {
+										s = UtilText.parse(character, sexSB.toString(), ParserTag.SEX_DESCRIPTION);
+									}
+
+									sexSB.setLength(0);
+									sexSB.append(s);
+
+									sexDescription = sexSB.toString();
 								}
-								
-								sexSB.setLength(0);
-								sexSB.append(s);
-								
+
+								// End sex conditions:
+								if (endsSex && !sexFinished) {
+									applyEndSexEffects();
+									sexFinished = true;
+									break;
+								}
+
+							} else {
 								sexDescription = sexSB.toString();
 							}
-							
-							// End sex conditions:
-							if(endsSex && !sexFinished) {
-								applyEndSexEffects();
-								sexFinished = true;
-								break;
-							}
-							
-						} else {
-							sexDescription = sexSB.toString();
 						}
 					}
 				}
@@ -1927,6 +1942,12 @@ public class Sex {
 			Main.game.setResponseTab(preOrgasmTargeting.getKey());
 			preOrgasmTargeting = null;
 		}
+
+
+		//update screen from waiting screen
+
+		if(sexManager instanceof MPSexManagerDefault)
+			Main.game.setContent(new Response("", "", SEX_DIALOGUE) {});
 		
 		turn++;
 	}
@@ -2302,47 +2323,56 @@ public class Sex {
 			
 		} else if(standardActions) {
 			// Add actions:
-			for (SexActionInterface sexAction : Main.sex.getActionsAvailablePartner(Main.sex.getCharacterPerformingAction(), targetedCharacter)) {
-				if(sexAction.isAddedToAvailableSexActions() && (Main.sex.isCharacterAllowedToUseSelfActions(Main.sex.getCharacterPerformingAction()) || sexAction.getParticipantType()==SexParticipantType.NORMAL)) {
-					
-					// Do not add action if the partner is resisting and this action is SUB_EAGER or SUB_NORMAL or is a self action
-					// Do not add action if action does not correspond to the partner's preferred action pace
-					if((Main.game.isNonConEnabled()
-						&& getSexPace(Main.sex.getCharacterPerformingAction())==SexPace.SUB_RESISTING
-						&& ((sexAction.getSexPace()!=null && sexAction.getSexPace()!=SexPace.SUB_RESISTING)
-								|| sexAction.getParticipantType()==SexParticipantType.SELF
-								|| (sexAction.getSexPace()==null && sexAction!=PartnerTalk.PARTNER_DIRTY_TALK && !sexAction.equals(GenericActions.PARTNER_STOP_SEX_NOT_HAVING_FUN)))) // TODO This is a little terrible
-							|| (sexAction.getSexPace()!=null && sexAction.getSexPace()!=getSexPace(Main.sex.getCharacterPerformingAction()))) {
-//						System.out.println(Main.sex.getCharacterPerformingAction().getNameIgnoresPlayerKnowledge() +": "+ sexAction.getActionTitle());
+			Set<SexActionInterface> actionsAvailableToPartner = Main.sex.getActionsAvailablePartner(Main.sex.getCharacterPerformingAction(), targetedCharacter);
+			if(actionsAvailableToPartner!=null) {
+				for (SexActionInterface sexAction : actionsAvailableToPartner) {
+					if(sexAction.isAddedToAvailableSexActions() && (Main.sex.isCharacterAllowedToUseSelfActions(Main.sex.getCharacterPerformingAction()) || sexAction.getParticipantType()==SexParticipantType.NORMAL)) {
 						
-					} else {
-						// Add action as normal:
-						int weight = ((NPC)Main.sex.getCharacterPerformingAction()).calculateSexTypeWeighting(sexAction.getAsSexType(), targetedCharacter, null);
-						
-						if(weight>=0 || sexAction.equals(GenericActions.PARTNER_STOP_SEX_NOT_HAVING_FUN) || sexAction.getCategory()==SexActionCategory.POSITIONING) { // Positioning actions should always be available
-							switch(sexAction.getPriority()){
-								case LOW:
-									lowPriority.add(sexAction);
-									break;
-								case NORMAL:
-									normalPriority.add(sexAction);
-									break;
-								case HIGH:
-									// High priority positioning actions are added to normal priority so that when there is a favourite positioning action, it doesn't exclude all other normal actions.
-									// High priority is checked in SexManagerDefault's getPartnerSexAction() method, under the section 'Priority 3'
-									if(sexAction.getCategory()==SexActionCategory.POSITIONING) {
+						// Do not add action if the partner is resisting and this action is SUB_EAGER or SUB_NORMAL or is a self action
+						// Do not add action if action does not correspond to the partner's preferred action pace
+						if((Main.game.isNonConEnabled()
+							&& getSexPace(Main.sex.getCharacterPerformingAction())==SexPace.SUB_RESISTING
+							&& ((sexAction.getSexPace()!=null && sexAction.getSexPace()!=SexPace.SUB_RESISTING)
+									|| sexAction.getParticipantType()==SexParticipantType.SELF
+									|| (sexAction.getSexPace()==null && sexAction!=PartnerTalk.PARTNER_DIRTY_TALK && !sexAction.equals(GenericActions.PARTNER_STOP_SEX_NOT_HAVING_FUN)))) // TODO This is a little terrible
+								|| (sexAction.getSexPace()!=null && sexAction.getSexPace()!=getSexPace(Main.sex.getCharacterPerformingAction()))) {
+	//						System.out.println(Main.sex.getCharacterPerformingAction().getNameIgnoresPlayerKnowledge() +": "+ sexAction.getActionTitle());
+							
+						} else {
+							// Add action as normal:
+							int weight = ((NPC)Main.sex.getCharacterPerformingAction()).calculateSexTypeWeighting(sexAction.getAsSexType(), targetedCharacter, null);
+							
+							if(weight>=0 || sexAction.equals(GenericActions.PARTNER_STOP_SEX_NOT_HAVING_FUN) || sexAction.getCategory()==SexActionCategory.POSITIONING) { // Positioning actions should always be available
+								switch(sexAction.getPriority()){
+									case LOW:
+										lowPriority.add(sexAction);
+										break;
+									case NORMAL:
 										normalPriority.add(sexAction);
-									} else {
-										highPriority.add(sexAction);
-									}
-									break;
-								case UNIQUE_MAX:
-									uniqueMax.add(sexAction);
-									break;
+										break;
+									case HIGH:
+										// High priority positioning actions are added to normal priority so that when there is a favourite positioning action, it doesn't exclude all other normal actions.
+										// High priority is checked in SexManagerDefault's getPartnerSexAction() method, under the section 'Priority 3'
+										if(sexAction.getCategory()==SexActionCategory.POSITIONING) {
+											normalPriority.add(sexAction);
+										} else {
+											highPriority.add(sexAction);
+										}
+										break;
+									case UNIQUE_MAX:
+										uniqueMax.add(sexAction);
+										break;
+								}
 							}
 						}
 					}
 				}
+				
+			} else {
+				System.err.println("Warning! Main.sex.getActionsAvailablePartner() is returning null for: "
+						+(Main.sex.getCharacterPerformingAction()==null?"NULL":Main.sex.getCharacterPerformingAction().getId())
+						+", "
+						+(targetedCharacter==null?"NULL":targetedCharacter.getId()));
 			}
 			
 			if(!uniqueMax.isEmpty()) {
@@ -5946,4 +5976,92 @@ public class Sex {
 	public SexType newSexType(SexAreaInterface performingSexArea, SexAreaInterface targetedSexArea) {
 		return new SexType(SexParticipantType.NORMAL, performingSexArea, targetedSexArea);
 	}
+
+
+
+
+	/*
+	Multiplayer Mehtod -> used to show selected Action by player before multiplayerAction arrives
+	 */
+
+	public final DialogueNode SEX_DIALOGUE_REFRESH = new DialogueNode("", "", true) {
+
+		@Override
+		public int getSecondsPassed() {
+			if(lastUsedSexAction.get(Main.game.getPlayer())==GenericActions.PLAYER_SKIP_SEX) {
+				int seconds = 0;
+				// 3 minutes per character orgasm (always limited to 1 orgasm for unequal control subs) if 'Quick sex' is used:
+				for(GameCharacter participant : getAllParticipants(false)) {
+					if(Main.sex.isDom(participant) || Main.sex.isSubHasEqualControl()) {
+						seconds+=Math.max(1, participant.getOrgasmsBeforeSatisfied()-Main.sex.getNumberOfOrgasms(participant))*3*60;
+					} else {
+						seconds+=3*60;
+					}
+				}
+				return seconds;
+			}
+			return 20;
+		}
+
+		@Override
+		public String getLabel() {
+			return Main.sex.initialSexManager.getSexTitle();
+		}
+
+		@Override
+		public String getContent() {
+			return sexDescription + (sexFinished ? endSexDescription : "");
+		}
+
+		@Override
+		public String getResponseTabTitle(int index) {
+			if(sexFinished
+					|| (getItemUseInformation()!=null && getItemUseInformation().getValue().getKey().isPlayer() && !isForcingItemUse(getItemUseInformation().getKey(), Main.game.getPlayer()))
+					|| isReadyToOrgasm(Main.game.getPlayer())
+					|| Main.sex.isCharacterDeniedOrgasm(Main.game.getPlayer())
+					|| (Main.sex.getTargetedPartner(Main.game.getPlayer())!=null && isReadyToOrgasm(Main.sex.getTargetedPartner(Main.game.getPlayer())))) {
+				return null;
+			}
+			if(index==0) {
+				return "Please wait!";
+			}
+			return "";
+		}
+
+		@Override
+		public Response getResponse(int responseTab, int index) {
+			// Finished sex:
+			if(sexFinished) {
+				if(index == 1) {
+					return new Response(postSexDialogue.getLabel(), postSexDialogue.getDescription(), postSexDialogue){
+						@Override
+						public void effects() {
+							endSex();
+						}
+					};
+				} else {
+					return null;
+				}
+
+			} else if(getItemUseInformation()!=null && getItemUseInformation().getValue().getKey().isPlayer() && !isForcingItemUse(getItemUseInformation().getKey(), Main.game.getPlayer())) {
+				if (index == 1) { // Refuse item (put in default 1 slot so if player is quickly clicking through sex, they don't accept something by accident):
+					return new Response("Waiting for player input :c", "Currently awaiting other players action, please stand by...", SEX_DIALOGUE_REFRESH);
+				}
+			}
+			return null;
+		}
+
+		@Override
+		public boolean isContinuesDialogue(){
+			return sexStarted;
+		}
+
+		@Override
+		public boolean isInventoryDisabled() {
+			return true;
+		}
+	};
+
+
+
 }

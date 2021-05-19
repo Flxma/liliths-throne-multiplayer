@@ -5,14 +5,15 @@ import com.esotericsoftware.kryonet.Listener;
 import com.lilithsthrone.game.character.PlayerCharacter;
 import com.lilithsthrone.game.sex.sexActions.SexActionInterface;
 import de.flexusma.ltmp.server.connection.SocketServer;
+import de.flexusma.ltmp.server.send.SendContainer;
 
-public class GetSAListener implements Listener {
+public class GetSAListener implements SendContainerListener {
     SocketServer server;
     public GetSAListener(SocketServer server){
         this.server=server;
     }
 
-    @Override
+ /*   @Override
     public void received(Connection connection, Object object) {
         //super.received(connection, object);
         int uid = connection.getID();
@@ -21,8 +22,14 @@ public class GetSAListener implements Listener {
         }
 
     }
+    */
 
 
-
-
+    @Override
+    public void received(Connection connection, Class<?> tClass, SendContainer obj) {
+        if(tClass.getSuperclass() == SexActionInterface.class){
+            obj.setSenderID(connection.getID());
+            server.addTurnChoice(connection.getID(),obj);
+        }
+    }
 }
