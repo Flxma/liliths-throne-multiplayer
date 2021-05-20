@@ -146,7 +146,9 @@ public class MPSexManagerDefault implements SexManagerInterface {
 
 	public void manageMPSexActionPlayer(SexActionInterface sexActionPlayer){
 
-		saListener.sendChange(sexActionPlayer);
+		if(sexActionPlayer instanceof SexAction)
+			saListener.sendChange((SexAction) sexActionPlayer);
+		else Logger.log(LogType.ERROR,"Sexaction not instance of Sexaction!");
 
 	}
 
@@ -154,7 +156,7 @@ public class MPSexManagerDefault implements SexManagerInterface {
 	@Override
 	public SexActionInterface getPartnerSexAction(NPC partner, SexActionInterface sexActionPlayer) {
 
-
+		Logger.log(LogType.DEBUG,"Partner npc: "+partner.getName());
 		if(partner instanceof PlayerNPC){
 
 			PlayerNPC p = (PlayerNPC) partner;
@@ -169,6 +171,7 @@ public class MPSexManagerDefault implements SexManagerInterface {
 
 			SexActionInterface remPlayerAction = MPSexManagerDefault.returnInterfaces.get(p.uid);
 			Logger.log(LogType.INFO,"Recieved action ["+remPlayerAction.getActionTitle()+"] from remote player ["+p.getName()+"] with ID ["+p.getId()+"]");
+			returnInterfaces=new HashMap<>();
 			return remPlayerAction;
 		}
 

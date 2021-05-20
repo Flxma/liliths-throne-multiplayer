@@ -30,6 +30,7 @@ public class GetPlayerListener implements SendContainerListener {
         int uid = connection.getID();
         if(tClass==PlayerCharacter.class){
             Logger.logCl(LogType.DEBUG,uid,"Recvieved Playerdata XML with data: "+obj.getData());
+            obj.setSenderID(uid);
             server.updatePlayer(uid,obj);
 
         }

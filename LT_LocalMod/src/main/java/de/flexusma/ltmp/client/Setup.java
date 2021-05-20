@@ -1,10 +1,7 @@
 package de.flexusma.ltmp.client;
 
 import de.flexusma.ltmp.client.connection.SocketClient;
-import de.flexusma.ltmp.client.utils.Config;
-import de.flexusma.ltmp.client.utils.ConfigManager;
-import de.flexusma.ltmp.client.utils.LogType;
-import de.flexusma.ltmp.client.utils.Logger;
+import de.flexusma.ltmp.client.utils.*;
 
 import java.io.*;
 import java.util.Arrays;
@@ -13,6 +10,13 @@ import java.util.Set;
 public class Setup {
 
     public static SocketClient socketClient;
+    public static AllSexActions allSA;
+
+
+    public static void initAllSA(){
+            Setup.allSA=new AllSexActions();
+    }
+
 
     public static void main(String[] args) {
         System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
@@ -30,13 +34,13 @@ public class Setup {
         try {
             c= m.readConfig("config.yml");
 
-            socketClient = new SocketClient(c,v);
+            socketClient = new SocketClient(c);
         } catch (IOException e) {
             e.printStackTrace();
             if(e instanceof FileNotFoundException){
                 try {
                     m.createDefault();
-                    socketClient = new SocketClient(c,v);
+                    socketClient = new SocketClient(c);
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }

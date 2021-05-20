@@ -1763,6 +1763,9 @@ public class Sex {
 		}
 	};
 
+
+
+
 	
 	/**
 	 * Don't call this out of sex.
@@ -1849,11 +1852,10 @@ public class Sex {
 				//part where npc action takes place
 				for(GameCharacter character : Main.sex.getAllParticipants()) {
 					if(!character.isPlayer()) {
-						if(character instanceof PlayerNPC){
+					/*	if(character instanceof PlayerNPC){
 
-							Main.game.setContent(new Response("", "", SEX_DIALOGUE_REFRESH) {
-							});
-						}else {
+							return;
+						}else {*/
 							Main.sex.setCharacterPerformingAction(character);
 
 							if (sexActionPlayer.getActionType() != SexActionType.ORGASM && sexActionPlayer.getActionType() != SexActionType.ORGASM_DENIAL) {
@@ -1913,7 +1915,7 @@ public class Sex {
 							} else {
 								sexDescription = sexSB.toString();
 							}
-						}
+						//}
 					}
 				}
 				Main.sex.setCharacterPerformingAction(Main.game.getPlayer());

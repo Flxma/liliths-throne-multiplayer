@@ -63,13 +63,12 @@ public class SocketClient {
         this.lastSend = lastSend;
     }
 
-    public SocketClient(Config c,int clientID){
+    public SocketClient(Config c){
         if(c==null) throw new NullPointerException("Config value cannot be null! Please check that your config is correct.");
         kclient = new Client(4194304,4194304);
         ksPort=c.getServerport();
         ksAddress=c.getIp();
         manager=new SendManager();
-        this.clientID=clientID;
 
         Kryo kryo = kclient.getKryo();
 

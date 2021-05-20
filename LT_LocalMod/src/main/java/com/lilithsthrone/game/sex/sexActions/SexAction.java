@@ -27,6 +27,7 @@ import com.lilithsthrone.main.Main;
  * @version 0.3.7.3
  * @author Innoxia
  */
+
 public abstract class SexAction implements SexActionInterface {
 
 	private SexActionType sexActionType;
@@ -54,6 +55,8 @@ public abstract class SexAction implements SexActionInterface {
 		this.participantType = sexActionToCopy.getParticipantType();
 		this.associatedSexPace = sexActionToCopy.getSexPace();
 	}
+
+	public SexAction(){}
 	
 	public SexAction(
 			SexActionType sexActionType,

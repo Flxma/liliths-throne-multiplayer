@@ -3,6 +3,7 @@ package de.flexusma.ltmp.server.connection.listener;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.lilithsthrone.game.character.PlayerCharacter;
+import com.lilithsthrone.game.sex.sexActions.SexAction;
 import com.lilithsthrone.game.sex.sexActions.SexActionInterface;
 import de.flexusma.ltmp.server.connection.SocketServer;
 import de.flexusma.ltmp.server.send.SendContainer;
@@ -27,7 +28,7 @@ public class GetSAListener implements SendContainerListener {
 
     @Override
     public void received(Connection connection, Class<?> tClass, SendContainer obj) {
-        if(tClass.getSuperclass() == SexActionInterface.class){
+        if(tClass == SexAction.class){
             obj.setSenderID(connection.getID());
             server.addTurnChoice(connection.getID(),obj);
         }

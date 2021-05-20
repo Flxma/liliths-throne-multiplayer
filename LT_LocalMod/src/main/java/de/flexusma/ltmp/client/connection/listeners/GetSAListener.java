@@ -1,10 +1,9 @@
 package de.flexusma.ltmp.client.connection.listeners;
 
 import com.esotericsoftware.kryonet.Connection;
-import com.esotericsoftware.kryonet.Listener;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lilithsthrone.game.sex.sexActions.SexActionInterface;
+import com.lilithsthrone.game.sex.sexActions.SexAction;
+import com.lilithsthrone.game.sex.sexActions.SexActionUtility;
+import de.flexusma.ltmp.client.Setup;
 import de.flexusma.ltmp.client.game.manager.MPSexManagerDefault;
 import de.flexusma.ltmp.client.send.SendContainer;
 import de.flexusma.ltmp.client.utils.LogType;
@@ -12,9 +11,8 @@ import de.flexusma.ltmp.client.utils.Logger;
 
 public class GetSAListener implements SendContainerListener {
 
-    ObjectMapper mapper;
+
     public GetSAListener(){
-        mapper = new ObjectMapper();
     }
 
   /*  @Override
@@ -31,17 +29,18 @@ public class GetSAListener implements SendContainerListener {
 
     @Override
     public void received(Connection connection, Class<?> tClass, SendContainer obj) {
-        if(tClass.getSuperclass() == SexActionInterface.class){
+        if(tClass == SexAction.class){
             Logger.log(LogType.INFO,"Revieved Sexaction Data: "+obj.getData());
-            SexActionInterface sai = null;
-            try {
-                sai = (SexActionInterface) mapper.readValue(obj.getData(),tClass);
-                MPSexManagerDefault.invokeInterfaceRecieved(obj.getSenderID(),sai);
-                Logger.log(LogType.INFO,"Successfully added Sexaction data: "+sai.getActionTitle());
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-                Logger.log(LogType.ERROR,"Error de-serializing SexAction data: "+e.getLocalizedMessage());
-            }
+
+            String saname = obj.getData();
+
+                if (Setup.allSA == null)
+                    Setup.initAllSA();
+                SexAction action = Setup.allSA.getFromName(saname);
+
+            MPSexManagerDefault.invokeInterfaceRecieved(obj.getSenderID(),action);
+            Logger.log(LogType.INFO,"Successfully added Sexaction data: "+action.getActionTitle());
+
 
         }
     }

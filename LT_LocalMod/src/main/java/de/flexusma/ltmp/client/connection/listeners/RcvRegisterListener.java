@@ -18,7 +18,6 @@ public class RcvRegisterListener implements Listener {
     public void received(Connection connection, Object object) {
         //super.received(connection, object);
         Logger.log(LogType.DEBUG, "Received any data: " + object);
-            int uid = connection.getID();
             if(object instanceof Register){
                 Register register = (Register) object;
                 client.setClientID(register.id);

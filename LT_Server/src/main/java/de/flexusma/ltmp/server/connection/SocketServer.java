@@ -44,6 +44,7 @@ public class SocketServer {
         registeredClients = new ArrayList<>();
         manager = new SendManager();
         startList=new HashMap<>();
+        saiList=new HashMap<>();
 
         Kryo kryo = kserver.getKryo();
         kryo.register(Register.class);
@@ -143,6 +144,7 @@ public class SocketServer {
      */
 
     public void addTurnChoice(int uid, SendContainer pAction){
+        pAction.setSenderID(uid);
         saiList.put(uid,pAction);
         InvokePlayerNextTurn(uid);
         //playerDoneTurn(uid);
@@ -150,7 +152,7 @@ public class SocketServer {
 
     public void addStartCmd(int uid, Start start){
         startList.put(uid,start);
-        InvokePlayerStart();
+        InvokePlayerStart(uid);
         //playerDoneTurn(uid);
     }
 
@@ -179,17 +181,25 @@ public class SocketServer {
     public void InvokePlayerNextTurn(int uid){
         for(int id : registeredClients){
             if(id!=uid)
-            for(int sid : saiList.keySet())
+            for(int sid : saiList.keySet()) {
+                Logger.logCl(LogType.DEBUG,id,"Sending turnData from player: "+sid);
                 getConByID(id).sendTCP(saiList.get(sid));
+
+            }
         }
+        saiList=new HashMap<>();
         //TODO: CALL rmi Method of selected player
     }
 
-    public void InvokePlayerStart(){
+    public void InvokePlayerStart(int uid){
         for(int id : registeredClients){
-            for(int sid : startList.keySet())
-            getConByID(id).sendTCP(startList.get(sid));
+            if(id!=uid)
+            for(int sid : startList.keySet()) {
+                Logger.logCl(LogType.DEBUG, id, "Sending start command from player: " + sid);
+                getConByID(id).sendTCP(startList.get(sid));
+            }
         }
+        startList = new HashMap<>();
         //TODO: CALL rmi Method of selected player
     }
 }

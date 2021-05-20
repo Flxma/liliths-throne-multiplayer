@@ -31,6 +31,8 @@ import com.lilithsthrone.game.dialogue.responses.ResponseSex;
 import com.lilithsthrone.game.dialogue.responses.ResponseTrade;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.game.inventory.CharacterInventory;
+import com.lilithsthrone.game.inventory.clothing.AbstractClothing;
+import com.lilithsthrone.game.inventory.clothing.DisplacementType;
 import com.lilithsthrone.game.occupantManagement.slave.SlaveJob;
 import com.lilithsthrone.game.occupantManagement.slave.SlaveJobSetting;
 import com.lilithsthrone.game.sex.SexAreaOrifice;
@@ -46,6 +48,8 @@ import com.lilithsthrone.world.places.AbstractPlaceType;
 import de.flexusma.ltmp.client.game.manager.MPSexManagerDefault;
 import de.flexusma.ltmp.client.game.response.MPResponseSex;
 import de.flexusma.ltmp.client.utils.AsyncSend;
+import de.flexusma.ltmp.client.utils.LogType;
+import de.flexusma.ltmp.client.utils.Logger;
 import javafx.application.Platform;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -398,9 +402,8 @@ public class PlayerNPC extends NPC {
                 ),
                 null,
                 null,
-                Main.game.getDefaultDialogue(),
+                Main.game.getDefaultDialogue()
                 //for testing purposes
-                UtilText.parseFromXMLFile("places/dominion/enforcerHQ/brax", "INTERIOR_BRAX_GETTING_TEASED_UH_OH_GET_FUCKED")
         );
     }
 
@@ -416,9 +419,8 @@ public class PlayerNPC extends NPC {
                 ),
                 null,
                 null,
-                Main.game.getDefaultDialogue(),
+                Main.game.getDefaultDialogue()
                 //for testing purposes
-                UtilText.parseFromXMLFile("places/dominion/enforcerHQ/brax", "INTERIOR_BRAX_GETTING_TEASED_UH_OH_GET_FUCKED")
         );
     }
 
@@ -434,9 +436,8 @@ public class PlayerNPC extends NPC {
                 ),
                 null,
                 null,
-                Main.game.getDefaultDialogue(),
+                Main.game.getDefaultDialogue()
                 //for testing purposes
-                UtilText.parseFromXMLFile("places/dominion/enforcerHQ/brax", "INTERIOR_BRAX_GETTING_TEASED_UH_OH_GET_FUCKED")
         );
     }
     public static ResponseSex subSREInv(GameCharacter npc){
@@ -455,6 +456,16 @@ public class PlayerNPC extends NPC {
         );
     }
 
+
+    public static void displaceAllClothingOfPlayer(PlayerNPC partner){
+        PlayerCharacter player = Main.game.getPlayer();
+        for(AbstractClothing clothing : Main.game.getPlayer().getAllClothingInInventory().keySet()){
+            for(DisplacementType type :DisplacementType.values()){
+                boolean b = player.isAbleToBeDisplaced(clothing,type,true,true, partner);
+                Logger.log(LogType.DEBUG,"Trying to undress ["+clothing.getBaseName()+"]  in ["+type.name()+"]");
+            }
+        }
+    }
 
 
 

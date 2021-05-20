@@ -61,7 +61,7 @@ public class GetPlayerListener implements SendContainerListener {
                     if (npc instanceof PlayerNPC) {
                         PlayerNPC pnpc = (PlayerNPC) npc;
                         Logger.log(LogType.DEBUG,"Found npc: "+pnpc.getName()+" "+pnpc.uid);
-                        if (pnpc.uid == client.getClientID()) {
+                        if (pnpc.uid == obj.getSenderID()) {
                             Logger.log(LogType.INFO, "Updating data on npc");
                             hasChange = true;
                             pnpc.updateData(character);
@@ -73,7 +73,7 @@ public class GetPlayerListener implements SendContainerListener {
 
                 if (!hasChange) {
                     Logger.log(LogType.WARN, "No NPC with ID found, adding new one");
-                    PlayerNPC playerNPC = new PlayerNPC(character, client.getClientID());
+                    PlayerNPC playerNPC = new PlayerNPC(character, obj.getSenderID());
                     try {
                         Main.game.addNPC(playerNPC, false);
                         playerNPC.updateRender();

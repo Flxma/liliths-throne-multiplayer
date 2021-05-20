@@ -38,6 +38,7 @@ import com.lilithsthrone.utils.Util.Value;
 import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.utils.colours.PresetColour;
 import de.flexusma.ltmp.client.Setup;
+import de.flexusma.ltmp.client.game.PlayerNPC;
 import de.flexusma.ltmp.client.send.Start;
 import de.flexusma.ltmp.client.utils.AsyncSend;
 import de.flexusma.ltmp.client.utils.LogType;
@@ -566,6 +567,23 @@ public class ResponseSex extends Response {
 	}
 	
 	public DialogueNode initSex() {
+
+		if(!Main.game.isInSex()) {
+			//multiplayer sync code
+			int stype = 0;
+			if (!subHasEqualControl && isPlayerInDominantSlot()) stype = 1;
+			if (!subHasEqualControl && !isPlayerInDominantSlot()) stype = 2;
+			Logger.log(LogType.INFO, "Sending start command to other player...");
+			int finalStype = stype;
+			new AsyncSend(() -> Setup.socketClient.getKclient().sendTCP(new Start(Setup.socketClient.getClientID(), finalStype))).exec();
+			Logger.log(LogType.DEBUG,"Undressing player");
+			for(GameCharacter character:Main.game.getCharactersPresent()) {
+				if (character instanceof PlayerNPC) {
+					PlayerNPC.displaceAllClothingOfPlayer((PlayerNPC) character);
+					break;
+				}
+			}
+		}
 		if(isFromExternalFile) {
 			this.consensual = Boolean.valueOf(UtilText.parse(consensualId).trim());
 			this.subHasEqualControl = Boolean.valueOf(UtilText.parse(subHasEqualControlId).trim());
@@ -612,13 +630,6 @@ public class ResponseSex extends Response {
 	 */
 	public void postSexInitEffects() {
 
-		//multiplayer sync code
-		int stype = 0;
-		if(!subHasEqualControl&&isPlayerInDominantSlot()) stype=1;
-		if(!subHasEqualControl&&!isPlayerInDominantSlot())stype=2;
-		Logger.log(LogType.INFO,"Sending start command to other player...");
-		int finalStype = stype;
-		new AsyncSend(()->Setup.socketClient.getKclient().sendTCP(new Start(Setup.socketClient.getClientID(), finalStype))).exec();
 
 
 	}
