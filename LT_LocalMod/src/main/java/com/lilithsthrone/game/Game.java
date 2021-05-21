@@ -31,6 +31,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import de.flexusma.ltmp.client.Setup;
 import de.flexusma.ltmp.client.game.listener.PlayerDataChangeListener;
+import de.flexusma.ltmp.client.game.listener.PlayerNPCChangeListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -1613,6 +1614,7 @@ public class Game implements XMLSaving {
 			//GameCharacter.addPlayerAttributeChangeEventListener(new PlayerDataChangeListener(Setup.socketClient));
 			Main.game.getPlayer().addPlayerInventoryChangeEventListener(new PlayerDataChangeListener(Setup.socketClient));
 			Main.game.getPlayer().addPlayerLocationChangeEventListener(new PlayerDataChangeListener(Setup.socketClient));
+			GameCharacter.addNPCInventoryChangeEventListener(new PlayerNPCChangeListener(Setup.socketClient));
 
 		}
 		//Done network

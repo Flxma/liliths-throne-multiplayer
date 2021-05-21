@@ -31,6 +31,7 @@ import com.lilithsthrone.game.sex.sexActions.SexActionPriority;
 import com.lilithsthrone.game.sex.sexActions.SexActionType;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.Util;
+import de.flexusma.ltmp.client.game.manager.MPSexManagerDefault;
 
 /**
  * Contains all positional changes for both sub and dom.
@@ -174,14 +175,25 @@ public class GenericPositioning {
 				}
 			}
 		}
-		Main.sex.setSexManager(new SexManagerDefault(
-						data.getPosition(),
-						dominants,
-						submissives){
-				},
-				dominantSpectators,
-				submissiveSpectators);
-		Main.sex.setPositionRequest(null);
+		if(Main.sex.getSexManager() instanceof MPSexManagerDefault){
+			Main.sex.setSexManager(new MPSexManagerDefault(
+										   data.getPosition(),
+										   dominants,
+										   submissives){
+								   },
+					dominantSpectators,
+					submissiveSpectators);
+			Main.sex.setPositionRequest(null);
+		}else {
+			Main.sex.setSexManager(new SexManagerDefault(
+										   data.getPosition(),
+										   dominants,
+										   submissives) {
+								   },
+					dominantSpectators,
+					submissiveSpectators);
+			Main.sex.setPositionRequest(null);
+		}
 	}
 
 	

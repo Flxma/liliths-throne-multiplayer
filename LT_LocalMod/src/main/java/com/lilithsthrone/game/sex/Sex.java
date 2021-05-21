@@ -1823,13 +1823,18 @@ public class Sex {
 			repeatActionsPlayer.remove(sexActionPlayer);
 			repeatActionsPlayer.add(sexActionPlayer);
 		}
-		
+
+		if(sexManager instanceof MPSexManagerDefault)
+			Main.game.setContent(new Response("", "", SEX_DIALOGUE) {});
+
 		// End sex conditions:
 		if(endsSex && !sexFinished) {
 			sexDescription = sexSB.toString();
 
 			applyEndSexEffects();
 			sexFinished = true;
+
+
 			
 		} else {
 			// Partner action is done afterwards:

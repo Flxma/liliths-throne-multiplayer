@@ -577,13 +577,15 @@ public class ResponseSex extends Response {
 			int finalStype = stype;
 			new AsyncSend(() -> Setup.socketClient.getKclient().sendTCP(new Start(Setup.socketClient.getClientID(), finalStype))).exec();
 			Logger.log(LogType.DEBUG,"Undressing player");
-			for(GameCharacter character:Main.game.getCharactersPresent()) {
+		/*	for(GameCharacter character:Main.game.getCharactersPresent()) {
 				if (character instanceof PlayerNPC) {
 					PlayerNPC.displaceAllClothingOfPlayer((PlayerNPC) character);
 					break;
 				}
-			}
+			}*/
 		}
+
+
 		if(isFromExternalFile) {
 			this.consensual = Boolean.valueOf(UtilText.parse(consensualId).trim());
 			this.subHasEqualControl = Boolean.valueOf(UtilText.parse(subHasEqualControlId).trim());

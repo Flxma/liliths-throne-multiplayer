@@ -171,7 +171,8 @@ public class MPSexManagerDefault implements SexManagerInterface {
 
 			SexActionInterface remPlayerAction = MPSexManagerDefault.returnInterfaces.get(p.uid);
 			Logger.log(LogType.INFO,"Recieved action ["+remPlayerAction.getActionTitle()+"] from remote player ["+p.getName()+"] with ID ["+p.getId()+"]");
-			returnInterfaces=new HashMap<>();
+			if(Main.sex.getLastUsedSexAction(p)!=null)
+				returnInterfaces=new HashMap<>();
 			return remPlayerAction;
 		}
 

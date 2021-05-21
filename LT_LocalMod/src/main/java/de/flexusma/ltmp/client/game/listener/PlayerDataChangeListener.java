@@ -20,6 +20,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.StringWriter;
+import java.util.Set;
 
 public class PlayerDataChangeListener extends CharacterChangeEventListener {
 
@@ -41,6 +42,11 @@ public class PlayerDataChangeListener extends CharacterChangeEventListener {
 
     @Override
     public void onChange() {
+        if(SocketClient.isCurrentPlayerUpdating){
+            Logger.log(LogType.INFO, "Ignoring playerdata update as update is caused by own playerupdate function!");
+            return;
+        }
+
         Logger.log(LogType.INFO,"Notified of change in playerdata, sending updated data to server...");
 
         Document doc = Main.getDocBuilder().newDocument();

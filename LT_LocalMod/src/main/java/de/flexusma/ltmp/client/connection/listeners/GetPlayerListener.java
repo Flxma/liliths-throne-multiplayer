@@ -6,6 +6,7 @@ import com.lilithsthrone.controller.MainController;
 import com.lilithsthrone.game.character.PlayerCharacter;
 import com.lilithsthrone.game.character.npc.NPC;
 import com.lilithsthrone.main.Main;
+import de.flexusma.ltmp.client.Setup;
 import de.flexusma.ltmp.client.connection.SocketClient;
 import de.flexusma.ltmp.client.game.PlayerNPC;
 import de.flexusma.ltmp.client.send.SendContainer;
@@ -56,6 +57,7 @@ public class GetPlayerListener implements SendContainerListener {
             if(character!=null) {
                 Logger.log(LogType.INFO, "Parsed PlayerCharacter with name: " + character.getName());
 
+                Setup.socketClient.blockNPCSend=client.getClientID();
                 boolean hasChange = false;
                 for (NPC npc : Main.game.getAllNPCs()) {
                     if (npc instanceof PlayerNPC) {
@@ -81,6 +83,8 @@ public class GetPlayerListener implements SendContainerListener {
                         Logger.log(LogType.ERROR, "Error adding PlayerNPC instance to Game: "+e.getLocalizedMessage());
                     }
                 }
+
+                Setup.socketClient.blockNPCSend=-1;
 
             }
 

@@ -3,6 +3,8 @@ package de.flexusma.ltmp.client.utils;
 import com.lilithsthrone.game.sex.Sex;
 import com.lilithsthrone.game.sex.sexActions.SexAction;
 import com.lilithsthrone.game.sex.sexActions.SexActionInterface;
+import com.lilithsthrone.game.sex.sexActions.SexActionPresets;
+import com.lilithsthrone.game.sex.sexActions.SexActionUtility;
 import com.lilithsthrone.game.sex.sexActions.baseActions.ClitAnus;
 import com.lilithsthrone.main.Main;
 import javafx.application.Platform;
@@ -87,6 +89,8 @@ public class AllSexActions {
     }
 
     public SexAction getFromName(String name){
+        if(name.equals("Manage Clothing"))
+            return SexActionUtility.CLOTHING_REMOVAL;
         try {
             return (SexAction) allSA.get(name).get(null);
         } catch (IllegalAccessException e) {

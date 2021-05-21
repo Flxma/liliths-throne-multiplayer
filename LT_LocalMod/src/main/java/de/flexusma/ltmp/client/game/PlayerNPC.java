@@ -7,6 +7,7 @@ import com.lilithsthrone.game.character.PlayerCharacter;
 import com.lilithsthrone.game.character.attributes.AbstractAttribute;
 import com.lilithsthrone.game.character.attributes.Attribute;
 import com.lilithsthrone.game.character.attributes.CorruptionLevel;
+import com.lilithsthrone.game.character.body.CoverableArea;
 import com.lilithsthrone.game.character.body.abstractTypes.AbstractFluidType;
 import com.lilithsthrone.game.character.body.valueEnums.Femininity;
 import com.lilithsthrone.game.character.effects.AbstractPerk;
@@ -31,6 +32,7 @@ import com.lilithsthrone.game.dialogue.responses.ResponseSex;
 import com.lilithsthrone.game.dialogue.responses.ResponseTrade;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.game.inventory.CharacterInventory;
+import com.lilithsthrone.game.inventory.InventorySlot;
 import com.lilithsthrone.game.inventory.clothing.AbstractClothing;
 import com.lilithsthrone.game.inventory.clothing.DisplacementType;
 import com.lilithsthrone.game.occupantManagement.slave.SlaveJob;
@@ -87,7 +89,25 @@ public class PlayerNPC extends NPC {
                 player.getLocationPlace().getPlaceType(),
                 true);
         this.uid = uid;
-        updateData(player);
+        Platform.runLater(()->updateData(player));
+    }
+
+    public PlayerNPC(PlayerCharacter player){
+        this(true,
+                player.getNameTriplet(),
+                player.getSurname(),
+                player.getDescription(),
+                player.getAgeValue(),
+                player.getBirthMonth(),
+                player.getDayOfBirth(),
+                player.getLevel(),
+                player.getGender(),
+                player.getSubspecies(),
+                player.getRaceStage(),
+                new CharacterInventory(player.getMoney()),
+                player.getWorldLocation(),
+                player.getLocationPlace().getPlaceType(),
+                false);
     }
 
     public void updateData(PlayerCharacter player){
@@ -285,11 +305,6 @@ public class PlayerNPC extends NPC {
     }
 
     @Override
-    public void loadFromXML(Element parentElement, Document doc, CharacterImportSetting... settings) {
-        return;
-    }
-
-    @Override
     public void changeFurryLevel() {
         return;
     }
@@ -302,7 +317,7 @@ public class PlayerNPC extends NPC {
                 hasPlayer=true;
             }
         }
-        if(hasPlayer&&!wasupdate) {
+        if(hasPlayer&&!wasupdate&&!Main.game.isInSex()) {
             wasupdate=true;
             new AsyncSend(()-> {
                 try {
@@ -327,9 +342,32 @@ public class PlayerNPC extends NPC {
             Main.mainController.updateUILeftPanel();
             Main.mainController.updateUIRightPanel();
             if(!Main.game.isInSex())
-            Main.mainController.updateDialogue();
+                Main.mainController.updateDialogue();
             }
         );
+    }
+
+    public static CoverableArea getAreaFromInvSlot(InventorySlot inventorySlot,GameCharacter character){
+        for(CoverableArea area: CoverableArea.values()){
+            for(InventorySlot slot :area.getAssociatedInventorySlots(character)){
+                if(slot==inventorySlot) return area;
+            }
+        }
+        return null;
+    }
+
+    public static void updatePlayerData(PlayerNPC npc){
+        PlayerCharacter character = Main.game.getPlayer();
+        if(character.getName().equals(npc.getName())){
+            Logger.log(LogType.INFO,"Updating player from: "+npc.getName());
+            character.setArousal(npc.getArousal());
+            character.setHealth(npc.getHealth());
+            character.setInventory(npc.getInventory());
+            character.setLust(npc.getLust());
+            character.setMoney(npc.getMoney());
+            Platform.runLater(()->Main.mainController.updateUILeftPanel());
+            Platform.runLater(()->Main.mainController.updateUIRightPanel());
+        }
     }
 
 
@@ -342,10 +380,21 @@ public class PlayerNPC extends NPC {
 
     @Override
     public Element saveAsXML(Element parentElement, Document doc) {
-        Element e = doc.createElement("mutliplayerdata_placeholder");
         //parentElement.appendChild(e);
-        return null;
+        if(parentElement.getTagName().equals("playerNPC")) {
+            parentElement.setAttribute("puid", String.valueOf(uid));
+            return super.saveAsXML(parentElement, doc);
+        }else return null;
     }
+    @Override
+    public void loadFromXML(Element parentElement, Document doc, CharacterImportSetting... settings) {
+        if(parentElement.getTagName().equals("playerNPC")) {
+            this.uid = Integer.parseInt(parentElement.getAttribute("puid"));
+            loadNPCVariablesFromXML(this,null,parentElement,doc,settings);
+        }
+    }
+
+
 
 
     @Override
@@ -457,7 +506,7 @@ public class PlayerNPC extends NPC {
     }
 
 
-    public static void displaceAllClothingOfPlayer(PlayerNPC partner){
+ /*   public static void displaceAllClothingOfPlayer(PlayerNPC partner){
         PlayerCharacter player = Main.game.getPlayer();
         for(AbstractClothing clothing : Main.game.getPlayer().getAllClothingInInventory().keySet()){
             for(DisplacementType type :DisplacementType.values()){
@@ -465,6 +514,15 @@ public class PlayerNPC extends NPC {
                 Logger.log(LogType.DEBUG,"Trying to undress ["+clothing.getBaseName()+"]  in ["+type.name()+"]");
             }
         }
+    }
+*/
+    public static List<PlayerNPC> getAllPNPC(){
+        List<PlayerNPC> pnpcList = new ArrayList<>();
+        for(NPC npc: Main.game.getAllNPCs()){
+            if(npc instanceof PlayerNPC)
+                pnpcList.add((PlayerNPC) npc);
+        }
+        return pnpcList;
     }
 
 

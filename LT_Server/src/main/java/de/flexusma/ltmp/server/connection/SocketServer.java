@@ -23,6 +23,7 @@ import java.util.List;
 public class SocketServer {
 
     HashMap<Integer, SendContainer> playerList;
+    HashMap<Integer, SendContainer> npcList;
     HashMap<Integer, SendContainer> saiList;
     HashMap<Integer, Start> startList;
     List<Integer> currentTurnDone;
@@ -45,6 +46,7 @@ public class SocketServer {
         manager = new SendManager();
         startList=new HashMap<>();
         saiList=new HashMap<>();
+        npcList=new HashMap<>();
 
         Kryo kryo = kserver.getKryo();
         kryo.register(Register.class);
@@ -70,6 +72,7 @@ public class SocketServer {
         kserver.addListener(new ServerListener(this));
         manager.addListener(new GetSAListener(this));
         manager.addListener(new GetPlayerListener(this));
+        manager.addListener(new GetPlayerNPCListener(this));
         //manager.addListener(new GetSAListener(this));
         KryoRegDepend.register(kserver.getKryo());
 
@@ -137,6 +140,43 @@ public class SocketServer {
             if(id!=uid) pList.add(playerList.get(id));
         }
         return pList;
+    }
+
+    public void updatePlayerNPC(int uid, SendContainer character){
+        if(registeredClients.contains(uid)) {
+            if (npcList.containsKey(uid)) {
+                npcList.replace(uid, character);
+            } else {
+                npcList.put(uid, character);
+            }
+
+            InvokePlayerNPCDataUpdate(uid);
+        }
+    }
+
+    public void InvokePlayerNPCDataUpdate(int uid){
+        //TODO: Call rmi other playerServices playerUpdate function
+        int r =1;
+        for(int id: registeredClients){
+            if(uid!=id){
+                Connection con = getConByID(id);
+                if(con==null) break;
+                Logger.logCl(LogType.INFO,id,"Sending NPC Data from: "+uid);
+                int finalR = r;
+                Thread t = new Thread(()->{
+                    SendContainer c = npcList.get(uid);
+                    try {
+                        Thread.sleep((50 *(long) finalR));
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    con.sendTCP(c);
+                });
+                t.start();
+                r++;
+            }
+        }
+
     }
 
     /*

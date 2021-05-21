@@ -83,7 +83,7 @@ public class GetSexStartListener implements Listener {
                     if(finalResp !=null)
                     Platform.runLater(() -> Main.game.setContent(finalResp));
 
-                    Platform.runLater(()->PlayerNPC.displaceAllClothingOfPlayer(finalPartner));
+                    //Platform.runLater(()->PlayerNPC.displaceAllClothingOfPlayer(finalPartner));
                 }
                 ).exec();
 
