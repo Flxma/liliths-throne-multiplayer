@@ -156,7 +156,7 @@ public class PlayerNPC extends NPC {
         }
 
         this.fleshSubspecies = player.getFleshSubspecies();
-        this.inventory = player.getInventory();
+        this.inventory = new CharacterInventory(player.getInventory());
         this.potionAttributes = player.getPotionAttributes();
 
         for(AbstractAttribute attr : Attribute.getAllAttributes()){
@@ -257,7 +257,7 @@ public class PlayerNPC extends NPC {
         this.setLostCombatCount(player.getLostCombatCount());
         this.setWonCombatCount(player.getWonCombatCount());
 
-        this.sexCount = player.getSexCountMap();
+        this.sexCount = new HashMap<>(player.getSexCountMap());
         this.setAnalVirgin(player.isAnalVirgin());
         this.setAssVirgin(player.isAssVirgin());
         this.setFaceVirgin(player.isFaceVirgin());
@@ -321,7 +321,7 @@ public class PlayerNPC extends NPC {
             wasupdate=true;
             new AsyncSend(()-> {
                 try {
-                    Thread.sleep(300);
+                    Thread.sleep(10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

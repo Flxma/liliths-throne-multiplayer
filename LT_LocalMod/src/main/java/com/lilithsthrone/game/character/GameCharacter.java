@@ -31,6 +31,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import de.flexusma.ltmp.client.connection.SocketClient;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -5580,6 +5581,9 @@ public abstract class GameCharacter implements XMLSaving {
 	}
 	
 	public String incrementExperience(int increment, boolean withExtraModifiers) {
+	    //blocking experience gains during npc and character updates as this currently causes issues (Multiplayer)
+	    if(SocketClient.isCurrentPlayerUpdating) return "0";
+
 		if (getLevel() == LEVEL_CAP) {
 			experience = 0;
 			return "";

@@ -45,6 +45,10 @@ public class GetPlayerListener implements SendContainerListener {
             if(document==null) return;
             Logger.log(LogType.DEBUG,"Parsed document not null, trying to parse PlayerCharacter");
 
+            Setup.socketClient.blockNPCSend=client.getClientID();
+            SocketClient.isCurrentPlayerUpdating=true;
+
+
            // Element game = (Element) document.getElementsByTagName("game").item(0);
             Element characterNode = (Element) ((Element) document.getElementsByTagName("playerCharacter").item(0));
             PlayerCharacter character = null;
@@ -57,7 +61,7 @@ public class GetPlayerListener implements SendContainerListener {
             if(character!=null) {
                 Logger.log(LogType.INFO, "Parsed PlayerCharacter with name: " + character.getName());
 
-                Setup.socketClient.blockNPCSend=client.getClientID();
+
                 boolean hasChange = false;
                 for (NPC npc : Main.game.getAllNPCs()) {
                     if (npc instanceof PlayerNPC) {
@@ -83,8 +87,9 @@ public class GetPlayerListener implements SendContainerListener {
                         Logger.log(LogType.ERROR, "Error adding PlayerNPC instance to Game: "+e.getLocalizedMessage());
                     }
                 }
-
+                Logger.log(LogType.INFO,"NPC data update done!");
                 Setup.socketClient.blockNPCSend=-1;
+                SocketClient.isCurrentPlayerUpdating=false;
 
             }
 

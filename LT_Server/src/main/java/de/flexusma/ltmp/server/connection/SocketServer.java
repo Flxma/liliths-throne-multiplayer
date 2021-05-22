@@ -119,6 +119,7 @@ public class SocketServer {
                 if(con==null) break;
 
                 int finalR = r;
+                Logger.logCl(LogType.INFO,id,"Sending Playerdata from: "+uid);
                 Thread t = new Thread(()->{
                     SendContainer c = playerList.get(uid);
                     try {

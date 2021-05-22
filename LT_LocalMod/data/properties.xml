@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <properties>
   <previousSave>
-    <location value="AutoSave_User3"/>
-    <nameColour value="#ffbdff"/>
-    <name value="User3"/>
+    <location value="QuickSave_Tesuser1"/>
+    <nameColour value="#b39eff"/>
+    <name value="Tesuser1"/>
     <race value="woman"/>
     <quest value="Lilaya's tests"/>
     <level value="1"/>
@@ -366,9 +366,9 @@
     <type>TORSO_OVER_HOODIE</type>
   </clothingDiscovered>
   <racesDiscovered>
-    <race>HALF_DEMON</race>
     <race>CAT_MORPH</race>
     <race>HUMAN</race>
+    <race>HALF_DEMON</race>
   </racesDiscovered>
   <racesDiscoveredAdvanced/>
 </properties>

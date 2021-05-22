@@ -6,6 +6,7 @@ import com.lilithsthrone.game.character.PlayerCharacter;
 import com.lilithsthrone.main.Main;
 import de.flexusma.ltmp.client.Setup;
 import de.flexusma.ltmp.client.connection.SocketClient;
+import de.flexusma.ltmp.client.game.PlayerNPC;
 import de.flexusma.ltmp.client.send.SendContainer;
 import de.flexusma.ltmp.client.utils.AsyncSend;
 import de.flexusma.ltmp.client.utils.LogType;
@@ -36,7 +37,6 @@ public class PlayerDataChangeListener extends CharacterChangeEventListener {
         } catch (TransformerConfigurationException e) {
             e.printStackTrace();
         }
-
         this.client=client;
     }
 
@@ -46,6 +46,8 @@ public class PlayerDataChangeListener extends CharacterChangeEventListener {
             Logger.log(LogType.INFO, "Ignoring playerdata update as update is caused by own playerupdate function!");
             return;
         }
+
+
 
         Logger.log(LogType.INFO,"Notified of change in playerdata, sending updated data to server...");
 
@@ -75,9 +77,15 @@ public class PlayerDataChangeListener extends CharacterChangeEventListener {
         }else Logger.log(LogType.WARN,"Playerdata same as last request, omitting from sending duplicate");
 
 
+        for(PlayerNPC npc : PlayerNPC.getAllPNPC()) {
+            npc.turnUpdate();
+        }
+
         new AsyncSend(()->{
 
         }).exec();
 
     }
+
+
 }

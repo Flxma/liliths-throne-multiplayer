@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import de.flexusma.ltmp.client.utils.LogType;
+import de.flexusma.ltmp.client.utils.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -793,6 +795,7 @@ public class PlayerCharacter extends GameCharacter implements XMLSaving {
 		if(this.getWorldsVisited()!=null && !this.getWorldsVisited().contains(worldLocation)) {
 			this.getWorldsVisited().add(worldLocation);
 			if(Main.game.isStarted()) {
+				Logger.log(LogType.WARN,"This should not be called :c (world)");
 				Main.game.addEvent(new EventLogEntry("[style.colourExcellent(Discovered)]", Util.capitaliseSentence(worldLocation.getName())), false);
 			}
 		}

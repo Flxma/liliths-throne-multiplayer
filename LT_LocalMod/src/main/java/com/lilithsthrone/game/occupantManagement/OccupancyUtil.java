@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import de.flexusma.ltmp.client.utils.LogType;
+import de.flexusma.ltmp.client.utils.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -343,6 +345,7 @@ public class OccupancyUtil implements XMLSaving {
 				// chance to gain experience based on profits
 				if(currentJob.hasFlag(SlaveJobFlag.EXPERIENCE_GAINS)
 						&& workQuality>Math.random()*4) {
+					Logger.log(LogType.WARN,"IDK why but this might be the thing that is producing issues grrrr");
 					slave.incrementExperience(5, false);
 				}
 				

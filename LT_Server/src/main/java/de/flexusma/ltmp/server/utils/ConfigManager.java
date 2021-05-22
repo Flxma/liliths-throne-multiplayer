@@ -17,7 +17,7 @@ public class ConfigManager {
 
     public void initConfig(){
         mapper = new ObjectMapper(new YAMLFactory());
-        mapper.findAndRegisterModules();
+        //mapper.findAndRegisterModules();
     }
 
     public Config readConfig(String path) throws IOException {
@@ -27,7 +27,6 @@ public class ConfigManager {
 
     public void createDefault() throws IOException {
         Config c = new Config();
-        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         mapper.writeValue(new File("config.yml"),c);
     }
 
