@@ -87,9 +87,9 @@ public class Main extends Application {
 	public static Stage primaryStage;
 
 	public static final String AUTHOR = "Innoxia | MP: Flexusma";
-	public static final String GAME_NAME = "Lilith's Throne MPv0.0.1";
+	public static final String GAME_NAME = "Lilith's Throne MPv0.0.3";
 	public static final String VERSION_NUMBER = "0.4";
-	public static final String VERSION_DESCRIPTION = "Alpha-Alpha!";
+	public static final String VERSION_DESCRIPTION = "Alpha!";
 
 	public static CmdWindowController network_windowCnt;
 	public static boolean isConnected = false;

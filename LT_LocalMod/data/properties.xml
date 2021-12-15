@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <properties>
   <previousSave>
-    <location value="QuickSave_Tesuser1"/>
-    <nameColour value="#b39eff"/>
-    <name value="Tesuser1"/>
+    <location value="AutoSave_User3"/>
+    <nameColour value="#ffbdff"/>
+    <name value="User3"/>
     <race value="woman"/>
     <quest value="Lilaya's tests"/>
     <level value="1"/>
-    <money value="5000"/>
-    <arcaneEssences value="0"/>
+    <money value="5028"/>
+    <arcaneEssences value="4"/>
     <versionNumber value="0.4"/>
     <lastQuickSaveName value="QuickSave_Tesuser1"/>
   </previousSave>
@@ -362,13 +362,17 @@
     <type>innoxia_crystal_rare</type>
   </weaponsDiscovered>
   <clothingDiscovered>
-    <type>innoxia_torso_short_sleeved_shirt</type>
     <type>TORSO_OVER_HOODIE</type>
+    <type>innoxia_torso_short_sleeved_shirt</type>
   </clothingDiscovered>
   <racesDiscovered>
     <race>CAT_MORPH</race>
     <race>HUMAN</race>
     <race>HALF_DEMON</race>
+    <race>RAT_MORPH</race>
+    <race>FOX_MORPH</race>
+    <race>COW_MORPH</race>
+    <race>RABBIT_MORPH_LOP</race>
   </racesDiscovered>
   <racesDiscoveredAdvanced/>
 </properties>
